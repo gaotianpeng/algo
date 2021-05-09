@@ -3,7 +3,7 @@ package AlgoNew;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Code17_LevelTraversalBT {
+public class Code16_LevelTraversalBT {
     public static class Node {
         public int value;
         public Node left;
