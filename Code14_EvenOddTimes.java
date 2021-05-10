@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code15_EvenOddTimes {
     // arr中，只有一种数，出现奇数次，打印出来
     static void printOddTimesOfArr(int[] arr) {

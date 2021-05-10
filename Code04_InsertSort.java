@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code04_InsertSort {
     static void insertSort(int[] arr) {
         if (arr == null || arr.length < 2) {

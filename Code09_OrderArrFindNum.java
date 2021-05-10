@@ -1,5 +1,3 @@
-package AlgoNew;
-
 import java.util.Arrays;
 
 public class Code09_OrderArrFindNum {

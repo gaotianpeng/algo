@@ -1,4 +1,3 @@
-package AlgoNew;
 /*
     给定一数组arr, 查询arr中某一段的累加和
  */

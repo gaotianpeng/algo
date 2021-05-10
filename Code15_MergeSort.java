@@ -1,4 +1,3 @@
-package AlgoNew;
 import java.util.Arrays;
 
 public class Code16_MergeSort {

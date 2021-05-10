@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code02_SelectSort {
     static void selectSort(int[] arr) {
         if (arr == null || arr.length < 2) {

@@ -1,5 +1,3 @@
-package AlgoNew;
-
 // 01不等概率随机到01等概率随机
 
 public class Code07_RandToRand {

@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code14_Heap {
     public static class MyMaxHeap {
         private int[] heap;

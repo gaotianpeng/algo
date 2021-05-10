@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code05_SumOfFactorial {
     static long factorial(int N) {
         long ans = 0;

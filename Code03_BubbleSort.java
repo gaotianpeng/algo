@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code03_BubbleSort {
     static void bubbleSort(int[] arr) {
         if (arr == null || arr.length < 2) {

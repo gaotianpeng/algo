@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code07_RandToRand {
     /*
         等概率返回1~5
