@@ -68,6 +68,25 @@ public class Code18_UnRecursiveTraversalBT {
         System.out.println();
     }
 
+    public static void pos2Traversal(Node h) {
+        if (h != null) {
+            Stack<Node> stack = new Stack<Node>();
+            stack.push(h);
+            Node cur = null;
+            while (!stack.isEmpty()) {
+                cur = stack.peek();
+                if (cur.left != null && h != cur.left && h != cur.right) {
+                    stack.push(cur.left);
+                } else if (cur.right != null && h != cur.right) {
+                    stack.push(cur.right);
+                } else {
+                    System.out.print(stack.pop().value + " ");
+                    h = cur;
+                }
+            }
+        }
+        System.out.println();
+    }
 
     public static void main(String[] args) {
         Node head = new Node(1);
@@ -84,5 +103,5 @@ public class Code18_UnRecursiveTraversalBT {
         inTraversal(head);
         System.out.println("pos traversal---------------------");
         pos1Traversal(head);
-    }
+        pos2Traversal(head);
 }
