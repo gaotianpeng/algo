@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code22_SuccessorNode {
 
     public static class Node {
@@ -44,5 +42,25 @@ public class Code22_SuccessorNode {
     }
 
     public static void main(String[] args) {
+        Node test = head.left.left;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.left.left.right;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.left;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.left.right;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.left.right.right;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.right.left.left;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.right.left;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.right;
+        System.out.println(test.value + " next: " + getSuccessorNode(test).value);
+        test = head.right.right; // 10's next is null
+        System.out.println(test.value + " next: " + getSuccessorNode(test));
     }
 }
