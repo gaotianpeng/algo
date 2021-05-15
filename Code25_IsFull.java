@@ -1,5 +1,3 @@
-package AlgoNew;
-
 public class Code25_IsFull {
 
     public static class Node {
