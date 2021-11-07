@@ -1,6 +1,8 @@
 package binary;
-
 import java.util.Arrays;
+/*
+    在一个有序数组中, 找到某个数是否存在
+*/
 
 public class Code01_BSExist {
 
