@@ -5,11 +5,13 @@
 */
 #include <iostream>
 #include <vector>
+#include <random>
 using namespace std;
 
 class Solution {
 public:
-    int search(vector<int>& nums, int target) {
+    // 算法
+    int search1(vector<int>& nums, int target) {
         int left = 0, right = nums.size() - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
@@ -23,9 +25,38 @@ public:
         }
         return -1;
     }
+
+    int search2(vector<int>& nums, int target) {
+        int left = 0, right = nums.size();
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] > target) {
+                right = mid;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+
+    // 测试
+    int searchTest(vector<int>& nums, int target) {
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] == target) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 };
 
+
+
 int main(int argc, char* argv[]) {
-    
+
     return 0;
 }
