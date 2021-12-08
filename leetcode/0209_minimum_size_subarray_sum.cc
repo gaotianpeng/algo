@@ -9,7 +9,7 @@ using namespace std;
 
 class Solution {
 public:
-    int minSubArrayLen(int target, vector<int>& nums) {
+    int minSubArrayLen1(int target, vector<int>& nums) {
         int ret_len = INT32_MAX;
         int sum = 0;
         int sub_arr_len = 0;
@@ -22,6 +22,24 @@ public:
                     ret_len = sub_arr_len < ret_len ? sub_arr_len: ret_len;
                     break;
                 }
+            }
+        }
+
+        return ret_len == INT32_MAX ? 0: ret_len;
+    }
+
+    int minSubArrayLen2(int target, vector<int>& nums) {
+        int ret_len = INT32_MAX;
+        int sum = 0;
+        int sub_arr_len = 0;
+        int i = 0;
+        for (int j = 0; j < nums.size(); ++j) {
+            sum += nums[j];
+            while (sum >= target) {
+                sub_arr_len = j - i + 1;
+                ret_len = sub_arr_len < ret_len ? sub_arr_len : ret_len;
+                sum -= nums[i];
+                i++;
             }
         }
 
