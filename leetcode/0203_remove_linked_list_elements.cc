@@ -16,7 +16,7 @@
 
 class Solution {
 public:
-    ListNode* removeElements(ListNode* head, int val) {
+    ListNode* removeElements1(ListNode* head, int val) {
         while (head != nullptr && head->val == val) {
             ListNode* tmp = head;
             head = head->next;
@@ -34,6 +34,24 @@ public:
             }
         } 
 
+        return head;
+    }
+
+    ListNode* removeElements2(ListNode* head, int val) {
+        ListNode* dummy_node = new ListNode(0);
+        dummy_node->next = head;
+        ListNode* cur_node = dummy_node;
+        while (cur_node->next != nullptr) {
+            if (cur_node->next->val == val) {
+                ListNode* tmp = cur_node->next;
+                cur_node->next = cur_node->next->next;
+                delete tmp;
+            } else {
+                cur_node = cur_node->next;
+            }
+        }
+        head = dummy_node->next;
+        delete dummy_node;
         return head;
     }
 };
