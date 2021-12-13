@@ -14,22 +14,22 @@ using boost::uniform_01;
         arr[N-1~N-1] 范围上, 找到最小值所在的位置，把最小值交换到N-1位置  
 */
 void SelectSort(int arr[], int arr_len) {
-	if (!arr || arr_len < 2) {
-		return;
-	}
+    if (!arr || arr_len < 2) {
+        return;
+    }
 
-	for (int i = 0; i < arr_len; i++) {
-		int min_idx = i;
-		for (int j = i + 1; j < arr_len; j++) {
-			if (arr[min_idx] > arr[j]) {
-				min_idx = j;
-			}
-		}
+    for (int i = 0; i < arr_len; i++) {
+        int min_idx = i;
+        for (int j = i + 1; j < arr_len; j++) {
+            if (arr[min_idx] > arr[j]) {
+                min_idx = j;
+            }
+        }
 
-		if (min_idx != i) {
-			std::swap(arr[i], arr[min_idx]);
-		}
-	}
+        if (min_idx != i) {
+            std::swap(arr[i], arr[min_idx]);
+        }
+    }
 }
 
 /*
