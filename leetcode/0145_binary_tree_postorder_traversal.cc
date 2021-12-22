@@ -16,6 +16,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+// 非递归版本
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
@@ -39,4 +40,28 @@ public:
         reverse(ret.begin(), ret.end());
         return ret;
     }
+};
+
+// 递归版本
+class Solution1 {
+public:
+	vector<int> postorderTraversal(TreeNode* root) {
+        if (!root) {
+            return {};
+        }
+        
+        vector<int> ret;
+        postorderTraversal(root, ret);
+        return ret;
+	}
+
+	void postorderTraversal(TreeNode* node, vector<int>& ret) {
+        if (!node) {
+            return;
+        }
+
+        postorderTraversal(node->left, ret);
+        postorderTraversal(node->right, ret);
+        ret.push_back(node->val);
+	}
 };

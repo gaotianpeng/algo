@@ -15,6 +15,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+// 非递归版本
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
@@ -37,5 +38,29 @@ public:
         }
 
         return ret;
+    }
+};
+
+// 递归版本
+class Solution1 {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if (!root) {
+            return {};
+        }
+        
+        vector<int> ret;
+        preorderTraversal(root, ret);
+        return ret;
+    }
+
+    void preorderTraversal(TreeNode* node, vector<int>& ret) {
+        if (!node) {
+            return;
+        }
+
+		ret.push_back(node->val);
+		preorderTraversal(node->left, ret);
+		preorderTraversal(node->right, ret);
     }
 };
