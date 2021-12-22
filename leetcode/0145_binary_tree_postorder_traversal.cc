@@ -65,3 +65,41 @@ public:
         ret.push_back(node->val);
 	}
 };
+
+// 非递归版本
+class Solution3 {
+public:
+	vector<int> postorderTraversal(TreeNode* root) {
+        if (root == nullptr) {
+            return {};
+        }
+
+        vector<int> ret;
+        stack<TreeNode*> st;
+        TreeNode* cur = root;
+        TreeNode* pre = nullptr;
+        
+        while (cur) {
+            st.push(cur);
+            cur = cur->left;
+        }
+
+        while (!st.empty()) {
+            cur = st.top();
+            if (cur->right == nullptr || cur->right == pre) {
+                ret.push_back(cur->val);
+                pre = cur;
+                st.pop();
+            }
+            else {
+                cur = cur->right;
+                while (cur) {
+                    st.push(cur);
+                    cur = cur->left;
+                }
+            }
+        }
+
+        return ret;
+	}
+};
