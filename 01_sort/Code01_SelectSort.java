@@ -22,6 +22,25 @@ public class Code01_SelectSort {
         }
     }
 
+    public static void selectSort1(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            int max_index = i;
+            for (int j = 0; j < i; j++) {
+                if (arr[j] > arr[max_index]) {
+                    max_index = j;
+                }
+            }
+
+            if (max_index != i) {
+                swap(arr, i, max_index);
+            }
+        }
+    }
+
     /*
         for test
     */
@@ -100,12 +119,20 @@ public class Code01_SelectSort {
         for (int i = 0; i < testTime; ++i) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            selectSort(arr1);
-            comparator(arr2);
+            int[] arr3 = copyArray(arr1);
+            comparator(arr1);
+            selectSort(arr2);
+            selectSort1(arr3);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
                 printArray(arr1);
                 printArray(arr2);
+                break;
+            }
+            if (!isEqual(arr1, arr3)) {
+                succeed = false;
+                printArray(arr1);
+                printArray(arr3);
                 break;
             }
         }
