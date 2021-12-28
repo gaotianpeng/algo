@@ -1,3 +1,4 @@
+package sort;
 import java.util.Arrays;
 
 public class Code03_InsertSort {
@@ -5,16 +6,12 @@ public class Code03_InsertSort {
         if (arr == null || arr.length < 2) {
             return;
         }
-        /*
-            让arr[0~0]上有序，这个范围只有一个数，是有序的。
-            让arr[0~1]上有序，从arr[1]开始往前看，如果arr[1]<arr[0]，就交换。否则什么也不做。
-            …
-            让arr[0~i]上有序，从arr[i]开始往前看，arr[i]这个数不停向左移动，一直移动到左边的数字不再比自己大，停止移动。
-            让arr[0~N-1]上有序， arr[N-1]这个数不停向左移动，一直移动到左边的数字不再比自己大，停止移动
-        */
+
         for (int i = 1; i < arr.length; i++) {
-            for (int j = i - 1; j >= 0 && arr[j] > arr[j+1]; j--) {
-                swap(arr, j, j+1);
+            for (int j = i - 1; j >= 0; j--) {
+                if (arr[j] > arr[j+1]) {
+                    swap(arr, j, j+1);
+                }
             }
         }
     }

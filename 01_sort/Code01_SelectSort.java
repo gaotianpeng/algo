@@ -1,23 +1,22 @@
-import java.util.Arrays;
+package sort;
 
+import java.util.Arrays;
 public class Code01_SelectSort {
     public static void selectSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        /*
-           0 ~ N-1  找到最小值在哪，放在0位置上
-           1 ~ N-1  找到最小值在哪，放在1位置上
-           2 ~ N-1  找到最小值在哪，放在2位置上
-        */
-        for (int i = 0; i < arr.length; ++i) {
-            int minIndex = i;
+
+        for (int i = 0; i < arr.length - 1; i++) {
+            int min_idx = i;
             for (int j = i+1; j < arr.length; j++) {
-                minIndex = arr[j] < arr[minIndex] ? j : minIndex;
+                if (arr[j] < arr[min_idx]) {
+                    min_idx = j;
+                }
             }
 
-            if (i != minIndex) {
-                swap(arr, i, minIndex);
+            if (min_idx != i) {
+                swap(arr, min_idx, i);
             }
         }
     }
@@ -49,12 +48,12 @@ public class Code01_SelectSort {
     }
 
     public static int[] generateRandomArray(int maxSize, int maxValue) {
-       int[] arr = new int[(int)((maxSize + 1) * Math.random())];
-       for (int i = 0; i < arr.length; i++) {
-           arr[i] = (int)((maxValue + 1) * Math.random()) - (int)(maxValue * Math.random());
-       }
+        int[] arr = new int[(int)((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int)((maxValue + 1) * Math.random()) - (int)(maxValue * Math.random());
+        }
 
-       return arr;
+        return arr;
     }
 
     public static void swap(int[] arr, int i, int j) {
