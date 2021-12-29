@@ -47,7 +47,7 @@ public class Code04_FindOneOdds {
         return ret;
     }
 
-    public static int[] generateOneOddArray(int max_val, int max_len) {
+    public static int[] generateOneOddArray(int max_val, int max_len, int val_max_times) {
         int arr_len = 0;
         while (true) {
             arr_len = (int)(Math.random()*max_len + 1);
@@ -60,7 +60,7 @@ public class Code04_FindOneOdds {
         // <value, value出现次数>
         HashMap<Integer, Integer> map = new HashMap<>();
 
-        int odd_val_count = generateOddValue(arr_len/2);
+        int odd_val_count = generateOddValue(Math.min(arr_len, val_max_times));
         int odd_times_val = generateOddValue(max_val);
         map.put(odd_times_val, odd_val_count);
         int left_odd_count = arr_len - odd_val_count;
@@ -73,7 +73,6 @@ public class Code04_FindOneOdds {
             map.put(cur_value, cur_even_count);
             left_odd_count -= cur_even_count;
         }
-
 
         int arr_idx = 0;
         for (HashMap.Entry<Integer, Integer> entry: map.entrySet()) {
@@ -115,6 +114,28 @@ public class Code04_FindOneOdds {
         return (int)(Math.random()*max_val + 1);
     }
 
+    public static void randomArray(int[] arr) {
+        if (arr == null || arr.length <= 2) {
+            return;
+        }
+
+        int random_time = arr.length;
+        while (random_time > 0) {
+            int i = generateRandomValue(arr.length - 1);
+            int j = generateRandomValue(arr.length - 1);
+            if (i != j) {
+                swap(arr, i, j);
+                random_time--;
+            }
+        }
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        arr[i] = arr[i]^arr[j];
+        arr[j] = arr[i]^arr[j];
+        arr[i] = arr[i]^arr[j];
+    }
+
     public static void printArr(int[] arr) {
         if (arr == null) {
             return;
@@ -129,13 +150,14 @@ public class Code04_FindOneOdds {
     public static void main(String[] args) {
         System.out.println("start test...");
 
-        int test_times = 1000000;
+        int test_times = 100;
         int max_value = 40;
         int max_len = 50;
 
         boolean success = true;
         for (int i = 0; i < test_times; i++) {
-            int[] arr = generateOneOddArray(max_value, max_len);
+            int[] arr = generateOneOddArray(max_value, max_len, 7);
+            randomArray(arr);
             if (getOneOddsFromArray(arr) != test(arr)) {
                 success = false;
                 System.out.println(getOneOddsFromArray(arr));
@@ -146,6 +168,6 @@ public class Code04_FindOneOdds {
         }
 
         System.out.println(success? "success": "failed");
-        System.out.println("stop test");
+        System.out.println("finish test");
     }
 }
