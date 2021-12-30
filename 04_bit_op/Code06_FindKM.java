@@ -115,7 +115,7 @@ public class Code06_FindKM {
             }
         }
 
-
+        randomArray(arr);
         return arr;
     }
 
