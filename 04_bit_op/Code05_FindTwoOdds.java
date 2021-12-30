@@ -81,6 +81,7 @@ public class Code05_FindTwoOdds {
 
     public static int[] generateTwoOddArray(int max_val, int max_len, int val_max_times) {
         int arr_len = 0;
+        // 产生随机数据长度
         while (true) {
             arr_len = generateEvenNum(max_len);
             if (arr_len >= 2) {
@@ -89,6 +90,7 @@ public class Code05_FindTwoOdds {
         }
 
         int [] arr = new int[arr_len];
+        // 产生两个出现奇数次数并存放HashMap
         int odd1_num_times = 0;
         int odd2_num_times = 0;
         while (true) {
@@ -117,6 +119,7 @@ public class Code05_FindTwoOdds {
             }
         }
 
+        // 产生其余出现偶数次的数
         int left_even_nums = arr_len - odd1_num_times - odd2_num_times;
         while (left_even_nums > 0) {
             int even_num_times = generateEvenNum(Math.min(left_even_nums, val_max_times));
@@ -131,7 +134,7 @@ public class Code05_FindTwoOdds {
             }
         }
 
-
+        // 随机数组填充值
         int arr_idx = 0;
         for (HashMap.Entry<Integer, Integer> entry: val_times_map.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
@@ -139,6 +142,7 @@ public class Code05_FindTwoOdds {
                 arr_idx++;
             }
         }
+
         return arr;
     }
 
@@ -179,10 +183,32 @@ public class Code05_FindTwoOdds {
         System.out.println();
     }
 
+    // 将数组乱序
+    public static void randomArray(int[] arr) {
+        if (arr == null || arr.length <= 2) {
+            return;
+        }
+
+        int random_time = arr.length;
+        while (random_time > 0) {
+            int i = generateRandomNum(arr.length - 1);
+            int j = generateRandomNum(arr.length - 1);
+            if (i != j) {
+                swap(arr, i, j);
+                random_time--;
+            }
+        }
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        arr[i] = arr[i]^arr[j];
+        arr[j] = arr[i]^arr[j];
+        arr[i] = arr[i]^arr[j];
+    }
 
     public static void main(String[] args) {
         System.out.println("start test ...");
-        int test_times = 3000;
+        int test_times = 100000;
         int max_value = 30;
         int val_max_times = 5;
         int max_len = 30;
@@ -190,13 +216,13 @@ public class Code05_FindTwoOdds {
         boolean success = true;
         for (int i = 0; i < test_times; i++) {
             int[] arr = generateTwoOddArray(max_value, max_len, val_max_times);
+            randomArray(arr);
             if (!isEqual(findTwoOdds(arr), test(arr))) {
                 printArr(arr);
                 success = false;
                 break;
             }
         }
-
         System.out.println(success? "success": "failed");
         System.out.println("end test");
     }
