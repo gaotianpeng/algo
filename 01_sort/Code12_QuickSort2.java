@@ -1,52 +1,55 @@
 package sort;
-
 import java.util.Arrays;
 
-public class Code11_QuickSort {
+public class Code12_QuickSort2 {
     public static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] =  temp;
     }
 
-    // 在arr[left...right]上，以arr[right]位置的数做划分值
-    public static int partition(int[] arr, int left, int right) {
+    public static int[] netherlandsFlag(int[] arr, int left, int right) {
         if (left > right) {
-            return -1;
+            return new int[] {-1, -1};
         }
 
         if (left == right) {
-            return left;
+            return new int[] {left, right};
         }
 
-        int less_equal = left - 1;
+        int less_area = left - 1;
+        int more_area = right;
         int index = left;
-        while (index < right) {
-            if (arr[index] <= arr[right]) {
-                swap(arr, index, ++less_equal);
+        while (index < more_area) {
+            if (arr[index] == arr[right]) {
+                index++;
+            } else if (arr[index] < arr[right]) {
+                swap(arr, index++, ++less_area);
+            } else {
+                swap(arr, index, --more_area);
             }
-            index++;
         }
-        swap(arr, ++less_equal, right);
 
-        return less_equal;
+        swap(arr, more_area, right);
+        return new int[] {less_area + 1, more_area};
     }
 
-    public static void process(int[] arr, int left, int right) {
+
+    public static void process2(int[] arr, int left, int right) {
         if (left >= right) {
             return;
         }
 
-        int mid = partition(arr, left, right);
-        process(arr, left, mid - 1);
-        process(arr, left + 1, right);
+        int[] equal_area = netherlandsFlag(arr, left, right);
+        process2(arr, left, equal_area[0] - 1);
+        process2(arr, equal_area[1] + 1, right);
     }
 
-    public static void quickSort(int[] arr) {
+    public static void quickSort2(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        process(arr, 0, arr.length - 1);
+        process2(arr, 0, arr.length - 1);
     }
 
     /*
@@ -114,15 +117,15 @@ public class Code11_QuickSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
+        int test_times = 10000000;
         int max_val = 50;
-        int max_len = 10;
+        int max_len = 30;
         boolean success = true;
 
         for (int i = 0; i < test_times; i++) {
             int[] arr1 = generateRandomArray(max_len, max_val);
             int[] arr2 = copyArray(arr1);
-            quickSort(arr1);
+            quickSort2(arr1);
             test(arr2);
             if (!isEqual(arr1, arr2)) {
                 printArray(arr1);
