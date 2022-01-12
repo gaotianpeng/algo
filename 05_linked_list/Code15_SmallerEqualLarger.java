@@ -12,7 +12,8 @@ public class Code15_SmallerEqualLarger {
         }
     }
 
-    public static Node reorganizeList(Node head, int pivot) {
+    // 1)
+    public static Node reorganizeLinkedList(Node head, int pivot) {
         if (head == null) {
             return head;
         }
@@ -60,6 +61,57 @@ public class Code15_SmallerEqualLarger {
         Node tmp = node_arr[a];
         node_arr[a] = node_arr[b];
         node_arr[b] = tmp;
+    }
+
+    // 2)
+    public static Node reorganizeLinkedList1(Node head, int pivot) {
+        Node small_head = null;
+        Node small_tail = null;
+        Node equal_head = null;
+        Node equal_tail = null;
+        Node large_head = null;
+        Node large_tail = null;
+        Node next = null;
+        while (head != null) {
+            next = head.next;
+            head.next = null;
+            if (head.value < pivot) {
+                if (small_head == null) {
+                    small_head = head;
+                    small_tail = head;
+                } else {
+                    small_tail.next = head;
+                    small_tail = head;
+                }
+            } else if (head.value == pivot) {
+                if (equal_head == null) {
+                    equal_head = head;
+                    equal_tail = head;
+                } else {
+                    equal_tail.next = head;
+                    equal_tail = head;
+                }
+            } else {
+                if (large_head == null) {
+                    large_head = head;
+                    large_tail = head;
+                } else {
+                    large_tail.next = head;
+                    large_tail = head;
+                }
+            }
+            head = next;
+        }
+
+        if (small_tail != null) {
+            small_tail.next = equal_head;
+            equal_tail = equal_tail == null ? small_tail : equal_tail;
+        }
+        if (equal_tail != null) {
+            equal_tail.next = large_head;
+        }
+
+        return small_head != null ? small_head: (equal_head != null ? equal_head: large_head);
     }
 
     /*
@@ -230,13 +282,24 @@ public class Code15_SmallerEqualLarger {
             Node head1 = generateRandomLinkedList(max_val, max_len);
             Node head2 = copyLinkedList(head1);
             Node head3 = copyLinkedList(head1);
+            Node head4 = copyLinkedList(head1);
             int pivot = getLinkListRandomPivot(head2);
-            Node new_head2 = reorganizeList(head2, pivot);
-            Node new_head3 = test(head3, pivot);
-            if (!isEqual(new_head2, new_head3, pivot)) {
+            Node new_head2 = reorganizeLinkedList(head2, pivot);
+            Node new_head3 = reorganizeLinkedList1(head3, pivot);
+            Node new_head4 = test(head4, pivot);
+            if (!isEqual(new_head2, new_head4, pivot)) {
                 printRandomLinkedList(head1);
                 printRandomLinkedList(new_head2);
+                printRandomLinkedList(new_head4);
+                System.out.println("pivot: " + pivot);
+                System.out.println("--------------------------------------");
+                success = false;
+                break;
+            }
+            if (!isEqual(new_head3, new_head4, pivot)) {
+                printRandomLinkedList(head1);
                 printRandomLinkedList(new_head3);
+                printRandomLinkedList(new_head4);
                 System.out.println("pivot: " + pivot);
                 System.out.println("--------------------------------------");
                 success = false;
