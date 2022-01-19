@@ -1,15 +1,13 @@
 package sort;
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Code09_MergeSort {
-
     public static void mergeSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        process(arr, 0, arr.length  - 1);
+
+        process(arr, 0, arr.length - 1);
     }
 
     public static void process(int[] arr, int left, int right) {
@@ -17,7 +15,7 @@ public class Code09_MergeSort {
             return;
         }
 
-        int mid = left +((right - left) >> 1);
+        int mid = left + ((right - left)>>1);
         process(arr, left, mid);
         process(arr, mid + 1, right);
         merge(arr, left, mid, right);
@@ -28,49 +26,48 @@ public class Code09_MergeSort {
             return;
         }
 
-        int arr_len = arr.length;
-        int merge_step = 1;
-        while (merge_step < arr_len) {
+        int merge_size = 1;
+        int n = arr.length;
+        while (merge_size < n) {
             int left = 0;
-            while (left < arr_len) {
-                if (merge_step > arr_len - left) {
+            while (left < n) {
+                if (merge_size >= n - left) {
                     break;
                 }
 
-                int mid = left + merge_step - 1;
-                int right = mid + Math.min(merge_step, arr_len - mid - 1);
+                int mid = left + merge_size - 1;
+                int right = mid + Math.min(merge_size, n - mid - 1);
                 merge(arr, left, mid, right);
                 left = right + 1;
             }
-            merge_step <<= 1;
+            if (merge_size > n / 2) {
+                break;
+            }
+            merge_size <<= 1;
         }
     }
 
     public static void merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
+        int i = 0;
         int pos1 = left;
         int pos2 = mid + 1;
-        int index = 0;
         while (pos1 <= mid && pos2 <= right) {
-            if (arr[pos1] <= arr[pos2]) {
-                helper[index++] = arr[pos1++];
-            } else {
-                helper[index++] = arr[pos2++];
-            }
+            helper[i++] = arr[pos1] <= arr[pos2] ? arr[pos1++] : arr[pos2++];
         }
 
         while (pos1 <= mid) {
-            helper[index++] = arr[pos1++];
-        }
-        while (pos2 <= right) {
-            helper[index++] = arr[pos2++];
+            helper[i++] = arr[pos1++];
         }
 
-        for (int i = 0; i < helper.length; i++) {
+        while (pos2 <= right) {
+            helper[i++] = arr[pos2++];
+        }
+
+        for (i = 0; i < helper.length; i++) {
             arr[left + i] = helper[i];
         }
     }
-
 
     /*
         for test

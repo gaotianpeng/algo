@@ -1,7 +1,9 @@
 package sort;
 
 public class Code08_FindValley {
-    // 找到nums局部最小值，并返回其下标
+    /*
+        找到nums局部最小值，并返回其下标
+     */
     public int findValleyElement(int[] nums) {
         if (nums == null || nums.length == 0) {
             return -1;

@@ -2,6 +2,14 @@ package sort;
 
 import java.util.Arrays;
 public class Code01_SelectSort {
+    /*
+        过程：
+            arr[0～N-1]范围上，找到最小值所在的位置，然后把最小值交换到0位置。
+            arr[1～N-1]范围上，找到最小值所在的位置，然后把最小值交换到1位置。
+            arr[2～N-1]范围上，找到最小值所在的位置，然后把最小值交换到2位置。
+            …
+            arr[N-1～N-1]范围上，找到最小值位置，然后把最小值交换到N-1位置
+     */
     public static void selectSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -9,14 +17,13 @@ public class Code01_SelectSort {
 
         for (int i = 0; i < arr.length - 1; i++) {
             int min_idx = i;
-            for (int j = i+1; j < arr.length; j++) {
+            for (int j = i + 1; j < arr.length; j++) {
                 if (arr[j] < arr[min_idx]) {
                     min_idx = j;
                 }
             }
-
             if (min_idx != i) {
-                swap(arr, min_idx, i);
+                swap(arr, i, min_idx);
             }
         }
     }
@@ -43,7 +50,7 @@ public class Code01_SelectSort {
     /*
         for test
     */
-    public static void comparator(int[] arr) {
+    public static void test(int[] arr) {
         Arrays.sort(arr);
     }
 
@@ -119,7 +126,7 @@ public class Code01_SelectSort {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
             int[] arr3 = copyArray(arr1);
-            comparator(arr1);
+            test(arr1);
             selectSort(arr2);
             selectSort1(arr3);
             if (!isEqual(arr1, arr2)) {

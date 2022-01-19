@@ -1,7 +1,9 @@
 package sort;
 
 public class Code07_FindPeak {
-    // 找到局部最大值，并返回其下标
+    /*
+        找到局部最大值，并返回其下标
+     */
     public int findPeakElement(int[] nums) {
         if (nums == null || nums.length == 0) {
             return -1;

@@ -3,22 +3,24 @@ package sort;
 import java.util.Arrays;
 
 public class Code04_BSExist {
+    /*
+        在一个有序数组中，找某个数是否存在
+     */
     public static boolean exist(int[] sortedArr, int num) {
         if (sortedArr == null || sortedArr.length == 0) {
             return false;
         }
 
-        int mid = 0;
         int left = 0;
         int right = sortedArr.length - 1;
         while (left < right) {
-            mid = left + ((right - left)>>1);
-            if (sortedArr[mid] == num) {
-                return true;
-            } else if (sortedArr[mid] > num) {
-                right = mid - 1;
-            } else {
+            int mid = left + ((right - left)>>1);
+            if (sortedArr[mid] > num) {
+                right = mid -1;
+            } else if (sortedArr[mid] < num) {
                 left = mid + 1;
+            } else {
+                return true;
             }
         }
 

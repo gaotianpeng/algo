@@ -12,11 +12,11 @@ package sort;
  */
 
 public class Code10_SmallSum {
-
     public static int smallSum(int[] arr) {
         if (arr == null || arr.length < 2) {
             return 0;
         }
+
         return process(arr, 0, arr.length - 1);
     }
 
@@ -33,34 +33,28 @@ public class Code10_SmallSum {
 
     public static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
+        int ans = 0;
+        int i = 0;
         int pos1 = left;
         int pos2 = mid + 1;
-
-        int index = 0;
-        int result = 0;
-        while (pos1 <= mid && pos2 <= right) {
-            if (arr[pos1] < arr[pos2]) {
-                result += ((right - pos2 + 1)*arr[pos1]);
-                helper[index++] = arr[pos1++];
-            } else {
-                helper[index++] = arr[pos2++];
-            }
+        while (pos1 <= mid &&  pos2 <= right) {
+            ans += arr[pos1] < arr[pos2] ? (right - pos2 + 1)*arr[pos1] : 0;
+            helper[i++] = arr[pos1] < arr[pos2] ? arr[pos1++] : arr[pos2++];
         }
 
         while (pos1 <= mid) {
-            helper[index++] = arr[pos1++];
-        }
-        while (pos2 <= right) {
-            helper[index++] = arr[pos2++];
+            helper[i++] = arr[pos1++];
         }
 
-        for (int i = 0; i < helper.length; ++i) {
+        while (pos2 <= right) {
+            helper[i++] = arr[pos2++];
+        }
+
+        for (i = 0; i < helper.length; i++) {
             arr[left + i] = helper[i];
         }
-
-        return result;
+        return ans;
     }
-
 
     /*
         for test
@@ -70,16 +64,16 @@ public class Code10_SmallSum {
             return 0;
         }
 
-        int small_sum = 0;
+        int ans = 0;
         for (int i = 1; i < arr.length; i++) {
             for (int j = 0; j < i; j++) {
-                if (arr[i] > arr[j]) {
-                    small_sum += arr[j];
+                if (arr[j] < arr[i]) {
+                    ans += arr[j];
                 }
             }
         }
 
-        return small_sum;
+        return ans;
     }
 
     public static int[] generateRandomArray(int maxSize, int maxValue) {
@@ -138,7 +132,7 @@ public class Code10_SmallSum {
         }
 
         for (int i = 0; i < arr.length; ++i) {
-            System.out.println(arr[i] + " ");
+            System.out.print(arr[i] + " ");
         }
 
         System.out.println();
@@ -154,6 +148,8 @@ public class Code10_SmallSum {
             int[] arr1 = generateRandomArray(max_len, max_value);
             int[] arr2 = copyArray(arr1);
             if (smallSum(arr1) != test(arr2)) {
+                System.out.println(smallSum(arr1));
+                System.out.println(test(arr2));
                 printArray(arr1);
                 success = false;
                 break;
