@@ -5,7 +5,7 @@ package shuati;
     返回>=num，并且离num最近的，2的某次方
  */
 public class Code_003_Near2Power {
-    public static int tableSizeFor(int n) {
+    public static int near2PowerNumber(int n) {
         n--;
         n |= n >>> 1;
         n |= n >>> 2;
@@ -45,10 +45,10 @@ public class Code_003_Near2Power {
         int test_times = 1000000;
         for (int i = 0; i < test_times; i++) {
             int val = generateNumber(max_val);
-            if (test(val) != tableSizeFor(val)) {
+            if (test(val) != near2PowerNumber(val)) {
                 success = false;
                 System.out.println(test(val));
-                System.out.println(tableSizeFor(val));
+                System.out.println(near2PowerNumber(val));
                 break;
             }
         }
