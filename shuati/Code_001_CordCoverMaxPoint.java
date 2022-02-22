@@ -17,8 +17,8 @@ public class Code_001_CordCoverMaxPoint {
 
         int max = 1;
         for (int i = 0; i < arr.length; i++) {
-            int nearest = nearestIndex(arr, i, arr[i] - len);
-            max = Math.max(max, i - nearest + 1);
+            int nearest_index = nearestIndex(arr, i, arr[i] - len);
+            max = Math.max(max, i - nearest_index + 1);
         }
 
         return max;
@@ -26,14 +26,14 @@ public class Code_001_CordCoverMaxPoint {
 
     public static int nearestIndex(int[] arr, int right, int val) {
         int left = 0;
-        int index = right;
+        int index = 0;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (arr[mid] >= val) {
                 index = mid;
                 right = mid - 1;
             } else {
-                left = mid +1;
+                left = mid + 1;
             }
         }
         return index;
@@ -66,11 +66,11 @@ public class Code_001_CordCoverMaxPoint {
             return 0;
         }
 
-        int max = 0;
+        int max = 1;
         for (int i = 0; i < arr.length; i++) {
             int pre = i - 1;
             while (pre >= 0 && arr[i] - arr[pre] <= len) {
-                --pre;
+                pre--;
             }
             max = Math.max(max, i - pre);
         }
