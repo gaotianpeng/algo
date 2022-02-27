@@ -33,14 +33,13 @@ public class Code03_QuickSort {
             return left;
         }
 
-        int index = left;
         int less = left - 1;
+        int index = left;
         while (index < right) {
             if (arr[index] <= arr[right]) {
-                ++less;
-                swap(arr, less, index);
+                swap(arr, ++less, index);
             }
-            ++index;
+            index++;
         }
 
         swap(arr, ++less, right);

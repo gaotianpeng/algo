@@ -8,10 +8,11 @@ public class Code04_QuickSort1 {
         if (arr == null || arr.length < 2) {
             return;
         }
+
         process(arr, 0, arr.length - 1);
     }
 
-    public static void process(int[] arr, int left, int right) {
+    private static void process(int[] arr, int left, int right) {
         if (left >= right) {
             return;
         }
@@ -21,33 +22,35 @@ public class Code04_QuickSort1 {
         process(arr, equal_area[1] + 1, right);
     }
 
-    public static int[] netherlandsFlag(int[] arr, int left, int right) {
+    private static int[] netherlandsFlag(int[] arr, int left, int right) {
         if (left > right) {
             return new int[] {-1, -1};
         }
 
         if (left == right) {
-            return new int[] {left, right};
+            return new int[] {left, left};
         }
 
-        int less_area = left - 1;
-        int more_area = right;
         int index = left;
-        while (index < more_area) {
+        int less = left - 1;
+        int more = right;
+        while (index < more) {
             if (arr[index] == arr[right]) {
                 index++;
             } else if (arr[index] < arr[right]) {
-                swap(arr, index++, ++less_area);
+                less++;
+                swap(arr, index, less);
+                ++index;
             } else {
-                swap(arr, index, --more_area);
+                swap(arr, index, --more);
             }
         }
 
-        swap(arr, more_area, right);
-        return new int[] {less_area + 1, more_area};
+        swap(arr, more, right);
+        return new int[] {less + 1, more};
     }
 
-    public static void swap(int[] arr, int i, int j) {
+    private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] =  temp;
