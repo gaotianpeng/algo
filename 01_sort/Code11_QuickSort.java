@@ -39,7 +39,7 @@ public class Code11_QuickSort {
 
         int mid = partition(arr, left, right);
         process(arr, left, mid - 1);
-        process(arr, left + 1, right);
+        process(arr, mid + 1, right);
     }
 
     public static void quickSort(int[] arr) {
