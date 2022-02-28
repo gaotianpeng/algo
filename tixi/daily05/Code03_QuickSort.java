@@ -37,7 +37,8 @@ public class Code03_QuickSort {
         int index = left;
         while (index < right) {
             if (arr[index] <= arr[right]) {
-                swap(arr, ++less, index);
+                less++;
+                swap(arr, less, index);
             }
             index++;
         }
@@ -46,7 +47,7 @@ public class Code03_QuickSort {
         return less;
     }
 
-    public static void swap(int[] arr, int i, int j) {
+    private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] =  temp;

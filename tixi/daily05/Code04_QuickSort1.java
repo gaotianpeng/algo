@@ -24,22 +24,22 @@ public class Code04_QuickSort1 {
 
     private static int[] netherlandsFlag(int[] arr, int left, int right) {
         if (left > right) {
-            return new int[] {-1, -1};
+            return new int[] { -1, -1};
         }
 
         if (left == right) {
-            return new int[] {left, left};
+            return new int[] { left, left};
         }
 
-        int index = left;
         int less = left - 1;
         int more = right;
+        int index = left;
         while (index < more) {
             if (arr[index] == arr[right]) {
                 index++;
             } else if (arr[index] < arr[right]) {
-                less++;
-                swap(arr, index, less);
+                ++less;
+                swap(arr, less, index);
                 ++index;
             } else {
                 swap(arr, index, --more);
