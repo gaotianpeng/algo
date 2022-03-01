@@ -9,9 +9,17 @@ public class Code01_Heap {
         private int limit_;
 
         public MyMaxHeap(int limit) {
-            limit_ = limit;
             heap_ = new int[limit];
+            limit_ = limit;
             size_ = 0;
+        }
+
+        public boolean isEmpty() {
+            return size_ == 0;
+        }
+
+        public boolean isFull() {
+            return size_ == limit_;
         }
 
         public void push(int val) {
@@ -33,29 +41,23 @@ public class Code01_Heap {
             return ans;
         }
 
-        public boolean isEmpty() {
-            return size_ == 0;
-        }
-
-        public boolean isFull() {
-            return size_ == limit_;
-        }
-
         private void heapInsert(int[] arr, int index) {
-            while (arr[index] > arr[(index-1) / 2]) {
-                swap(arr, index, (index-1) / 2);
-                index = (index-1)/2;
+            while (arr[index] > arr[(index - 1) / 2]) {
+                swap(arr, index, (index - 1) / 2);
+                index = (index - 1) / 2;
             }
         }
 
         private void heapify(int[] arr, int index, int heap_size) {
             int left = index * 2 + 1;
             while (left < heap_size) {
-                int largest = left + 1 < heap_size && arr[left + 1] > arr[left] ? left + 1 : left;
-                largest = arr[largest] > arr[index] ? largest : index;
+                int largest =  left + 1 < heap_size && arr[left] < arr[left + 1] ?
+                        left + 1 : left;
+                largest = arr[index] < arr[largest] ? largest : index;
                 if (largest == index) {
                     break;
                 }
+                
                 swap(arr, index, largest);
                 index = largest;
                 left = index * 2 + 1;
@@ -81,21 +83,21 @@ public class Code01_Heap {
      */
     public static class TestHeap {
         private int[] heap_;
-        private int heap_size_;
+        private int size_;
         private int limit_;
 
-        public TestHeap(int limit) {
+        TestHeap(int limit) {
             heap_ = new int[limit];
             limit_ = limit;
-            heap_size_ = 0;
+            size_ = 0;
         }
 
-        public void push(int value) {
-            if (isFull()) {
-                throw new RuntimeException("heap is full");
-            }
+        public boolean isEmpty() {
+            return size_ == 0;
+        }
 
-            heap_[heap_size_++] = value;
+        public boolean isFull() {
+            return size_ == limit_;
         }
 
         public int pop() {
@@ -104,29 +106,22 @@ public class Code01_Heap {
             }
 
             int max_index = 0;
-            for (int i = 1; i < heap_size_; i++) {
+            for (int i = 1; i < size_; i++) {
                 if (heap_[i] > heap_[max_index]) {
                     max_index = i;
                 }
             }
 
             int ans = heap_[max_index];
-            heap_[max_index] = heap_[--heap_size_];
+            heap_[max_index] = heap_[--size_];
             return ans;
         }
 
-        public boolean isEmpty() {
-            return heap_size_ == 0;
-        }
-
-        public boolean isFull() {
-            return heap_size_ == limit_;
-        }
-
-        private void swap(int[] arr, int i, int j) {
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+        public void push(int val) {
+            if (isFull()) {
+                throw new RuntimeException("heap is full");
+            }
+            heap_[size_++] = val;
         }
     }
 
@@ -172,6 +167,7 @@ public class Code01_Heap {
                     }
                 }
             }
+
             if (!success) {
                 break;
             }

@@ -9,8 +9,6 @@ import java.util.Arrays;
             2) 从下到上的方法, 时间复杂度为O(N)
         2 把堆的最大值和堆末尾的值交换, 减少堆的大小，调整堆，周而复始
         3 堆的大小减少成0后，排序完成
-
-
  */
 public class Code02_HeapSort {
 
@@ -22,6 +20,7 @@ public class Code02_HeapSort {
         for (int i = 0; i < arr.length; i++) {
             heapInsert(arr, i);
         }
+
         int heap_size = arr.length;
         swap(arr, 0, --heap_size);
         while (heap_size > 0) {
@@ -47,14 +46,14 @@ public class Code02_HeapSort {
         }
     }
 
-    public static void heapInsert(int[] arr, int index) {
+    private static void heapInsert(int arr[], int index) {
         while (arr[index] > arr[(index - 1) / 2]) {
-            swap(arr, index, (index - 1) / 2);
+            swap(arr, index, (index-1) / 2);
             index = (index - 1) / 2;
         }
     }
 
-    public static void heapify(int[] arr, int index, int heap_size) {
+    private static void heapify(int arr[], int index, int heap_size) {
         int left = index * 2 + 1;
         while (left < heap_size) {
             int largest = left + 1 < heap_size && arr[left] < arr[left + 1] ? left + 1 : left;
@@ -69,7 +68,7 @@ public class Code02_HeapSort {
         }
     }
 
-    public static void swap(int[] arr, int i, int j) {
+    private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
