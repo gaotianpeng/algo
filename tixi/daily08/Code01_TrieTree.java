@@ -1,4 +1,4 @@
-package tree;
+package tixi.daily08;
 
 import java.util.HashMap;
 
@@ -151,7 +151,7 @@ public class Code01_TrieTree {
             int count = 0;
             for (String str: map_.keySet()) {
                 if (str.startsWith(pre)) {
-                    ++count;
+                    count += map_.get(str);
                 }
             }
 
@@ -181,7 +181,7 @@ public class Code01_TrieTree {
         System.out.println("test start...");
         int arr_len = 100;
         int str_len = 20;
-        int test_times = 100000;
+        int test_times = 1000000;
         boolean success = true;
         for (int i = 0; i < test_times; i++) {
             String[] arr = generateRandomStringArray(arr_len, str_len);
