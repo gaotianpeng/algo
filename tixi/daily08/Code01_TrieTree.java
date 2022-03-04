@@ -1,9 +1,5 @@
 package tixi.daily08;
 
-import leetcode.Code_0124_BinaryTreeMaximumPathSum;
-import sun.text.normalizer.Trie;
-
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 /*
@@ -21,19 +17,20 @@ import java.util.HashMap;
  */
 public class Code01_TrieTree {
     public static class TrieNode {
+        public TrieNode [] nexts_;
         public int pass_;
         public int end_;
-        public TrieNode[] nexts_;
 
         public TrieNode() {
+            nexts_ = new TrieNode[26];
             pass_ = 0;
             end_ = 0;
-            nexts_ = new TrieNode[26];
         }
     }
 
     public static class TrieTree {
         private TrieNode root_node_;
+
         public TrieTree() {
             root_node_ = new TrieNode();
         }
@@ -45,7 +42,6 @@ public class Code01_TrieTree {
 
             char[] chs = word.toCharArray();
             TrieNode node = root_node_;
-            node.pass_++;
             for (int i = 0; i < chs.length; i++) {
                 int index = chs[i] - 'a';
                 if (node.nexts_[index] == null) {
@@ -58,13 +54,16 @@ public class Code01_TrieTree {
         }
 
         public void delete(String word) {
-            if (word == null || search(word) == 0) {
+            if (word == null) {
+                return;
+            }
+
+            if (search(word) == 0) {
                 return;
             }
 
             char[] chs = word.toCharArray();
             TrieNode node = root_node_;
-            node.pass_--;
             for (int i = 0; i < chs.length; i++) {
                 int index = chs[i] - 'a';
                 if (--node.nexts_[index].pass_ == 0) {
@@ -81,8 +80,8 @@ public class Code01_TrieTree {
                 return 0;
             }
 
-            char[] chs = word.toCharArray();
             TrieNode node = root_node_;
+            char[] chs = word.toCharArray();
             for (int i = 0; i < chs.length; i++) {
                 int index = chs[i] - 'a';
                 if (node.nexts_[index] == null) {
@@ -98,8 +97,8 @@ public class Code01_TrieTree {
                 return 0;
             }
 
-            char[] chs = prefix.toCharArray();
             TrieNode node = root_node_;
+            char[] chs = prefix.toCharArray();
             for (int i = 0; i < chs.length; i++) {
                 int index = chs[i] - 'a';
                 if (node.nexts_[index] == null) {
@@ -107,7 +106,6 @@ public class Code01_TrieTree {
                 }
                 node = node.nexts_[index];
             }
-
             return node.pass_;
         }
     }
@@ -123,14 +121,22 @@ public class Code01_TrieTree {
         }
 
         public void insert(String word) {
-            if (!map_.containsKey(word)) {
-                map_.put(word, 1);
-            } else {
+            if (word == null) {
+                return;
+            }
+
+            if (map_.containsKey(word)) {
                 map_.put(word, map_.get(word) + 1);
+            } else {
+                map_.put(word, 1);
             }
         }
 
         public void delete(String word) {
+            if (word == null) {
+                return;
+            }
+
             if (map_.containsKey(word)) {
                 if (map_.get(word) == 1) {
                     map_.remove(word);
@@ -141,24 +147,30 @@ public class Code01_TrieTree {
         }
 
         public int search(String word) {
-            if (!map_.containsKey(word)) {
+            if (word == null) {
                 return 0;
-            } else {
+            }
+
+            if (map_.containsKey(word)) {
                 return map_.get(word);
             }
+
+            return 0;
         }
 
-        public int prefixNumber(String pre) {
-            int count = 0;
-            for (String str: map_.keySet()) {
-                if (str.startsWith(pre)) {
-                    count += map_.get(str);
-                }
+        public int prefixNumber(String prefix) {
+            if (prefix == null) {
+                return 0;
             }
 
-            return count;
+            int ans = 0;
+            for (String s: map_.keySet()) {
+                if (s.startsWith(prefix)) {
+                    ans += map_.get(s);
+                }
+            }
+            return ans;
         }
-
     }
 
     public static String generateRandomString(int str_len) {
@@ -181,9 +193,9 @@ public class Code01_TrieTree {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int arr_len = 30;
-        int str_len = 10;
-        int test_times = 100000;
+        int arr_len = 100;
+        int str_len = 20;
+        int test_times = 1000000;
         boolean success = true;
         for (int i = 0; i < test_times; i++) {
             String[] arr = generateRandomStringArray(arr_len, str_len);
@@ -201,7 +213,6 @@ public class Code01_TrieTree {
                     int ans1 = trie_tree.search(arr[j]);
                     int ans2 = test_tree.search(arr[j]);
                     if (ans1 != ans2) {
-                        System.out.println("--------------");
                         success = false;
                         break;
                     }
@@ -209,14 +220,6 @@ public class Code01_TrieTree {
                     int ans1 = trie_tree.prefixNumber(arr[j]);
                     int ans2 = test_tree.prefixNumber(arr[j]);
                     if (ans1 != ans2) {
-                        System.out.println("+++++++++++++++");
-                        System.out.println(ans1);
-                        System.out.println(ans2);
-                        System.out.println(arr[j]);
-                        for (String str: arr) {
-                            System.out.print(str + " ");
-                        }
-                        System.out.println();
                         success = false;
                         break;
                     }
