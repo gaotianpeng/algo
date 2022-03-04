@@ -1,34 +1,19 @@
 package tixi.daily08;
 
-import leetcode.Code_0124_BinaryTreeMaximumPathSum;
 import sun.text.normalizer.Trie;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-/*
-    前缀树
-        1）单个字符串中，字符从前到后的加到一棵多叉树上
-        2）字符放在路上，节点上有专属的数据项（常见的是pass和end值）
-        3）所有样本都这样添加，如果没有路就新建，如有路就复用
-        4）沿途节点的pass值增加1，每个字符串结束时来到的节点end值增加1
-
-    支持的操作
-        1）void insert(String str)            添加某个字符串，可以重复添加，每次算1个
-        2）int search(String str)             查询某个字符串在结构中还有几个
-        3) void delete(String str)            删掉某个字符串，可以重复删除，每次算1个
-        4）int prefixNumber(String str)       查询有多少个字符串，是以str做前缀的
- */
-public class Code01_TrieTree {
+public class Code02_TrieTree2 {
     public static class TrieNode {
         public int pass_;
         public int end_;
-        public TrieNode[] nexts_;
+        public HashMap<Integer, TrieNode> nexts_;
 
         public TrieNode() {
             pass_ = 0;
-            end_ = 0;
-            nexts_ = new TrieNode[26];
+            end_= 0;
+            nexts_ = new HashMap<>();
         }
     }
 
@@ -47,11 +32,11 @@ public class Code01_TrieTree {
             TrieNode node = root_node_;
             node.pass_++;
             for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
-                if (node.nexts_[index] == null) {
-                    node.nexts_[index] = new TrieNode();
+                int index = (int)chs[i];
+                if (!node.nexts_.containsKey(index)) {
+                    node.nexts_.put(index, new TrieNode());
                 }
-                node = node.nexts_[index];
+                node = node.nexts_.get(index);
                 node.pass_++;
             }
             node.end_++;
@@ -66,14 +51,14 @@ public class Code01_TrieTree {
             TrieNode node = root_node_;
             node.pass_--;
             for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
-                if (--node.nexts_[index].pass_ == 0) {
-                    node.nexts_[index] = null;
+                int index = (int)chs[i];
+                if (--node.nexts_.get(index).pass_ == 0) {
+                    node.nexts_.remove(index);
                     return;
                 }
-                node = node.nexts_[index];
+                node = node.nexts_.get(index);
             }
-            node.end_--;
+            node.pass_--;
         }
 
         public int search(String word) {
@@ -84,30 +69,29 @@ public class Code01_TrieTree {
             char[] chs = word.toCharArray();
             TrieNode node = root_node_;
             for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
-                if (node.nexts_[index] == null) {
+                int index = (int)chs[i];
+                if (node.nexts_.get(index) == null) {
                     return 0;
                 }
-                node = node.nexts_[index];
+                node = node.nexts_.get(index);
             }
             return node.end_;
         }
 
-        public int prefixNumber(String prefix) {
-            if (prefix == null) {
+        public int prefixNumber(String pre) {
+            if (pre == null) {
                 return 0;
             }
 
-            char[] chs = prefix.toCharArray();
+            char[] chs = pre.toCharArray();
             TrieNode node = root_node_;
             for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
-                if (node.nexts_[index] == null) {
+                int index = (int)chs[i];
+                if (node.nexts_.get(index) == null) {
                     return 0;
                 }
-                node = node.nexts_[index];
+                node = node.nexts_.get(index);
             }
-
             return node.pass_;
         }
     }
@@ -158,7 +142,6 @@ public class Code01_TrieTree {
 
             return count;
         }
-
     }
 
     public static String generateRandomString(int str_len) {
@@ -182,8 +165,8 @@ public class Code01_TrieTree {
     public static void main(String[] args) {
         System.out.println("test start...");
         int arr_len = 30;
-        int str_len = 10;
-        int test_times = 100000;
+        int str_len = 20;
+        int test_times = 10000;
         boolean success = true;
         for (int i = 0; i < test_times; i++) {
             String[] arr = generateRandomStringArray(arr_len, str_len);
@@ -201,7 +184,6 @@ public class Code01_TrieTree {
                     int ans1 = trie_tree.search(arr[j]);
                     int ans2 = test_tree.search(arr[j]);
                     if (ans1 != ans2) {
-                        System.out.println("--------------");
                         success = false;
                         break;
                     }
@@ -209,14 +191,6 @@ public class Code01_TrieTree {
                     int ans1 = trie_tree.prefixNumber(arr[j]);
                     int ans2 = test_tree.prefixNumber(arr[j]);
                     if (ans1 != ans2) {
-                        System.out.println("+++++++++++++++");
-                        System.out.println(ans1);
-                        System.out.println(ans2);
-                        System.out.println(arr[j]);
-                        for (String str: arr) {
-                            System.out.print(str + " ");
-                        }
-                        System.out.println();
                         success = false;
                         break;
                     }
