@@ -1,10 +1,11 @@
 package tixi.daily09;
 
 import java.util.ArrayList;
+
 /*
-    输入链表头节点，奇数长度返回中点，偶数长度返回上中点
+    输入链表头节点，奇数长度返回中点前一个，偶数长度返回上中点前一个
  */
-public class Code01_MidOrUpNode {
+public class Code03_MidUpPreNode {
     public static class Node {
         public int value;
         public Node next;
@@ -15,26 +16,26 @@ public class Code01_MidOrUpNode {
         }
     }
 
-    public static Node getUpMidNode(Node head) {
+    public static Node getUpPreMidNode(Node head) {
         if (head == null || head.next == null || head.next.next == null) {
-            return head;
+            return null;
         }
 
-        Node slow = head.next;
+        Node slow = head;
         Node fast = head.next.next;
         while (fast.next != null && fast.next.next != null) {
-            fast = fast.next.next;
             slow = slow.next;
+            fast = fast.next.next;
         }
+
         return slow;
     }
-
 
     /*
         for test
      */
     public static Node test(Node head) {
-        if (head == null) {
+        if (head == null || head.next == null || head.next.next == null) {
             return null;
         }
 
@@ -45,10 +46,7 @@ public class Code01_MidOrUpNode {
             cur = cur.next;
         }
 
-        if (array_list.size() < 3) {
-            return head;
-        }
-        return array_list.get((array_list.size() - 1)/2);
+        return array_list.get((array_list.size() - 3) / 2);
     }
 
     public static Node generateRandomLinkedList(int max_val, int max_len) {
@@ -78,11 +76,15 @@ public class Code01_MidOrUpNode {
         }
 
         Node cur = head;
+        int link_len = 0;
         while (cur != null) {
+            ++link_len;
             System.out.print(cur.value + "->");
             cur = cur.next;
         }
         System.out.println("null");
+
+        System.out.println("link_list size = " + link_len);
     }
 
     public static boolean isNodeEqual(Node node1, Node node2) {
@@ -109,13 +111,14 @@ public class Code01_MidOrUpNode {
         System.out.println("test start...");
         boolean success = true;
         int max_val = 100;
-        int max_len = 20;
-        int test_times = 1000000;
+        int max_len = 10;
+        int test_times = 10;
 
         for (int i = 0; i < test_times; i++) {
             Node head = generateRandomLinkedList(max_val, max_len);
-            Node node1 = getUpMidNode(head);
+            Node node1 = getUpPreMidNode(head);
             Node node2 = test(head);
+
             if (!isNodeEqual(node1, node2)) {
                 printRandomLinkedList(head);
                 System.out.println(node1.value);
