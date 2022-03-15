@@ -89,7 +89,7 @@ public class Code_0070_ClimbingStairs {
     public static void main(String[] args) {
         System.out.println("test start....");
         boolean success = true;
-        int test_times = 1000;
+        int test_times = 10000;
         int max = 40;
         for (int i = 0; i < test_times; i++) {
             int n = (int)(Math.random() * max);

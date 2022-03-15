@@ -10,11 +10,10 @@ public class Code_0191_NumberOfOneBits {
         int bits = 0;
         int right_one = 0;
         while (n != 0) {
-            bits++;
-            right_one = n & (-n);
+            ++bits;
+            right_one = n &(-n);
             n ^= right_one;
         }
-
         return bits;
     }
 }

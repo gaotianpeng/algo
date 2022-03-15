@@ -1,6 +1,6 @@
 package leetcode;
 
-public class Code0104_MaximumDepthOfBinaryTree {
+public class Code_0104_MaximumDepthOfBinaryTree {
     public class TreeNode {
         int val;
         TreeNode left;

@@ -19,13 +19,13 @@ import java.util.List;
  */
 public class Code_0078_Subsets {
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
+        List<List<Integer>> ans = new LinkedList<>();
         LinkedList<Integer> path = new LinkedList<>();
         process(nums, 0, path, ans);
         return ans;
     }
 
-    public static void process(int nums[], int index, LinkedList<Integer> path, List<List<Integer>> ans) {
+    public static void process(int[] nums, int index, LinkedList<Integer> path, List<List<Integer>> ans) {
         if (index == nums.length) {
             ans.add(copy(path));
         } else {
@@ -36,8 +36,8 @@ public class Code_0078_Subsets {
         }
     }
 
-    public static ArrayList<Integer> copy(LinkedList<Integer> path) {
-        ArrayList<Integer> ans = new ArrayList<>();
+    public static LinkedList<Integer> copy(LinkedList<Integer> path) {
+        LinkedList<Integer> ans = new LinkedList<>();
         for (Integer num: path) {
             ans.add(num);
         }

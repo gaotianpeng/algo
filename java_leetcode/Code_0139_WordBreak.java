@@ -52,7 +52,7 @@ public class Code_0139_WordBreak {
                     ways += dp[end + 1];
                 }
             }
-            dp[idnex] = ways;
+            dp[index] = ways;
         }
 
         return dp[0] != 0;

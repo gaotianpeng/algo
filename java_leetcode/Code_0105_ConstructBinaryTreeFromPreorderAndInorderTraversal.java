@@ -2,7 +2,7 @@ package leetcode;
 
 import java.util.HashMap;
 
-public class Cod_0105_ConstructBinaryTreeFromPreorderAndInorderTraversal {
+public class Code_0105_ConstructBinaryTreeFromPreorderAndInorderTraversal {
     public class TreeNode {
         int val;
         TreeNode left;

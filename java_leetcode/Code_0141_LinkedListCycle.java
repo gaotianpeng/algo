@@ -17,14 +17,13 @@ public class Code_0141_LinkedListCycle {
             return false;
         }
 
-        HashSet<ListNode> set = new HashSet<ListNode>();
-        ListNode cur = head;
-        while (cur != null) {
-            if (set.contains(cur)) {
+        HashSet<ListNode> set = new HashSet<>();
+        while (head != null) {
+            if (set.contains(head)) {
                 return true;
             }
-            set.add(cur);
-            cur = cur.next;
+            set.add(head);
+            head = head.next;
         }
 
         return false;
@@ -41,10 +40,9 @@ public class Code_0141_LinkedListCycle {
             if (fast.next == null || fast.next.next == null) {
                 return false;
             }
-            fast = fast.next.next;
             slow = slow.next;
+            fast = fast.next.next;
         }
-
 
         return true;
     }
