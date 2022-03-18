@@ -42,12 +42,13 @@ public class Code03_EncodeNaryTreeToBinaryTree {
             if (root == null) {
                 return null;
             }
-            TreeNode head = new TreeNode(root.val);
-            head.left = en(root.children);
-            return head;
+
+            TreeNode tree_root = new TreeNode(root.val);
+            tree_root.left = en(root.children);
+            return tree_root;
         }
 
-        private TreeNode en(List<Node> children) {
+        private static TreeNode en(List<Node> children) {
             TreeNode head = null;
             TreeNode cur = null;
             for (Node child: children) {
@@ -68,14 +69,15 @@ public class Code03_EncodeNaryTreeToBinaryTree {
             if (root == null) {
                 return null;
             }
+
             return new Node(root.val, de(root.left));
         }
 
-        public List<Node> de(TreeNode root) {
+        private static List<Node> de(TreeNode root) {
             List<Node> children = new ArrayList<>();
             while (root != null) {
-                Node cur = new Node(root.val, de(root.left));
-                children.add(cur);
+                Node node = new Node(root.val, de(root.left));
+                children.add(node);
                 root = root.right;
             }
             return children;

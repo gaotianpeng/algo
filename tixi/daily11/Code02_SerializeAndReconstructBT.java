@@ -1,5 +1,4 @@
 package tixi.daily11;
-import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 import java.util.Queue;
