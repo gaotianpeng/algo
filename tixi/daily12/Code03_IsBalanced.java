@@ -1,8 +1,5 @@
 package tixi.daily12;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Code03_IsBalanced {
     public static class Node {
         public Node left;
@@ -15,14 +12,12 @@ public class Code03_IsBalanced {
     }
 
     public static class Info {
-        public int max;
-        public int min;
-        public boolean is_bst;
+        public boolean is_balanced;
+        public int height;
 
-        public Info(boolean bst, int max, int min) {
-            is_bst = bst;
-            this.max = max;
-            this.min = min;
+        public Info(boolean balanced, int h) {
+            is_balanced = balanced;
+            height = h;
         }
     }
 
@@ -31,76 +26,52 @@ public class Code03_IsBalanced {
             return true;
         }
 
-        return process(root).is_bst;
+        return process(root).is_balanced;
     }
 
     public static Info process(Node node) {
         if (node == null) {
-            return null;
+            return new Info(true, 0);
         }
 
         Info left_info = process(node.left);
         Info right_info = process(node.right);
-
-        int max = node.value;
-        if (left_info != null) {
-            max = Math.max(max, left_info.max);
+        boolean is_balanced = true;
+        int height = Math.max(left_info.height, right_info.height) + 1;
+        if (!left_info.is_balanced) {
+            is_balanced = false;
         }
-        if (right_info != null) {
-            max = Math.max(max, right_info.max);
+        if (!right_info.is_balanced) {
+            is_balanced = false;
         }
-
-        int min = node.value;
-        if (left_info != null) {
-            min = Math.min(min, left_info.min);
-        }
-        if (right_info != null) {
-            min = Math.min(min, right_info.min);
+        if (Math.abs(left_info.height - right_info.height) > 1) {
+            is_balanced = false;
         }
 
-        boolean is_bst = true;
-        if (left_info != null && !left_info.is_bst) {
-            is_bst = false;
-        }
-        if (right_info != null && !right_info.is_bst) {
-            is_bst = false;
-        }
-        if (left_info != null && left_info.max >= node.value) {
-            is_bst = false;
-        }
-        if (right_info != null && right_info.min <= node.value) {
-            is_bst = false;
-        }
-
-        return new Info(is_bst, max, min);
+        return new Info(is_balanced, height);
     }
 
     /*
         for test
      */
     public static boolean test(Node root) {
-        if (root == null) {
-            return true;
-        }
-
-        List<Node> in_list = new LinkedList<Node>();
-        inorder(root, in_list);
-        for (int i = 1; i < in_list.size(); i++) {
-            if (in_list.get(i).value <= in_list.get(i-1).value) {
-                return false;
-            }
-        }
-        return true;
+        boolean[] ans = new boolean[1];
+        ans[0] = true;
+        process1(root, ans);
+        return ans[0];
     }
 
-    public static void inorder(Node root, List<Node> ans) {
-        if (root == null) {
-            return;
+    private static int process1(Node head, boolean[] ans) {
+        if(!ans[0] || head == null) {
+            return -1;
         }
 
-        inorder(root.left, ans);
-        ans.add(root);
-        inorder(root.right, ans);
+        int left_height = process1(head.left, ans);
+        int right_height = process1(head.right, ans);
+        if (Math.abs(left_height - right_height) > 1) {
+            ans[0] = false;
+        }
+        return Math.max(left_height, right_height) + 1;
     }
 
     public static Node generateRandomBT(int max_level, int max_val) {
@@ -125,7 +96,7 @@ public class Code03_IsBalanced {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 100000;
+        int test_times = 1000000;
         int max_level = 20;
         int max_val = 30;
 
