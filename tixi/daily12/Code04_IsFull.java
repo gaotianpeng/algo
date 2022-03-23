@@ -22,11 +22,24 @@ public class Code04_IsFull {
         if (head == null) {
             return true;
         }
+
         Info1 all = process1(head);
         return (1 << all.height) - 1 == all.nodes;
     }
 
-    public static class Info1 {
+    private static Info1 process1(Node head) {
+        if (head == null) {
+            return new Info1(0, 0);
+        }
+
+        Info1 left_info = process1(head.left);
+        Info1 right_info = process1(head.right);
+        int height = Math.max(left_info.height, right_info.height) + 1;
+        int nodes = left_info.nodes + 1 + right_info.nodes;
+        return new Info1(height, nodes);
+    }
+
+    private static class Info1 {
         public int height;
         public int nodes;
 
@@ -34,17 +47,6 @@ public class Code04_IsFull {
             height = h;
             nodes = n;
         }
-    }
-
-    public static Info1 process1(Node head) {
-        if (head == null) {
-            return new Info1(0, 0);
-        }
-        Info1 leftInfo = process1(head.left);
-        Info1 rightInfo = process1(head.right);
-        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
-        int nodes = leftInfo.nodes + rightInfo.nodes + 1;
-        return new Info1(height, nodes);
     }
 
     /*
@@ -57,28 +59,30 @@ public class Code04_IsFull {
         if (head == null) {
             return true;
         }
-        return process2(head).isFull;
+
+        return process2(head).is_full;
     }
 
-    public static class Info2 {
-        public boolean isFull;
+    private static class Info2 {
         public int height;
+        public boolean is_full;
 
-        public Info2(boolean f, int h) {
-            isFull = f;
+        public Info2(int h, boolean f) {
             height = h;
+            is_full = f;
         }
     }
 
-    public static Info2 process2(Node h) {
-        if (h == null) {
-            return new Info2(true, 0);
+    private static Info2 process2(Node head) {
+        if (head == null) {
+            return new Info2(0, true);
         }
-        Info2 leftInfo = process2(h.left);
-        Info2 rightInfo = process2(h.right);
-        boolean isFull = leftInfo.isFull && rightInfo.isFull && leftInfo.height == rightInfo.height;
-        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
-        return new Info2(isFull, height);
+
+        Info2 left_info = process2(head.left);
+        Info2 right_info = process2(head.right);
+        boolean is_full = left_info.is_full && right_info.is_full && left_info.height == right_info.height;
+        int height = Math.max(left_info.height, right_info.height) + 1;
+        return new Info2(height, is_full);
     }
 
     /*
