@@ -18,12 +18,12 @@ public class Code01_Light {
 
         char[] str = road.toCharArray();
         int i = 0;
-        int light = 0;
+        int lights = 0;
         while (i < str.length) {
             if (str[i] == 'X') {
                 i++;
             } else {
-                light++;
+                lights++;
                 if (i + 1 == str.length) {
                     break;
                 } else {
@@ -35,8 +35,7 @@ public class Code01_Light {
                 }
             }
         }
-
-        return light;
+        return lights;
     }
 
     /*
@@ -59,7 +58,8 @@ public class Code01_Light {
         if (index == str.length) {
             for (int i = 0; i < str.length; i++) {
                 if (str[i] == '.') {
-                    if (!lights.contains(i-1) && !lights.contains(i) && !lights.contains(i+1)) {
+                    if (!lights.contains(i-1) && !lights.contains(i)
+                            && !lights.contains(i+1)) {
                         return Integer.MAX_VALUE;
                     }
                 }

@@ -1,5 +1,7 @@
 package tixi.daily14;
 
+import java.util.PriorityQueue;
+
 /*
     一块金条切成两半，是需要花费和长度数值一样的铜板的。
     比如长度为20的金条，不管怎么切，都要花费20个铜板。 一群人想整分整块金条，怎么分最省铜板?
@@ -11,4 +13,92 @@ package tixi.daily14;
  */
 public class Code02_LessMoneySplitGold {
 
+    public static int lessMoney(int[] arr) {
+        if (arr == null || arr.length == 1) {
+            return 0;
+        }
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int i = 0; i < arr.length; i++) {
+            pq.add(arr[i]);
+        }
+        int sum = 0;
+        int cur = 0;
+        while (pq.size() > 1) {
+            cur = pq.poll()  + pq.poll();
+            sum += cur;
+            pq.add(cur);
+        }
+
+        return sum;
+    }
+
+    /*
+        for test
+     */
+    public static int test(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        return process(arr, 0);
+    }
+
+    private static int process(int[] arr, int pre) {
+        if (arr.length == 1) {
+            return pre;
+        }
+
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                ans = Math.min(ans, process(copyAndMergeTwo(arr, i, j), pre + arr[i] + arr[j]));
+            }
+        }
+
+        return ans;
+    }
+
+    private static int[] copyAndMergeTwo(int[] arr, int i, int j) {
+        int[] ans = new int[arr.length - 1];
+        int ansi = 0;
+        for (int arri = 0; arri < arr.length; arri++) {
+            if (arri != i && arri != j) {
+                ans[ansi++] = arr[arri];
+            }
+        }
+        ans[ansi] = arr[i] + arr[j];
+        return ans;
+    }
+
+
+    /*
+        等待合并的数都在arr里
+        pre之前的合并行为产生了多少总代价
+     */
+    public static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) (Math.random() * (maxValue + 1));
+        }
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int test_times = 10000;
+        int max_size = 6;
+        int max_value = 1000;
+        boolean success = true;
+        for (int i = 0; i < test_times; i++) {
+            int[] arr = generateRandomArray(max_size, max_value);
+            if (lessMoney(arr) != test(arr)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success ? "success" : "failed");
+        System.out.println("test end");
+    }
 }
