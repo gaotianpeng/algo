@@ -27,8 +27,8 @@ public class Code02_NumberOfIslands {
         }
 
         int ans = 0;
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
                 if (matrix[i][j] == '1') {
                     ans++;
                     infect(matrix, i, j);
@@ -39,16 +39,16 @@ public class Code02_NumberOfIslands {
         return ans;
     }
 
-    // 从(i, j) 出发, 把所有连成一片的'1'字符变成'0'
     private static void infect(char[][] matrix, int i, int j) {
         if (i < 0 || i == matrix.length || j < 0 || j == matrix[0].length
-            || matrix[i][j] != '1') {
+                || matrix[i][j] != '1') {
             return;
         }
-        matrix[i][j] = '0';
+
+        matrix[i][j] = 0;
         infect(matrix, i - 1, j);
-        infect(matrix, i + 1, j);
         infect(matrix, i, j - 1);
+        infect(matrix, i + 1, j);
         infect(matrix, i, j + 1);
     }
 
@@ -56,40 +56,40 @@ public class Code02_NumberOfIslands {
         if (matrix == null) {
             return 0;
         }
-
-        int row = matrix.length;
-        int col = matrix[0].length;
-        Dot[][] dots = new Dot[row][col];
-        List<Dot> dot_list = new ArrayList<>();
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        int ans = 0;
+        Dot[][] dots = new Dot[matrix.length][matrix[0].length];
+        List<Dot> list = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
                 if (matrix[i][j] == '1') {
                     dots[i][j] = new Dot();
-                    dot_list.add(dots[i][j]);
+                    list.add(dots[i][j]);
                 }
             }
         }
 
-        UnionFind<Dot> union_find = new UnionFind<>(dot_list);
-        for (int j = 1; j < col; j++) {
+        UnionFind<Dot> union_find = new UnionFind(list);
+        for (int i = 1; i < matrix.length; i++) {
+            if (matrix[i-1][0] == '1' && matrix[i][0] == '1') {
+                union_find.union(dots[i-1][0], dots[i][0]);
+            }
+        }
+
+        for (int j = 1; j < matrix[0].length; j++) {
             if (matrix[0][j-1] == '1' && matrix[0][j] == '1') {
                 union_find.union(dots[0][j-1], dots[0][j]);
             }
         }
 
-        for (int i = 1; i < row; i++) {
-            if (matrix[i - 1][0] == '1' && matrix[i][0] == '1') {
-                union_find.union(dots[i-1][0], dots[i][0]);
-            }
-        }
-        for (int i = 1; i < row; i++) {
-            for (int j = 1; j < col; j++) {
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
                 if (matrix[i][j] == '1') {
                     if (matrix[i][j-1] == '1') {
-                        union_find.union(dots[i][j-1], dots[i][j]);
+                        union_find.union(dots[i][j], dots[i][j-1]);
                     }
-                    if (matrix[i - 1][j] == '1') {
-                        union_find.union(dots[i - 1][j], dots[i][j]);
+
+                    if (matrix[i-1][j] == '1') {
+                        union_find.union(dots[i][j], dots[i-1][j]);
                     }
                 }
             }
@@ -110,50 +110,53 @@ public class Code02_NumberOfIslands {
     }
 
     private static class UnionFind<V> {
-        public HashMap<V, Node<V>> nodes;
-        public HashMap<Node<V>, Node<V>> parents;
-        public HashMap<Node<V>, Integer> sizeMap;
+        private HashMap<V, Node<V>> nodes;
+        private HashMap<Node<V>, Node<V>> parents;
+        private HashMap<Node<V>, Integer> set_size;
 
         public UnionFind(List<V> values) {
             nodes = new HashMap<>();
             parents = new HashMap<>();
-            sizeMap = new HashMap<>();
-            for (V cur : values) {
-                Node<V> node = new Node<>(cur);
-                nodes.put(cur, node);
+            set_size = new HashMap<>();
+            for (V v: values) {
+                Node<V> node = new Node<>(v);
+                nodes.put(v, node);
                 parents.put(node, node);
-                sizeMap.put(node, 1);
+                set_size.put(node, 1);
             }
-        }
-
-        public Node<V> findFather(Node<V> cur) {
-            Stack<Node<V>> path = new Stack<>();
-            while (cur != parents.get(cur)) {
-                path.push(cur);
-                cur = parents.get(cur);
-            }
-            while (!path.isEmpty()) {
-                parents.put(path.pop(), cur);
-            }
-            return cur;
         }
 
         public void union(V a, V b) {
-            Node<V> aHead = findFather(nodes.get(a));
-            Node<V> bHead = findFather(nodes.get(b));
-            if (aHead != bHead) {
-                int aSetSize = sizeMap.get(aHead);
-                int bSetSize = sizeMap.get(bHead);
-                Node<V> big = aSetSize >= bSetSize ? aHead : bHead;
-                Node<V> small = big == aHead ? bHead : aHead;
+            Node<V> pa = findFather(nodes.get(a));
+            Node<V> pb = findFather(nodes.get(b));
+
+            if (pa != pb) {
+                int size_a = set_size.get(pa);
+                int size_b = set_size.get(pb);
+                Node<V> big = size_a > size_b ? pa : pb;
+                Node<V> small = big == pa ? pb : pa;
                 parents.put(small, big);
-                sizeMap.put(big, aSetSize + bSetSize);
-                sizeMap.remove(small);
+                set_size.put(big, size_a + size_b);
+                set_size.remove(small);
             }
+         }
+
+        private Node<V> findFather(Node<V> v) {
+            Stack<Node<V>> stack = new Stack<>();
+            while (v != parents.get(v)) {
+                stack.push(v);
+                v = parents.get(v);
+            }
+
+            while (!stack.isEmpty()) {
+                parents.put(stack.pop(), v);
+            }
+
+            return v;
         }
 
         public int sets() {
-            return sizeMap.size();
+            return set_size.size();
         }
     }
 

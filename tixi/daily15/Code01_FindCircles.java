@@ -21,29 +21,44 @@ public class Code01_FindCircles {
                 }
             }
         }
-
         return union_find.sets();
     }
 
     public static class UnionFind {
-        // parent[i] = k: i的父亲是k
-        private int[] parents;
-        // size[i] = k ： 如果i是代表节点，size[i]才有意义，否则无意义
-        // i所在的集合大小是多少
         private int[] size;
         private int[] help;
-        // 一共有多少个集合
+        private int[] parents;
         private int sets;
 
         public UnionFind(int n) {
-            parents = new int[n];
             size = new int[n];
             help = new int[n];
+            parents = new int[n];
             sets = n;
+
             for (int i = 0; i < n; i++) {
                 parents[i] = i;
                 size[i] = 1;
             }
+        }
+
+        public void union(int i, int j) {
+            int f1 = find(i);
+            int f2 = find(j);
+            if (f1 != f2) {
+                if (size[f1] > size[f2]) {
+                    size[f1] += size[f2];
+                    parents[f2] = f1;
+                } else {
+                    size[f2] += size[f1];
+                    parents[f1] = f2;
+                }
+                sets--;
+            }
+        }
+
+        public int sets() {
+            return sets;
         }
 
         private int find(int i) {
@@ -58,25 +73,6 @@ public class Code01_FindCircles {
             }
 
             return i;
-        }
-
-        public void union(int i, int j) {
-            int f1 = find(i);
-            int f2 = find(j);
-            if (f1 != f2) {
-                if (size[f1] >= size[f2]) {
-                    size[f1] += size[f2];
-                    parents[f2] = f1;
-                } else {
-                    size[f2] += size[f1];
-                    parents[f1] = f2;
-                }
-                sets--;
-            }
-        }
-
-        public int sets() {
-            return sets;
         }
     }
 }
