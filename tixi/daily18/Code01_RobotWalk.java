@@ -68,6 +68,25 @@ public class Code01_RobotWalk {
         return ans;
     }
 
+    public static int ways3(int n, int start, int aim, int k) {
+        if (n < 2 ||  start < 1 || start > n || aim < 1 || aim > n || k < 1) {
+            return -1;
+        }
+
+        int[][] dp = new int[n+1][k+1];
+        dp[aim][0] = 1;
+        for (int rest = 1; rest <= k; rest++) {
+            dp[1][rest] = dp[2][rest-1];
+            for (int cur = 2; cur < n; cur++) {
+                dp[cur][rest] = dp[cur - 1][rest - 1] + dp[cur + 1][rest - 1];
+            }
+
+            dp[n][rest] = dp[n - 1][rest - 1];
+        }
+
+        return dp[start][k];
+    }
+
     /*
         for test
      */
@@ -83,6 +102,10 @@ public class Code01_RobotWalk {
             int k = (int)(Math.random() * (max_val + 1));
             int start = (int)(Math.random() * (max_val + 1));
             if (ways1(n, start, aim, k) != ways2(n, start, aim, k)) {
+                success = false;
+                break;
+            }
+            if (ways1(n, start, aim, k) != ways3(n, start, aim, k)) {
                 success = false;
                 break;
             }
