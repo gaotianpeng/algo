@@ -1,4 +1,7 @@
 package tixi.daily19;
+
+import java.util.HashMap;
+
 /*
     leetcode 691: 贴纸拼图
         给定一个字符串str，给定一个字符串类型的数组arr，出现的字符都是小写英文
@@ -33,7 +36,6 @@ public class Code03_StickersToSpellWord {
 
         return min + (min == Integer.MAX_VALUE ? 0 : 1);
     }
-
     private static String minus(String s1, String s2) {
         char[] str1 = s1.toCharArray();
         char[] str2 = s2.toCharArray();
@@ -57,4 +59,52 @@ public class Code03_StickersToSpellWord {
 
         return builder.toString();
     }
+
+    public static int minStickers2(String[] stickers, String target) {
+        int N = stickers.length;
+        int[][] counts = new int[N][26];
+        for (int i = 0; i < N; i++) {
+            char[] str = stickers[i].toCharArray();
+            for (char cha : str) {
+                counts[i][cha - 'a']++;
+            }
+        }
+        HashMap<String, Integer> dp = new HashMap<>();
+        dp.put("", 0);
+        int ans = process2(counts, target, dp);
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    public static int process2(int[][] stickers, String t, HashMap<String, Integer> dp) {
+        if (dp.containsKey(t)) {
+            return dp.get(t);
+        }
+        char[] target = t.toCharArray();
+        int[] tcounts = new int[26];
+        for (char cha : target) {
+            tcounts[cha - 'a']++;
+        }
+        int N = stickers.length;
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < N; i++) {
+            int[] sticker = stickers[i];
+            if (sticker[target[0] - 'a'] > 0) {
+                StringBuilder builder = new StringBuilder();
+                for (int j = 0; j < 26; j++) {
+                    if (tcounts[j] > 0) {
+                        int nums = tcounts[j] - sticker[j];
+                        for (int k = 0; k < nums; k++) {
+                            builder.append((char) (j + 'a'));
+                        }
+                    }
+                }
+                String rest = builder.toString();
+                min = Math.min(min, process2(stickers, rest, dp));
+            }
+        }
+        int ans = min + (min == Integer.MAX_VALUE ? 0 : 1);
+        dp.put(t, ans);
+        return ans;
+    }
+
 }
