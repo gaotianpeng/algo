@@ -37,5 +37,27 @@ public class Code01_PalindromeSubsequence {
         return Math.max(Math.max(p1, p2), Math.max(p1, p2));
     }
 
+    public static int longestPalindromeSubseq2(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        char[] str = s.toCharArray();
+        int N = str.length;
+        int[][] dp = new int[N][N];
+        dp[N - 1][N - 1] = 1;
+        for (int i = 0; i < N - 1; i++) {
+            dp[i][i] = 1;
+            dp[i][i + 1] = str[i] == str[i + 1] ? 2 : 1;
+        }
+        for (int L = N - 3; L >= 0; L--) {
+            for (int R = L + 2; R < N; R++) {
+                dp[L][R] = Math.max(dp[L][R - 1], dp[L + 1][R]);
+                if (str[L] == str[R]) {
+                    dp[L][R] = Math.max(dp[L][R], 2 + dp[L + 1][R - 1]);
+                }
+            }
+        }
+        return dp[0][N - 1];
+    }
 
 }
