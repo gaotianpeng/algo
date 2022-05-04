@@ -53,7 +53,6 @@ public class Code01_MinPathSum {
 
         return dp[col - 1];
     }
-
     public static int[][] generateRandomMatrix(int rowSize, int colSize) {
         if (rowSize < 0 || colSize < 0) {
             return null;
