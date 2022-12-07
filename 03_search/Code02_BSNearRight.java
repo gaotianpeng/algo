@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Code03_BSNearRight {
+public class Code02_BSNearRight {
     /*
         在一个有序数组中，找<=某个数最右侧的位置
      */

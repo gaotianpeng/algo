@@ -46,7 +46,7 @@ public class Code02_PrintAllSubsequences {
 
     public static void process2(char[] str, int index, HashSet<String> set, String path) {
         if (index == str.length) {
-            set.add(path);ßßß
+            set.add(path);
             return;
         }
 

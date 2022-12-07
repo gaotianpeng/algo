@@ -10,7 +10,7 @@ package leetcode;
         输出：[1,2,4]
         解释：输入数组表示数字 123。
  */
-public class Code_0066_PlusOne {
+public class Code_0066_PlusOne1 {
     public int[] plusOne(int[] digits) {
         int n = digits.length;
         for (int i = n - 1; i >= 0; i--) {

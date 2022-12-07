@@ -1,7 +1,5 @@
 package tixi.daily08;
 
-import sun.text.normalizer.Trie;
-
 import java.util.HashMap;
 
 public class Code02_TrieTree2 {
