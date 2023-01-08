@@ -90,7 +90,7 @@ public class Code19_CountOfRangeSum {
         pre_sum_arr[1] = nums[0];
         // 计算前缀和
         for (int i = 1; i < nums.length; i++) {
-            pre_sum_arr[i+1] += pre_sum_arr[i] + nums[i];
+            pre_sum_arr[i+1] = pre_sum_arr[i] + nums[i];
         }
 
         for (int i = 0; i < nums.length; i++) {

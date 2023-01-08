@@ -86,7 +86,7 @@ public class Code01_CountOfRangeSum {
         pre_sum[0] = 0;
         pre_sum[1] = nums[0];
         for (int i = 1; i < n; i++) {
-            pre_sum[i+1] += pre_sum[i] + nums[i];
+            pre_sum[i+1] = pre_sum[i] + nums[i];
         }
 
         int ans = 0;
