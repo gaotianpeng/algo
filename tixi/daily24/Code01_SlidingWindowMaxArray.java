@@ -77,13 +77,45 @@ public class Code01_SlidingWindowMaxArray {
         }
     }
 
+    public static boolean isEqual(int[] arr1, int[] arr2) {
+        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
+            return false;
+        }
+
+        if (arr1 == null && arr2 == null) {
+            return true;
+        }
+
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < arr1.length; ++i) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     public static void main(String[] args) {
-        int [] arr = new int[] {4,3,5,4,3,3,6,7};
-        int [] ans = test(arr, 3);
-        int [] ans1 = getMaxWindow(arr, 3);
-        printArray(ans);
-        System.out.println();
-        printArray(ans1);
+        System.out.println("test starting...");
+        int test_times = 100000;
+        int max_num = 100;
+        int max_val = 50;
+        for (int i = 0; i < test_times; ++i) {
+            int[] arr = generateRandomArray(max_num, max_val);
+            int w = (int) (Math.random() * (arr.length + 1));
+            int[] ans1 = getMaxWindow(arr, w);
+            int[] ans2 = test(arr, w);
+            if (!isEqual(ans1, ans2)) {
+                System.out.println("test faield");
+                break;
+            }
+        }
+
+        System.out.println("test end");
     }
 }
