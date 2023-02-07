@@ -111,7 +111,7 @@ public class Code01_SlidingWindowMaxArray {
             int[] ans1 = getMaxWindow(arr, w);
             int[] ans2 = test(arr, w);
             if (!isEqual(ans1, ans2)) {
-                System.out.println("test faield");
+                System.out.println("test failed");
                 break;
             }
         }
