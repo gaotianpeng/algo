@@ -11,47 +11,53 @@ public class GasStation {
      */
     public static int canCompleteCircuit(int[] gas, int[] cost) {
         boolean[] good = goodArray(gas, cost);
-        for (int i = 0; i < gas.length; i++) {
+        for (int i = 0; i < good.length; ++i) {
             if (good[i]) {
                 return i;
             }
         }
+
         return -1;
     }
 
-    public static boolean[] goodArray(int[] g, int[] c) {
-        int N = g.length;
-        int M = N << 1;
-        int[] arr = new int[M];
-        for (int i = 0; i < N; i++) {
-            arr[i] = g[i] - c[i];
-            arr[i + N] = g[i] - c[i];
+    public static boolean[] goodArray(int[] gas, int[] cost) {
+        int n = gas.length;
+        int m = n << 1;
+        int[] arr = new int[m];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = gas[i] - cost[i];
+            arr[i+n] = gas[i] - cost[i];
         }
-        for (int i = 1; i < M; i++) {
-            arr[i] += arr[i - 1];
+        for (int i = 1; i < arr.length; ++i) {
+            arr[i] += arr[i-1];
         }
-        LinkedList<Integer> w = new LinkedList<>();
-        for (int i = 0; i < N; i++) {
-            while (!w.isEmpty() && arr[w.peekLast()] >= arr[i]) {
-                w.pollLast();
+
+        LinkedList<Integer> qmin = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            while(!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[i]) {
+                qmin.pollLast();
             }
-            w.addLast(i);
+            qmin.addLast(i);
         }
-        boolean[] ans = new boolean[N];
-        for (int offset = 0, i = 0, j = N; j < M; offset = arr[i++], j++) {
-            if (arr[w.peekFirst()] - offset >= 0) {
+
+        boolean[] ans = new boolean[n];
+        for (int offsest = 0, i = 0, j = n; j < m; offsest = arr[i++], j++) {
+            if (arr[qmin.peekFirst()] - offsest >= 0) {
                 ans[i] = true;
             }
-            if (w.peekFirst() == i) {
-                w.pollFirst();
+            if (qmin.peekFirst() == i) {
+                qmin.pollFirst();
             }
-            while (!w.isEmpty() && arr[w.peekLast()] >= arr[j]) {
-                w.pollLast();
+            while (!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[j]) {
+                qmin.pollLast();
             }
-            w.addLast(j);
+            qmin.addLast(j);
         }
+
         return ans;
     }
+
     public static int test(int[] gas, int[] cost) {
         // 无法过滤参数
         int n = gas.length;
