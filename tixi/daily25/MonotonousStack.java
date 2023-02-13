@@ -12,26 +12,26 @@ public class MonotonousStack {
             如果想得到arr中所有位置的两个信息，怎么能让得到信息的过程尽量快
      */
     public static int[][] getNearLessNoRepeat(int[] arr) {
-        int[][] res = new int[arr.length][2];
+        int[][] ans = new int[arr.length][2];
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < arr.length; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
                 int j = stack.pop();
-                int left_less_index = stack.isEmpty() ? -1: stack.peek();
-                res[j][0] = left_less_index;
-                res[j][1] = i;
+                int left_less_index = stack.isEmpty() ? -1 : stack.peek();
+                ans[j][0] = left_less_index;
+                ans[j][1] = i;
             }
             stack.push(i);
         }
 
         while (!stack.isEmpty()) {
             int j = stack.pop();
-            int left_less_index = stack.isEmpty() ? -1 : stack.peek();
-            res[j][0] = left_less_index;
-            res[j][1] = -1;
+            int left_less_index = stack.isEmpty() ? -1: stack.peek();
+            ans[j][0] = left_less_index;
+            ans[j][1] = -1;
         }
 
-        return res;
+        return ans;
     }
 
     public static boolean isEqual(int[][] res1, int[][] res2) {
