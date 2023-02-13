@@ -4,35 +4,33 @@ import java.util.Stack;
 
 public class Code_1856_MaximumSubarrayMinProduct {
     public int maxSumMinProduct1(int[] arr) {
-        public int maxSumMinProduct(int[] arr) {
-            int size = arr.length;
-            long max = Long.MIN_VALUE;
-            long[] sum = new long[size];
-            sum[0] = arr[0];
-            for (int i = 1; i < size; ++i) {
-                sum[i] = sum[i-1] + arr[i];
-            }
+        int size = arr.length;
+        long max = Long.MIN_VALUE;
+        long[] sum = new long[size];
+        sum[0] = arr[0];
+        for (int i = 1; i < size; ++i) {
+            sum[i] = sum[i-1] + arr[i];
+        }
 
-            int[] stack = new int[size];
-            int stack_size = 0;
-            for (int i = 0; i < size; ++i) {
-                while (stack_size != 0 && arr[stack[stack_size - 1]] >= arr[i]) {
-                    int j = stack[--stack_size];
-                    long val = (stack_size == 0 ? sum[i-1] : sum[i-1] - sum[stack[stack_size - 1]]) * arr[j];
-                    max = Math.max(max, val);
-                }
-
-                stack[stack_size++] = i;
-            }
-
-            while (stack_size > 0) {
+        int[] stack = new int[size];
+        int stack_size = 0;
+        for (int i = 0; i < size; ++i) {
+            while (stack_size != 0 && arr[stack[stack_size - 1]] >= arr[i]) {
                 int j = stack[--stack_size];
-                long val = (stack_size == 0 ? sum[size - 1] : sum[size - 1] - sum[stack[stack_size-1]]) * arr[j];
+                long val = (stack_size == 0 ? sum[i-1] : sum[i-1] - sum[stack[stack_size - 1]]) * arr[j];
                 max = Math.max(max, val);
             }
 
-            return (int)(max % 1000000007);
+            stack[stack_size++] = i;
         }
+
+        while (stack_size > 0) {
+            int j = stack[--stack_size];
+            long val = (stack_size == 0 ? sum[size - 1] : sum[size - 1] - sum[stack[stack_size-1]]) * arr[j];
+            max = Math.max(max, val);
+        }
+
+        return (int)(max % 1000000007);
     }
 
     public int maxSumMinProduct(int[] arr) {
