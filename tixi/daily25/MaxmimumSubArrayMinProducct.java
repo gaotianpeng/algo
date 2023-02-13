@@ -53,7 +53,7 @@ public class MaxmimumSubArrayMinProducct {
             }
         }
 
-        return 0;
+        return max;
     }
 
     public static int[] gerenareRondomArray() {
