@@ -16,25 +16,30 @@ public class MaxmimumSubArrayMinProducct {
         那么所有子数组中，这个值最大是多少
      */
     public static int maxSumMinProduct(int[] arr) {
-        int size = arr.length;
-        int[] sums = new int[size];
-        sums[0] = arr[0];
-        for (int i = 1; i < size; i++) {
-            sums[i] = sums[i - 1] + arr[i];
+        int n = arr.length;
+        int[] sum = new int[n];
+        sum[0] = arr[0];
+        for (int i = 1; i < n; ++i) {
+            sum[i] = sum[i-1] + arr[i];
         }
+
         int max = Integer.MIN_VALUE;
-        Stack<Integer> stack = new Stack<Integer>();
-        for (int i = 0; i < size; i++) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
                 int j = stack.pop();
-                max = Math.max(max, (stack.isEmpty() ? sums[i - 1] : (sums[i - 1] - sums[stack.peek()])) * arr[j]);
+                int val = (stack.isEmpty() ? sum[i-1] :(sum[i-1] - sum[stack.peek()])) * arr[j];
+                max = Math.max(max, val);
             }
             stack.push(i);
         }
+
         while (!stack.isEmpty()) {
             int j = stack.pop();
-            max = Math.max(max, (stack.isEmpty() ? sums[size - 1] : (sums[size - 1] - sums[stack.peek()])) * arr[j]);
+            int val = (stack.isEmpty() ? sum[n - 1] : (sum[n - 1] - sum[stack.peek()])) * arr[j];
+            max = Math.max(max, val);
         }
+
         return max;
     }
 
@@ -42,15 +47,14 @@ public class MaxmimumSubArrayMinProducct {
         int n = arr.length;
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < n; ++i) {
-            for (int j = i; j < n; j++) {
+            for (int j = i; j < n; ++j) {
+                int min_num = Integer.MAX_VALUE;
                 int sum = 0;
-                int min_val = Integer.MAX_VALUE;
-                for (int k = i; k <= j; k++) {
+                for (int k = i; k <= j; ++k) {
                     sum += arr[k];
-                    min_val = Math.min(min_val, arr[k]);
+                    min_num = Math.min(min_num, arr[k]);
                 }
-
-                max = Math.max(max, min_val * sum);
+                max = Math.max(max, sum * min_num);
             }
         }
 
