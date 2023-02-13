@@ -38,18 +38,19 @@ public class MaxmimumSubArrayMinProducct {
         return max;
     }
 
-    public static int test(int[] nums) {
-        int n = nums.length;
-        int max = Integer.MAX_VALUE;
+    public static int test(int[] arr) {
+        int n = arr.length;
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < n; ++i) {
-            for (int j = i; j < n; ++j) {
-                int min_num = Integer.MAX_VALUE;
+            for (int j = i; j < n; j++) {
                 int sum = 0;
+                int min_val = Integer.MAX_VALUE;
                 for (int k = i; k <= j; k++) {
-                    sum += nums[k];
-                    min_num = Math.min(min_num, nums[i]);
+                    sum += arr[k];
+                    min_val = Math.min(min_val, arr[k]);
                 }
-                max = Math.max(max, min_num * sum);
+
+                max = Math.max(max, min_val * sum);
             }
         }
 
