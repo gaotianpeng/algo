@@ -1,7 +1,10 @@
 package tixi.daily25;
 
+import java.sql.Array;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Stack;
+import java.util.ArrayList;
 
 public class MonotonousStack {
     /*
@@ -12,9 +15,10 @@ public class MonotonousStack {
             如果想得到arr中所有位置的两个信息，怎么能让得到信息的过程尽量快
      */
     public static int[][] getNearLessNoRepeat(int[] arr) {
-        int[][] ans = new int[arr.length][2];
+        int n = arr.length;
+        int[][] ans = new int[n][2];
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < arr.length; ++i) {
+        for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
                 int j = stack.pop();
                 int left_less_index = stack.isEmpty() ? -1 : stack.peek();
@@ -26,7 +30,7 @@ public class MonotonousStack {
 
         while (!stack.isEmpty()) {
             int j = stack.pop();
-            int left_less_index = stack.isEmpty() ? -1: stack.peek();
+            int left_less_index = stack.isEmpty() ? -1 : stack.peek();
             ans[j][0] = left_less_index;
             ans[j][1] = -1;
         }
@@ -34,6 +38,42 @@ public class MonotonousStack {
         return ans;
     }
 
+    public static int[][] getNearLesss(int[] arr) {
+        int n = arr.length;
+        int[][] ans = new int[n][2];
+        Stack<List<Integer>> stack = new Stack<>();
+        for (int i = 0; i < n; ++i) {
+            while (!stack.isEmpty() && arr[stack.peek().get(0)] > arr[i]) {
+                List<Integer> pop_list = stack.pop();
+                int left_less_index = stack.isEmpty() ? -1:
+                        stack.peek().get(stack.peek().size() - 1);
+                for (Integer popi: pop_list) {
+                    ans[popi][0] = left_less_index;
+                    ans[popi][1] = i;
+                }
+            }
+
+            if (!stack.isEmpty() && arr[stack.peek().get(0)] == arr[i]) {
+                stack.peek().add(i);
+            } else {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(i);
+                stack.push(list);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            List<Integer> pop_ls = stack.pop();
+            int left_less_index = stack.isEmpty() ? -1:
+                    stack.peek().get(stack.peek().size() - 1);
+            for (Integer popi: pop_ls) {
+                ans[popi][0] = left_less_index;
+                ans[popi][1] = -1;
+            }
+        }
+
+        return ans;
+    }
     public static boolean isEqual(int[][] res1, int[][] res2) {
         if (res1.length != res2.length) {
             return false;
@@ -79,36 +119,40 @@ public class MonotonousStack {
     }
 
     public static int[][] test(int[] arr) {
-        int[][] res = new int[arr.length][2];
-        for (int i = 0; i < arr.length; ++i) {
+        int n = arr.length;
+        int[][] ans = new int[n][2];
+        for (int i = 0; i < n; ++i) {
+            int cur = i-1;
             int left_less_index = -1;
             int right_less_index = -1;
-            int cur = i -1;
+
             while (cur >= 0) {
                 if (arr[cur] < arr[i]) {
                     left_less_index = cur;
                     break;
                 }
-                cur--;
+                --cur;
             }
 
             cur = i + 1;
-            while (cur < arr.length) {
+            while (cur < n) {
                 if (arr[cur] < arr[i]) {
                     right_less_index = cur;
                     break;
                 }
-                cur++;
+                ++cur;
             }
-            res[i][0] = left_less_index;
-            res[i][1] = right_less_index;
+
+            ans[i][0] = left_less_index;
+            ans[i][1] = right_less_index;
         }
-        return res;
+
+        return ans;
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 50000;
+        int test_times = 100000;
         int max_size = 50;
         int max_val = 100;
         for (int i = 0; i < test_times; ++i) {
@@ -116,8 +160,15 @@ public class MonotonousStack {
             int[][] ans1 = getNearLessNoRepeat(arr);
             int[][] ans2 = test(arr);
             if (!isEqual(ans1, ans2)) {
-                System.out.println("test failed");
+                System.out.println("no repeat test failed");
                 break;
+            }
+
+            int[] arr1 = getRandomArray(max_size, max_val);
+            int[][] ans3 = getNearLesss(arr1);
+            int[][] ans4 = test(arr1);
+            if (!isEqual(ans3, ans3)) {
+                System.out.println("have repeat test failed");
             }
         }
 
