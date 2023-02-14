@@ -39,7 +39,7 @@ public class CountSubmatricesWithAllOnes {
                     nums += (heights[cur] - down) * num(n);
                 }
             }
-            stack[++i] = i;
+            stack[++si] = i;
         }
 
         while (si != -1) {
