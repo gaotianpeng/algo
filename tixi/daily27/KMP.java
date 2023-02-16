@@ -13,14 +13,15 @@ public class KMP {
         int[] next = getNextArray(str2);
         while (x < str1.length && y < str2.length) {
             if (str1[x] == str2[y]) {
-                x++;
-                y++;
+                ++x;
+                ++y;
             } else if (next[y] == -1) {
-                x++;
+                ++x;
             } else {
                 y = next[y];
             }
         }
+
         return y == str2.length ? x - y : -1;
     }
 
@@ -54,7 +55,6 @@ public class KMP {
         }
         return String.valueOf(ans);
     }
-
 
     public static void main(String[] args) {
         System.out.println("test start...");

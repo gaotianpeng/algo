@@ -2,16 +2,24 @@ package tixi.daily01;
 
 import java.util.Arrays;
 
+/*
+    插入排序
+        想让arr[0~0]上有序，这个范围只有一个数，当然是有序的。
+        想让arr[0~1]上有序，所以从arr[1]开始往前看，如果arr[1]<arr[0]，就交换。否则什么也不做。
+        …
+        想让arr[0~i]上有序，所以从arr[i]开始往前看，arr[i]这个数不停向左移动，一直移动到左边的数字不再比自己大，停止移动。
+        最后一步，想让arr[0~N-1]上有序， arr[N-1]这个数不停向左移动，一直移动到左边的数字不再比自己大，停止移动
+ */
 public class Code03_InsertSort {
     public static void insertSorrt(int arr[]) {
-        if (arr == null || arr.length == 0) {
+        if (arr == null || arr.length < 2) {
             return;
         }
 
-        for (int i = 1; i < arr.length; i++) {
-            for (int j = i; j > 0; j--) {
-                if (arr[j] < arr[j-1]) {
-                    swap(arr, j, j-1);
+        for (int i = 1; i < arr.length; ++i) {
+            for (int j = i - 1; j >= 0; --j) {
+                if (arr[j+1] < arr[j]) {
+                    swap(arr, j+1, j);
                 }
             }
         }

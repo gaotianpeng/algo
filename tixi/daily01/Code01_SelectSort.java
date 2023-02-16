@@ -2,23 +2,33 @@ package tixi.daily01;
 
 import java.util.Arrays;
 
+/*
+    选择排序
+        arr[0～N-1]范围上，找到最小值所在的位置，然后把最小值交换到0位置。
+        arr[1～N-1]范围上，找到最小值所在的位置，然后把最小值交换到1位置。
+        arr[2～N-1]范围上，找到最小值所在的位置，然后把最小值交换到2位置。
+        …
+        arr[N-1～N-1]范围上，找到最小值位置，然后把最小值交换到N-1位置。
+ */
 public class Code01_SelectSort {
     public static void selectSort(int arr[]) {
-        if (arr == null || arr.length == 0) {
+        if (arr == null || arr.length <= 1) {
             return;
         }
 
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < arr.length; ++i) {
             int min_index = i;
             for (int j = i + 1; j < arr.length; ++j) {
-                if (arr[j] < arr[min_index]) {
+                if (arr[min_index] > arr[j]) {
                     min_index = j;
                 }
             }
+
             if (min_index != i) {
-                swap(arr, i, min_index);
+                swap(arr, min_index, i);
             }
         }
+
     }
     /*
         for test

@@ -16,6 +16,7 @@ public class Code01_ReverseList {
     public static Node reverseLinkedList(Node head) {
         Node prev = null;
         Node next = null;
+
         while (head != null) {
             next = head.next;
             head.next = prev;
