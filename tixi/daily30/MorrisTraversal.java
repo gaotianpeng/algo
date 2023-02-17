@@ -56,6 +56,36 @@ public class MorrisTraversal {
         }
     }
 
+    public static void preMorris(Node head) {
+        if (head == null) {
+            return;
+        }
+
+        Node cur = head;
+        Node mostRight = null;
+        while (cur != null) {
+            mostRight = cur.left;
+            if (mostRight != null) {
+                while (mostRight.right != null && mostRight.right != cur) {
+                    mostRight = mostRight.right;
+                }
+                if (mostRight.right == null) {
+                    System.out.print(cur.value + " ");
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    mostRight.right = null;
+                }
+            } else {
+                System.out.print(cur.value + " ");
+            }
+            cur = cur.right;
+        }
+        System.out.println();
+     }
+
+
     public static void main(String[] args) {
         Node head = new Node(4);
         head.left = new Node(2);
@@ -67,5 +97,6 @@ public class MorrisTraversal {
 
         preTraverse(head);
         System.out.println();
+        preMorris(head);
     }
 }
