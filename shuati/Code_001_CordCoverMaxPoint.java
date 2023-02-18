@@ -1,30 +1,27 @@
 package shuati;
-/*
-    给定一个有序数组arr，代表坐落在X轴上的点
-    给定一个正数K，代表绳子的长度
-    返回绳子最多压中几个点？
-    即使绳子边缘处盖住点也算盖住
- */
-
 import java.util.Arrays;
 
 public class Code_001_CordCoverMaxPoint {
-
+    /*
+        给定一个有序数组arr，代表坐落在X轴上的点
+        给定一个正数K，代表绳子的长度
+        返回绳子最多压中几个点？
+        即使绳子边缘处盖住点也算盖住
+     */
     public static int maxPoint1(int[] arr, int len) {
         if (arr == null || arr.length == 0) {
             return 0;
         }
 
-        int max = 1;
-        for (int i = 0; i < arr.length; i++) {
-            int nearest_index = nearestIndex(arr, i, arr[i] - len);
-            max = Math.max(max, i - nearest_index + 1);
+        int max = 0;
+        for (int i = 0; i < arr.length; ++i) {
+            int index = getNearestIndex(arr, i, arr[i] - len);
+            max = Math.max(max, i - index + 1);
         }
-
         return max;
     }
 
-    public static int nearestIndex(int[] arr, int right, int val) {
+    public static int getNearestIndex(int[] arr, int right, int val) {
         int left = 0;
         int index = 0;
         while (left <= right) {
@@ -39,7 +36,6 @@ public class Code_001_CordCoverMaxPoint {
         return index;
     }
 
-
     public static int maxPoint2(int[] arr, int len) {
         if (arr == null || arr.length == 0) {
             return 0;
@@ -53,8 +49,10 @@ public class Code_001_CordCoverMaxPoint {
             while (right < n && arr[right] - arr[left] <= len) {
                 right++;
             }
-            max = Math.max(max, right - (left++));
+            max = Math.max(max, right - left);
+            left++;
         }
+
         return max;
     }
 
@@ -66,11 +64,11 @@ public class Code_001_CordCoverMaxPoint {
             return 0;
         }
 
-        int max = 1;
-        for (int i = 0; i < arr.length; i++) {
+        int max = 0;
+        for (int i = 0; i < arr.length; ++i) {
             int pre = i - 1;
             while (pre >= 0 && arr[i] - arr[pre] <= len) {
-                pre--;
+                --pre;
             }
             max = Math.max(max, i - pre);
         }

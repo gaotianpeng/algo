@@ -85,7 +85,6 @@ public class MorrisTraversal {
         System.out.println();
      }
 
-
     public static void main(String[] args) {
         Node head = new Node(4);
         head.left = new Node(2);
