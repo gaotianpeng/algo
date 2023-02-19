@@ -1,4 +1,4 @@
-package shuati;
+package shuati.daily01;
 /*
     leetcode 329: 矩阵中的最长递增路径
         给定一个二维数组matrix，

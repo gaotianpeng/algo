@@ -1,4 +1,4 @@
-package shuati;
+package shuati.daily02;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
     直到1~N全部接收并打印完
     请设计这种接收并打印的结构
  */
-public class Code_010_ReceiveAndPrintOrderLine {
+public class Code_003_ReceiveAndPrintOrderLine {
     public static class Node {
         public String info;
         public Node next;

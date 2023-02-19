@@ -1,4 +1,4 @@
-package shuati;
+package shuati.daily01;
 
 import java.util.HashMap;
 

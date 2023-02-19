@@ -1,4 +1,4 @@
-package shuati;
+package shuati.daily01;
 /*
     给定一个非负整数num，
     如何不用循环语句，
@@ -21,11 +21,11 @@ public class Code_003_Near2Power {
     public static int test(int n) {
         int ans = 0;
         while (get2Power(ans) <= n) {
-            ans++;
+            ++ans;
         }
 
         if (get2Power(ans) != n) {
-            ans += 1;
+            ++ans;
         }
         return ans;
     }
