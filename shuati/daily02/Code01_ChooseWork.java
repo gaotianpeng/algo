@@ -12,7 +12,7 @@ import java.util.TreeMap;
     但是人的能力必须>=这份工作的难度，才能上班
     返回一个长度为M的数组ans，ans[j]表示j号人能获得的最好收入
  */
-public class Code_001_ChooseWork {
+public class Code01_ChooseWork {
     public static class Job {
         public int money;
         public int hard;
