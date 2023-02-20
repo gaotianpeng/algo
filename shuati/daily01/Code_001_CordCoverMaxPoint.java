@@ -45,7 +45,7 @@ public class Code_001_CordCoverMaxPoint {
         int left = 0;
         int right = 0;
         int n = arr.length;
-        while (left < n) {
+        for (int i = 0; i < n; ++i) {
             while (right < n && arr[right] - arr[left] <= len) {
                 right++;
             }

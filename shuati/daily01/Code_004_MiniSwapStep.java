@@ -1,4 +1,5 @@
 package shuati.daily01;
+
 /*
     一个数组中只有两种字符'G'和’B’，
     可以让所有的G都放在左侧，所有的B都放在右侧或者可以让所有的G都放在右侧，所有的B都放在左侧
@@ -69,6 +70,7 @@ public class Code_004_MiniSwapStep {
         }
         return String.valueOf(str);
     }
+
 
     public static void main(String[] args) {
         System.out.println("test start...");
