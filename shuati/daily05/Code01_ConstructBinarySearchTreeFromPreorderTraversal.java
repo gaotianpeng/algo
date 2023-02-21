@@ -54,31 +54,68 @@ public class Code01_ConstructBinarySearchTreeFromPreorderTraversal {
                 return null;
             }
 
-            int[] near_big = new int[pre.length];
-            for (int i = 0; i < near_big.length; ++i) {
-                near_big[i] = -1;
+            int n = pre.length;
+            int[] nearest_big = new int[n];
+            for (int i = 0; i < n; ++i) {
+                nearest_big[i] = -1;
             }
 
             Stack<Integer> stack = new Stack<>();
-            for (int i = 0; i < pre.length; ++i) {
+            for (int i = 0; i < n; ++i) {
                 while (!stack.isEmpty() && pre[stack.peek()] < pre[i]) {
-                    near_big[stack.pop()] = i;
+                    nearest_big[stack.pop()] = i;
                 }
                 stack.push(i);
             }
 
-            return process2(pre, 0, pre.length - 1, near_big);
+            return process2(pre, 0, n - 1, nearest_big);
         }
 
-        public static TreeNode process2(int[] pre, int left, int right, int[] near_big) {
+        public static TreeNode process2(int[] pre, int left, int right, int[] nearest_big) {
             if (left > right) {
                 return null;
             }
 
-            int firs_big = near_big[left] == -1 || near_big[left] > right ? right + 1 : near_big[left];
+            int first_big = (nearest_big[left] == -1 || nearest_big[left] > right) ? right + 1:nearest_big[left];
             TreeNode root = new TreeNode(pre[left]);
-            root.left = process2(pre, left + 1, firs_big - 1, near_big);
-            root.right = process2(pre, firs_big, right, near_big);
+            root.left = process2(pre, left + 1, first_big -1, nearest_big);
+            root.right = process2(pre, first_big, right, nearest_big);
+            return root;
+        }
+
+        public static TreeNode bstFromPreorder3(int[] pre) {
+            if (pre == null || pre.length == 0) {
+                return null;
+            }
+
+            int n = pre.length;
+            int[] nearest_big = new int[n];
+            for (int i = 0; i < n; ++i) {
+                nearest_big[i] = -1;
+            }
+
+            int[] stack = new int[n];
+            int stack_size = -1;
+            for (int i = 0; i < n; ++i) {
+                while ( stack_size != -1 && pre[stack[stack_size]] < pre[i]) {
+                    nearest_big[stack[stack_size]] = i;
+                    stack_size--;
+                }
+                stack[++stack_size] = i;
+            }
+
+            return process3(pre, 0, n - 1, nearest_big);
+        }
+
+        public static TreeNode process3(int[] pre, int left, int right, int[] nearest_big) {
+            if (left > right) {
+                return null;
+            }
+
+            int first_big = (nearest_big[left] == -1 || nearest_big[left] > right) ? right + 1: nearest_big[left];
+            TreeNode root = new TreeNode(pre[left]);
+            root.left = process3(pre, left + 1, first_big - 1, nearest_big);
+            root.right = process3(pre, first_big, right, nearest_big);
             return root;
         }
     }
