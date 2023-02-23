@@ -24,26 +24,28 @@ import java.util.HashMap;
  */
 public class Code_0003_LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             return 0;
         }
 
-        char[] str = s.toCharArray();
         int[] map = new int[256];
-        for (int i = 0; i < map.length; i++) {
+        for (int i = 0; i < 256; ++i) {
             map[i] = -1;
         }
-        int max_len = 0;
-        int pre_len = -1;
+
+        char[] str = s.toCharArray();
+        int max = 0;
+        int pre = -1;
         int cur = 0;
-        for (int i = 0; i < str.length; i++) {
-            pre_len = Math.max(pre_len, map[str[i]]);
-            cur = i - pre_len;
-            max_len = Math.max(cur, max_len);
+
+        for (int i = 0; i < str.length; ++i) {
+            pre = Math.max(pre, map[str[i]]);
+            cur = i - pre;
+            max = Math.max(max, cur);
             map[str[i]] = i;
         }
 
-        return max_len;
+        return max;
     }
 
     public int lengthOfLongestSubstring1(String s) {
