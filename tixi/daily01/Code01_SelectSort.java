@@ -2,34 +2,62 @@ package tixi.daily01;
 
 import java.util.Arrays;
 
-/*
-    选择排序
-        arr[0～N-1]范围上，找到最小值所在的位置，然后把最小值交换到0位置。
-        arr[1～N-1]范围上，找到最小值所在的位置，然后把最小值交换到1位置。
-        arr[2～N-1]范围上，找到最小值所在的位置，然后把最小值交换到2位置。
-        …
-        arr[N-1～N-1]范围上，找到最小值位置，然后把最小值交换到N-1位置。
- */
+
 public class Code01_SelectSort {
+    /*
+    选择排序
+        arr[0～N-1]范围上，找到最小值所在的位置，然后把最小值交换到0位置
+        arr[1～N-1]范围上，找到最小值所在的位置，然后把最小值交换到1位置
+        arr[2～N-1]范围上，找到最小值所在的位置，然后把最小值交换到2位置
+        …
+        arr[N-1～N-1]范围上，找到最小值位置，然后把最小值交换到N-1位置
+    */
     public static void selectSort(int arr[]) {
-        if (arr == null || arr.length <= 1) {
+        if (arr == null || arr.length < 1) {
             return;
         }
 
         for (int i = 0; i < arr.length; ++i) {
             int min_index = i;
             for (int j = i + 1; j < arr.length; ++j) {
-                if (arr[min_index] > arr[j]) {
+                if (arr[j] < arr[min_index]) {
                     min_index = j;
                 }
             }
 
             if (min_index != i) {
-                swap(arr, min_index, i);
+                swap(arr, i, min_index);
             }
         }
-
     }
+    /*
+    选择排序
+        arr[0～N-1]范围上，找到最小值所在的位置，然后把最大值交换到 N-1 位置
+        arr[0～N-2]范围上，找到最小值所在的位置，然后把最小值交换到 N-2 位置
+        arr[0～N-3]范围上，找到最小值所在的位置，然后把最小值交换到 M-3 位置
+        …
+        arr[0~0] 范围上，找到最小值位置，然后把最小值交换到 0 位置
+    */
+    public static void selectSort1(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+
+        int n = arr.length;
+        for (int i = n - 1; i >= 0; --i) {
+            int max_index = i;
+            for (int j = 0; j < i; j++) {
+                if (arr[j] > arr[max_index]) {
+                    max_index = j;
+                }
+            }
+
+            if (max_index != i) {
+                swap(arr, max_index, i);
+            }
+        }
+    }
+
     /*
         for test
     */
@@ -108,12 +136,15 @@ public class Code01_SelectSort {
         for (int i = 0; i < testTime; ++i) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
+            int[] arr3 = copyArray(arr1);
             test(arr1);
             selectSort(arr2);
-            if (!isEqual(arr1, arr2)) {
+            selectSort1(arr3);
+            if (!isEqual(arr1, arr2) || !isEqual(arr1, arr3)) {
                 succeed = false;
                 printArray(arr1);
                 printArray(arr2);
+                printArray(arr3);
                 break;
             }
         }
