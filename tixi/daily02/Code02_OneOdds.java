@@ -13,9 +13,10 @@ public class Code02_OneOdds {
         }
 
         int ans = 0;
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; ++i) {
             ans ^= arr[i];
         }
+
         return ans;
     }
 
