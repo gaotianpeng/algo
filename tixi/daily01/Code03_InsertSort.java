@@ -16,7 +16,8 @@ public class Code03_InsertSort {
             return;
         }
 
-        for (int i = 1; i < arr.length; ++i) {
+        int n = arr.length;
+        for (int i = 1; i < n; ++i) {
             for (int j = i - 1; j >= 0; --j) {
                 if (arr[j+1] < arr[j]) {
                     swap(arr, j+1, j);

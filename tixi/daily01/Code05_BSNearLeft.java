@@ -6,7 +6,7 @@ public class Code05_BSNearLeft {
     /*
         在一个有序数组中，找>=某个数最左侧的位置
      */
-    public static int nearestIndex(int[] arr, int value) {
+    public static int nearestIndex(int[] arr, int num) {
         if (arr == null || arr.length == 0) {
             return -1;
         }
@@ -16,25 +16,31 @@ public class Code05_BSNearLeft {
         int right = arr.length - 1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
-            if (arr[mid] >= value) {
+            if (arr[mid] >= num) {
                 ans = mid;
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
+
         return ans;
     }
 
     /*
         for test
      */
-    public static int test(int[] arr, int value) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] >= value) {
+    public static int test(int[] arr, int num) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+
+        for (int i = 0; i < arr.length; ++i) {
+            if (arr[i] >= num) {
                 return i;
             }
         }
+
         return -1;
     }
 

@@ -3,33 +3,35 @@ package tixi.daily01;
 import java.util.Arrays;
 
 public class Code04_BSExist {
-    public static boolean exist(int[] sorted_arr, int num) {
-        if (sorted_arr == null || sorted_arr.length == 0) {
+    /*
+        在一个有序数组中，找某个数是否存在
+     */
+    public static boolean exist(int[] arr, int num) {
+        if (arr == null || arr.length == 0) {
             return false;
         }
 
         int left = 0;
-        int right = sorted_arr.length - 1;
-        int mid = 0;
+        int right = arr.length - 1;
         while (left < right) {
-            mid = left + ((right - left)>>1);
-            if (sorted_arr[mid] == num) {
-                return true;
-            } else if (sorted_arr[mid] < num) {
-                left = mid + 1;
-            } else {
+            int mid = left + ((right - left) >> 1);
+            if (arr[mid] > num) {
                 right = mid - 1;
+            } else if (arr[mid] == num) {
+                return true;
+            } else {
+                left = mid + 1;
             }
         }
 
-        return sorted_arr[left] == num;
+        return arr[left] == num;
     }
 
     /*
         for test
      */
-    public static boolean test(int[] sorted_arr, int num) {
-        for(int cur : sorted_arr) {
+    public static boolean test(int[] arr, int num) {
+        for(int cur : arr) {
             if(cur == num) {
                 return true;
             }

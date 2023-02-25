@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Code06_BSNearRight {
     // 在一个有序数组中，找<=某个数最右侧的位置
-    public static int rightestValue(int[] arr, int value) {
+    public static int rightestValue(int[] arr, int num) {
         if (arr == null || arr.length == 0) {
             return -1;
         }
@@ -14,7 +14,7 @@ public class Code06_BSNearRight {
         int right = arr.length - 1;
         while (left <= right) {
             int mid = left + ((right - left)>>1);
-            if (arr[mid] <= value) {
+            if (arr[mid] <= num) {
                 ans = mid;
                 left = mid + 1;
             } else {
@@ -28,12 +28,17 @@ public class Code06_BSNearRight {
     /*
         for test
      */
-    public static int test(int[] arr, int value) {
-        for (int i = arr.length - 1; i >= 0; i--) {
-            if (arr[i] <= value) {
+    public static int test(int[] arr, int num) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+
+        for (int i = arr.length - 1; i >= 0; --i) {
+            if (arr[i] <= num) {
                 return i;
             }
         }
+
         return -1;
     }
 
