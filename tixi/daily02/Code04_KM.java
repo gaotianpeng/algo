@@ -1,6 +1,7 @@
 package tixi.daily02;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 /*
     一个数组中有一种数出现K次，其他数都出现了M次，
@@ -12,6 +13,23 @@ public class Code04_KM {
     /*
         注：请保证这个数据中只有一个数出现k次，其余数都出现M次
     */
+    public static int km(int[] arr, int k, int m) {
+        int[] help = new int[32];
+        for (int num : arr) {
+            for (int i = 0; i < 32; i++) {
+                help[i] += (num >> i) & 1;
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < 32; i++) {
+            help[i] %= m;
+            if (help[i] != 0) {
+                ans |= 1 << i;
+            }
+        }
+        return ans;
+    }
+
     public static int findOnlyKTimes(int[] arr, int k , int m) {
         HashMap<Integer, Integer> map = createMap();
         int[] t = new int[32];
@@ -85,56 +103,47 @@ public class Code04_KM {
         return -1;
     }
 
-    public static int generateRandomNum(int max_val) {
-        return (int)(Math.random()*max_val);
-    }
-
-    public static int[] generateRandomArr(int max_m, int max_arr_val, int k, int m) {
-        int k_num = generateRandomNum(max_arr_val);
-        int k_times = Math.random() < 0.5 ? k: (int)(Math.random()*(m-1) + 1);
-        int elem_nums = (int) (Math.random() * max_m) + 2;
-        int[] arr = new int[k_times + (elem_nums - 1) * m];
-        HashMap<Integer, Integer> map = new HashMap<>();
-        map.put(k_num, k_times);
-        elem_nums--;
-        while (elem_nums != 0) {
-            int m_num = 0;
-            do {
-                m_num = generateRandomNum(max_arr_val);
-            } while(map.containsKey(m_num));
-            elem_nums--;
+    public static int[] randomArray(int maxKinds, int range, int k, int m) {
+        int ktimeNum = randomNumber(range);
+        // 真命天子出现的次数
+        int times = k;
+        // 2
+        int numKinds = (int) (Math.random() * maxKinds) + 2;
+        // k * 1 + (numKinds - 1) * m
+        int[] arr = new int[times + (numKinds - 1) * m];
+        int index = 0;
+        for (; index < times; index++) {
+            arr[index] = ktimeNum;
         }
-
-        int arr_idx = 0;
-        for (int num: map.keySet()) {
-            int cnt = map.get(num);
-            for (int i = 0; i < cnt; i++) {
-                arr[arr_idx] = num;
+        numKinds--;
+        HashSet<Integer> set = new HashSet<>();
+        set.add(ktimeNum);
+        while (numKinds != 0) {
+            int curNum = 0;
+            do {
+                curNum = randomNumber(range);
+            } while (set.contains(curNum));
+            set.add(curNum);
+            numKinds--;
+            for (int i = 0; i < m; i++) {
+                arr[index++] = curNum;
             }
         }
-
-        randomArray(arr);
+        // arr 填好了
+        for (int i = 0; i < arr.length; i++) {
+            // i 位置的数，我想随机和j位置的数做交换
+            int j = (int) (Math.random() * arr.length);// 0 ~ N-1
+            int tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
         return arr;
     }
 
-    // 将数组乱序
-    public static void randomArray(int[] arr) {
-        if (arr == null || arr.length <= 2) {
-            return;
-        }
-
-        int random_time = arr.length;
-        while (random_time > 0) {
-            int i = generateRandomNum(arr.length - 1);
-            int j = generateRandomNum(arr.length - 1);
-            if (i < 0 || j < 0) {
-                continue;
-            }
-            if (i != j) {
-                swap(arr, i, j);
-                random_time--;
-            }
-        }
+    // 为了测试
+    // [-range, +range]
+    public static int randomNumber(int range) {
+        return (int) (Math.random() * (range + 1)) - (int) (Math.random() * (range + 1));
     }
 
     public static void swap(int[] arr, int i, int j) {
@@ -158,7 +167,7 @@ public class Code04_KM {
         System.out.println("test start...");
         int kinds = 5;
         int range = 30;
-        int testTime = 10000000;
+        int testTime = 100000;
         int max = 9;
         boolean success = true;
         for (int i = 0; i < testTime; i++) {
@@ -169,13 +178,15 @@ public class Code04_KM {
             if (k == m) {
                 m++;
             }
-            int[] arr = generateRandomArr(kinds, range, k, m);
+            int[] arr = randomArray(kinds, range, k, m);
             int ans1 = test(arr, k, m);
             int ans2 = findOnlyKTimes(arr, k, m);
-            if (ans1 != ans2) {
+            int ans3 = km(arr, k, m);
+            if (ans1 != ans2 || ans1 != ans3) {
                 printArr(arr);
                 System.out.println(ans1);
                 System.out.println(ans2);
+                System.out.println(ans3);
                 success = false;
             }
         }
