@@ -3,92 +3,92 @@ package tixi.daily04;
 import java.util.Arrays;
 
 public class Code01_MergeSort {
-    public static void mergeSort(int[] arr) {
-        if (arr == null || arr.length == 0) {
+    public static void mergeSort(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return;
         }
 
-        process(arr, 0, arr.length - 1);
+        process(nums, 0, nums.length - 1);
     }
 
-    public static void process(int[] arr, int left, int right) {
+    public static void process(int[] nums, int left, int right) {
         if (left == right) {
             return;
         }
 
         int mid = left + ((right - left)>>1);
-        process(arr, left, mid);
-        process(arr, mid + 1, right);
-        merge(arr, left, mid, right);
+        process(nums, left, mid);
+        process(nums, mid + 1, right);
+        merge(nums, left, mid, right);
     }
 
-    private static void merge(int[] arr, int left, int mid, int right) {
+    private static void merge(int[] nums, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
         int left_idx = left;
         int right_idx = mid + 1;
         int index = 0;
 
         while (left_idx <= mid && right_idx <= right) {
-            helper[index++] = arr[left_idx] <= arr[right_idx] ? arr[left_idx++] : arr[right_idx++];
+            helper[index++] = nums[left_idx] <= nums[right_idx] ? nums[left_idx++] : nums[right_idx++];
         }
 
         while (left_idx <= mid) {
-            helper[index++] = arr[left_idx++];
+            helper[index++] = nums[left_idx++];
         }
 
         while (right_idx <= right) {
-            helper[index++] = arr[right_idx++];
+            helper[index++] = nums[right_idx++];
         }
 
         for (int i = 0; i < helper.length; i++) {
-            arr[left + i] = helper[i];
+            nums[left + i] = helper[i];
         }
     }
 
     /*
         for test
     */
-    public static void test(int[] arr) {
-        Arrays.sort(arr);
+    public static void test(int[] nums) {
+        Arrays.sort(nums);
     }
 
     public static int[] generateRandomArray(int maxSize, int maxValue) {
-        int[] arr = new int[(int)((maxSize + 1) * Math.random())];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int)((maxValue + 1) * Math.random()) - (int)(maxValue * Math.random());
+        int[] nums = new int[(int)((maxSize + 1) * Math.random())];
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = (int)((maxValue + 1) * Math.random()) - (int)(maxValue * Math.random());
         }
 
-        return arr;
+        return nums;
     }
 
-    public static int[] copyArray(int[] arr) {
-        if (arr == null) {
+    public static int[] copyArray(int[] nums) {
+        if (nums == null) {
             return null;
         }
 
-        int[] ret = new int[arr.length];
-        for (int i = 0; i < arr.length; ++i) {
-            ret[i] = arr[i];
+        int[] ret = new int[nums.length];
+        for (int i = 0; i < nums.length; ++i) {
+            ret[i] = nums[i];
         }
 
         return ret;
     }
 
-    public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
+    public static boolean isEqual(int[] nums1, int[] nums2) {
+        if ((nums1 == null && nums2 != null) || (nums1 != null && nums2 == null)) {
             return false;
         }
 
-        if (arr1 == null && arr2 == null) {
+        if (nums1 == null && nums2 == null) {
             return true;
         }
 
-        if (arr1.length != arr2.length) {
+        if (nums1.length != nums2.length) {
             return false;
         }
 
-        for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i] != arr2[i]) {
+        for (int i = 0; i < nums1.length; i++) {
+            if (nums1[i] != nums2[i]) {
                 return false;
             }
         }
@@ -96,13 +96,13 @@ public class Code01_MergeSort {
         return true;
     }
 
-    public static void printArray(int[] arr) {
-        if (arr == null) {
+    public static void printArray(int[] nums) {
+        if (nums == null) {
             return;
         }
 
-        for (int i = 0; i < arr.length; ++i) {
-            System.out.print(arr[i] + " ");
+        for (int i = 0; i < nums.length; ++i) {
+            System.out.print(nums[i] + " ");
         }
 
         System.out.println();
@@ -115,14 +115,14 @@ public class Code01_MergeSort {
         int max_len = 50;
         boolean success = true;
         for (int i = 0; i < test_times; ++i) {
-            int[] arr1 = generateRandomArray(max_len, max_val);
-            int[] arr2 = copyArray(arr1);
-            mergeSort(arr1);
-            test(arr2);
-            if (!isEqual(arr1, arr2)) {
+            int[] nums1 = generateRandomArray(max_len, max_val);
+            int[] nums2 = copyArray(nums1);
+            mergeSort(nums1);
+            test(nums2);
+            if (!isEqual(nums1, nums2)) {
                 success = false;
-                printArray(arr1);
-                printArray(arr2);
+                printArray(nums1);
+                printArray(nums2);
                 break;
             }
         }
