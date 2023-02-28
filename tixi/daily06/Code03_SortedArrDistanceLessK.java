@@ -13,16 +13,17 @@ public class Code03_SortedArrDistanceLessK {
             return;
         }
 
+        int min = Math.min(k, arr.length);
         PriorityQueue<Integer> heap = new PriorityQueue<>();
         int index = 0;
-        for (; index < Math.min(arr.length, k); index++) {
+        for (index = 0; index < min; ++index) {
             heap.add(arr[index]);
         }
 
         int i = 0;
-        for (; index < arr.length; index++, i++) {
+        for (; index < arr.length; ++index) {
             heap.add(arr[index]);
-            arr[i] = heap.poll();
+            arr[i++] = heap.poll();
         }
 
         while (!heap.isEmpty()) {
