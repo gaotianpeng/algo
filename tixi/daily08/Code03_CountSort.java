@@ -11,21 +11,20 @@ public class Code03_CountSort {
         }
 
         int max = arr[0];
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 1; i < arr.length; ++i) {
             max = Math.max(max, arr[i]);
         }
 
-        int[] bucket = new int[max + 1];
-        for (int i = 0; i < arr.length; i++) {
+        int[] bucket = new int[max+1];
+        for (int i = 0; i < arr.length; ++i) {
             bucket[arr[i]]++;
         }
 
-        int count = -1;
-        for (int i = 0; i < bucket.length; i++) {
+        int index = -1;
+        for (int i = 0; i < bucket.length; ++i) {
             while (bucket[i] > 0) {
-                ++count;
-                arr[count] = i;
-                --bucket[i];
+                arr[++index] = i;
+                bucket[i]--;
             }
         }
     }
