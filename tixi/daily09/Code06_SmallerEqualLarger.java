@@ -20,6 +20,7 @@ public class Code06_SmallerEqualLarger {
         Node equal_tail = null;
         Node large_head = null;
         Node large_tail = null;
+
         Node next = null;
         while (head != null) {
             next = head.next;
@@ -30,7 +31,7 @@ public class Code06_SmallerEqualLarger {
                     small_tail = head;
                 } else {
                     small_tail.next = head;
-                    small_tail = head;
+                    small_tail = small_tail.next;
                 }
             } else if (head.value == pivot) {
                 if (equal_head == null) {
@@ -38,7 +39,7 @@ public class Code06_SmallerEqualLarger {
                     equal_tail = head;
                 } else {
                     equal_tail.next = head;
-                    equal_tail = head;
+                    equal_tail = equal_tail.next;
                 }
             } else {
                 if (large_head == null) {
@@ -46,7 +47,7 @@ public class Code06_SmallerEqualLarger {
                     large_tail = head;
                 } else {
                     large_tail.next = head;
-                    large_tail = head;
+                    large_tail = large_tail.next;
                 }
             }
             head = next;
@@ -56,11 +57,12 @@ public class Code06_SmallerEqualLarger {
             small_tail.next = equal_head;
             equal_tail = equal_tail == null ? small_tail : equal_tail;
         }
+
         if (equal_tail != null) {
             equal_tail.next = large_head;
         }
 
-        return small_head != null ? small_head: (equal_head != null ? equal_head: large_head);
+        return small_head != null ? small_head : (equal_head != null ? equal_head: large_head);
     }
 
     /*
