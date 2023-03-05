@@ -77,7 +77,7 @@ public class Code05_IsPalindromeList {
 
         Node slow = head;
         Node fast = head;
-        while (fast.next != null || fast.next.next != null) {
+        while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -236,6 +236,10 @@ public class Code05_IsPalindromeList {
                 break;
             }
             if (isPalindrome1(head) != test(head)) {
+                success = false;
+                break;
+            }
+            if (isPalindrome2(head) != test(head)) {
                 success = false;
                 break;
             }
