@@ -70,6 +70,51 @@ public class Code05_IsPalindromeList {
         return true;
     }
 
+    public static boolean isPalindrome2(Node head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+
+        Node slow = head;
+        Node fast = head;
+        while (fast.next != null || fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node reverse_head = reverseList(slow.next);
+        Node cur = reverse_head;
+        Node start = head;
+        boolean ans = true;
+        while (cur != null) {
+            if (cur.value != start.value) {
+                ans = false;
+                break;
+            }
+            cur = cur.next;
+            start = start.next;
+        }
+        slow.next = reverseList(reverse_head);
+        return ans;
+    }
+
+    public static Node reverseList(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        Node pre = null;
+        Node next = null;
+        while (head != null) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+
+        return pre;
+    }
+
     /*
         for test
     */
