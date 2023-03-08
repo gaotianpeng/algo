@@ -10,6 +10,10 @@ public class Code_0024_SwapNodesInPairs {
     }
 
     public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
         ListNode dummyHead = new ListNode(0);
         dummyHead.next = head;
         ListNode temp = dummyHead;
