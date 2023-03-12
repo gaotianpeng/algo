@@ -38,20 +38,20 @@ public class Code03_EncodeNaryTreeToBinaryTree {
 
     public static class Codec {
         // Encodes an n-ary tree to a binary tree.
-        public TreeNode encode(Node root) {
+        public static TreeNode encode(Node root) {
             if (root == null) {
                 return null;
             }
 
-            TreeNode tree_root = new TreeNode(root.val);
-            tree_root.left = en(root.children);
-            return tree_root;
+            TreeNode head = new TreeNode(root.val);
+            head.left = en(root.children);
+            return head;
         }
 
         private static TreeNode en(List<Node> children) {
             TreeNode head = null;
             TreeNode cur = null;
-            for (Node child: children) {
+            for (Node child : children) {
                 TreeNode node = new TreeNode(child.val);
                 if (head == null) {
                     head = node;
@@ -61,11 +61,13 @@ public class Code03_EncodeNaryTreeToBinaryTree {
                 cur = node;
                 cur.left = en(child.children);
             }
+
             return head;
         }
 
+
         // Decodes your binary tree to an n-ary tree.
-        public Node decode(TreeNode root) {
+        public static Node decode(TreeNode root) {
             if (root == null) {
                 return null;
             }
@@ -74,13 +76,13 @@ public class Code03_EncodeNaryTreeToBinaryTree {
         }
 
         private static List<Node> de(TreeNode root) {
-            List<Node> children = new ArrayList<>();
+            List<Node> ans = new ArrayList<>();
             while (root != null) {
                 Node node = new Node(root.val, de(root.left));
-                children.add(node);
+                ans.add(node);
                 root = root.right;
             }
-            return children;
+            return ans;
         }
     }
 }
