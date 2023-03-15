@@ -1,10 +1,7 @@
 package tixi.daily14;
 
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /*
     并查集
@@ -23,17 +20,10 @@ public class Code05_UnionFind {
         }
     }
 
-    public static class Elem {
-        public int value;
-        public Elem(int val) {
-            value = val;
-        }
-    }
-
     public static class UnionFind<V> {
-        public HashMap<V, Node<V>> nodes;
-        public HashMap<Node<V>, Node<V>> parents;
-        public HashMap<Node<V>, Integer> size_map;
+        private HashMap<V, Node<V>> nodes;
+        private HashMap<Node<V>, Node<V>> parents;
+        private HashMap<Node<V>, Integer> size_map;
 
         public UnionFind(List<V> values) {
             nodes = new HashMap<>();
@@ -42,39 +32,27 @@ public class Code05_UnionFind {
             for (V cur: values) {
                 Node<V> node = new Node<>(cur);
                 nodes.put(cur, node);
-                parents.put(node, node);
                 size_map.put(node, 1);
+                parents.put(node, node);
             }
         }
 
         public boolean isSameSet(V x, V y) {
-            return findFather(nodes.get(x)) == findFather(nodes.get(y));
+            return FindFather(nodes.get(x)) == FindFather(nodes.get(y));
         }
 
         public void union(V x, V y) {
-            Node<V> x_head = findFather(nodes.get(x));
-            Node<V> y_head = findFather(nodes.get(y));
+            Node<V> x_head = FindFather(nodes.get(x));
+            Node<V> y_head = FindFather(nodes.get(y));
             if (x_head != y_head) {
-                int x_set_size = size_map.get(x_head);
-                int y_set_size = size_map.get(y_head);
-                Node<V> big = x_set_size >= y_set_size ? x_head : y_head;
+                int set_x_size = size_map.get(x_head);
+                int set_y_size = size_map.get(y_head);
+                Node<V> big = set_y_size >= set_y_size ? x_head : y_head;
                 Node<V> small = big == x_head ? y_head : x_head;
+                size_map.put(big, set_x_size + set_y_size);
                 parents.put(small, big);
-                size_map.put(big, x_set_size + y_set_size);
                 size_map.remove(small);
             }
-        }
-
-        private Node<V> findFather(Node<V> cur) {
-            Stack<Node<V>> path = new Stack<>();
-            while (cur != parents.get(cur)) {
-                path.push(cur);
-                cur = parents.get(cur);
-            }
-            while (!path.isEmpty()) {
-                parents.put(path.pop(), cur);
-            }
-            return cur;
         }
 
         public int sets() {
@@ -83,54 +61,90 @@ public class Code05_UnionFind {
 
         public List<V> getSet(V v) {
             List<V> ans = new LinkedList<>();
-            for(V key: nodes.keySet()) {
-                if (isSameSet(key, v)) {
-                    if (v != key) {
-                        ans.add(key);
-                    }
-                }
-            }
             return ans;
+        }
+
+        private Node<V> FindFather(Node<V> cur) {
+            Stack<Node<V>> path = new Stack<>();
+            while (cur != parents.get(cur)) {
+                path.push(cur);
+                cur = parents.get(cur);
+            }
+
+            while (!path.isEmpty()) {
+                parents.put(path.pop(), cur);
+            }
+
+            return cur;
         }
     }
 
     public static class UnionFindTest<V> {
         private List<List<V>> sets;
-        private HashMap<V, List<V>> elem_set_map;
 
         public UnionFindTest(List<V> values) {
             sets = new LinkedList<>();
-            elem_set_map = new HashMap<>();
             for (int i = 0; i < values.size(); i++) {
                 List<V> set = new LinkedList<>();
                 set.add(values.get(i));
                 sets.add(set);
-                elem_set_map.put(values.get(i), set);
             }
         }
 
         public boolean isSameSet(V x, V y) {
-            return elem_set_map.get(x) == elem_set_map.get(y);
+            List<V> list_x = null;
+            List<V> list_y = null;
+            for (int i = 0; i < sets.size(); ++i) {
+                HashSet<V> hash_set = new HashSet<>();
+                for (int j = 0; j < sets.get(i).size(); ++j) {
+                    hash_set.add(sets.get(i).get(j));
+                }
+                if (hash_set.contains(x)) {
+                    list_x = sets.get(i);
+                }
+
+                if (hash_set.contains(y)) {
+                    list_y = sets.get(i);
+                }
+            }
+
+            if (list_x == null || list_y == null) {
+                return false;
+            }
+
+            return list_x == list_y;
         }
 
         public void union(V x, V y) {
             if (isSameSet(x, y)) {
                 return;
             }
+            List<V> list_x = null;
+            List<V> list_y = null;
 
-            List<V> list_x = elem_set_map.get(x);
-            List<V> list_y = elem_set_map.get(y);
-            List<V> big = list_x.size() > list_y.size() ? list_x : list_y;
-            List<V> small = big == list_x ? list_y : list_x;
-            for (int i = 0; i < small.size(); i++) {
-                big.add(small.get(i));
+            for (int i = 0; i < sets.size(); ++i) {
+                HashSet<V> hash_set = new HashSet<>();
+                for (int j = 0; j < sets.get(i).size(); ++j) {
+                    hash_set.add(sets.get(i).get(j));
+                }
+                if (hash_set.contains(x)) {
+                    list_x = sets.get(i);
+                }
+
+                if (hash_set.contains(y)) {
+                    list_y = sets.get(i);
+                }
             }
 
-            elem_set_map.put(x, null);
-            elem_set_map.put(x, null);
-            sets.remove(small);
-            elem_set_map.put(x, big);
-            elem_set_map.put(y, big);
+            if (list_x == null || list_y == null) {
+                return;
+            }
+
+            for (int i = 0; i < list_y.size(); ++i) {
+                list_x.add(list_y.get(i));
+            }
+
+            sets.remove(list_y);
         }
 
         public int sets() {
@@ -138,34 +152,47 @@ public class Code05_UnionFind {
         }
 
         public List<V> getSet(V v) {
-            return elem_set_map.get(v);
+            List<V> ans = new LinkedList<>();
+            int pos = -1;
+            for (int i = 0; i < sets.size(); ++i) {
+                for (int j = 0; j < sets.get(i).size(); ++j) {
+                    if (sets.get(i).get(j) == v) {
+                        pos = i;
+                        break;
+                    }
+                }
+            }
+
+            if (pos == -1) {
+                return ans;
+            }
+
+            for (int i = 0; i < sets.get(pos).size(); ++i) {
+                ans.add(sets.get(pos).get(i));
+            }
+            return ans;
         }
     }
 
-    public static List<Elem> generateRandomList(int max_value, int max_size) {
+    public static List<Integer> generateRandomList(int min_val, int max_value, int max_size) {
         int size = (int)(Math.random() * (max_size + 1));
-        List<Elem> ans = new LinkedList<>();
+        List<Integer> ans = new LinkedList<>();
+
+        size = Math.min(max_value - min_val, max_size);
+        HashSet<Integer> set = new HashSet<>();
         for (int i = 0; i < size; i++) {
-            ans.add(new Elem((int)(Math.random() * max_value)));
+            int val = min_val + (int)(Math.random()*(max_value - min_val));
+            while (set.contains(val)) {
+                val = min_val + (int)(Math.random()*(max_value - min_val));
+            }
+            set.add(val);
+            ans.add(val);
         }
 
         return ans;
     }
 
-    public static List<Elem> copyList(List<Elem> list) {
-        if (list == null) {
-            return null;
-        }
-
-        List<Elem> ans = new LinkedList<>();
-        for (int i = 0; i < list.size(); i++) {
-            ans.add(new Elem(list.get(i).value));
-        }
-
-        return ans;
-    }
-
-    public static int[] getTwoElement(List<Elem> list) {
+    public static int[] getTwoElement(List<Integer> list) {
         if (list == null || list.size() == 0) {
             return null;
         }
@@ -173,63 +200,59 @@ public class Code05_UnionFind {
         return new int[] { (int)(Math.random() * list.size()), (int)(Math.random() * list.size())};
     }
 
-    public static void print(List<Elem> list) {
+    public static void print(List<Integer> list) {
         for (int i = 0; i < list.size(); i++) {
-            System.out.print(list.get(i).value + " ");
+            System.out.print(list.get(i) + " ");
         }
         System.out.println();
     }
 
+
+
     public static void main(String[] args) {
-//        System.out.println("test start...");
-//        boolean success = true;
-//        int test_times = 100000;
-//        int max_value = 300;
-//        int max_size = 30;
-//        for (int i = 0; i < test_times; i++) {
-//            List<Elem> list1 = generateRandomList(max_value, max_size);
-//            List<Elem> list2 = copyList(list1);
-//            UnionFind<Elem> union1 = new UnionFind<>(list1);
-//            UnionFindTest<Elem> union2 = new UnionFindTest<>(list2);
-//            for (int j = 0; j < 100; j++) {
-//                int[] ans = getTwoElement(list1);
-//                if (ans == null) {
-//                    continue;
-//                }
-//
-//                if (Math.random() < 0.5) {
-//                    union1.union(list1.get(ans[0]), list1.get(ans[1]));
-//                    union2.union(list2.get(ans[0]), list2.get(ans[1]));
-//                    if (union1.sets() != union2.sets()) {
-//                        System.out.println("error 01");
-//                        System.out.println(union1.sets());
-//                        System.out.println(union2.sets());
-//                        success = false;
-//                        break;
-//                    }
-//                } else {
-//                    boolean ans1 = union1.isSameSet(list1.get(ans[0]), list1.get(ans[1]));
-//                    boolean ans2 = union2.isSameSet(list2.get(ans[0]), list2.get(ans[1]));
-//                    if (ans1 != ans2) {
-//                        List<Elem> set1 = union1.getSet(list1.get(ans[0]));
-//                        List<Elem> set2 = union1.getSet(list1.get(ans[1]));
-//                        List<Elem> set3 = union2.getSet(list2.get(ans[0]));
-//                        List<Elem> set4 = union2.getSet(list2.get(ans[1]));
-//                        print(set1);
-//                        print(set2);
-//                        print(set3);
-//                        print(set4);
-//                        success = false;
-//                        break;
-//                    }
-//                }
-//            }
-//            if (!success) {
-//                break;
-//            }
-//        }
-//
-//        System.out.println(success ? "success" : "failed");
-//        System.out.println("test end");
+        System.out.println("test start...");
+        boolean success = true;
+        int test_times = 50000;
+        int max_value = 100;
+        int min_val = 10;
+        int max_size = 20;
+        for (int i = 0; i < test_times; i++) {
+            List<Integer> list = generateRandomList(min_val, max_value, max_size);
+            UnionFind<Integer> union1 = new UnionFind<>(list);
+            UnionFindTest<Integer> union2 = new UnionFindTest<>(list);
+            for (int j = 0; j < 100; j++) {
+                int[] ans = getTwoElement(list);
+                if (ans == null) {
+                    continue;
+                }
+
+                if (Math.random() < 0.33) {
+                    union1.union(list.get(ans[0]), list.get(ans[1]));
+                    union2.union(list.get(ans[0]), list.get(ans[1]));
+                    if (union1.sets() != union2.sets()) {
+                        success = false;
+                        break;
+                    }
+                } else if(Math.random() < 0.66) {
+                    if (union1.sets() != union2.sets()) {
+                        success = false;
+                        break;
+                    }
+                } else {
+                    boolean ans1 = union1.isSameSet(list.get(ans[0]), list.get(ans[1]));
+                    boolean ans2 = union2.isSameSet(list.get(ans[0]), list.get(ans[1]));
+                    if (ans1 != ans2) {
+                        success = false;
+                        break;
+                    }
+                }
+            }
+            if (!success) {
+                break;
+            }
+        }
+
+        System.out.println(success ? "success" : "failed");
+        System.out.println("test end");
     }
 }
