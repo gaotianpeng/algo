@@ -36,7 +36,6 @@ public class Code03_UnRecursivePreTraverseBT {
                 }
             }
         }
-
         return ans;
     }
 

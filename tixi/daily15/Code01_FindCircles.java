@@ -1,5 +1,7 @@
 package tixi.daily15;
 /*
+
+    https://leetcode.cn/problems/number-of-provinces/submissions/
     leetcode 547 省份数量
         有n个城市，其中一些彼此相连，另一些没有相连。如果城市a与城市b直接相连，且城市b与城市c直接相连，那么城市a与城市c间接相连。
         省份是一组直接或间接相连的城市，组内不含其他没有相连的城市。

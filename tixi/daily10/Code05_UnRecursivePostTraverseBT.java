@@ -1,5 +1,7 @@
 package tixi.daily10;
 
+import com.sun.source.tree.Tree;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -23,21 +25,22 @@ public class Code05_UnRecursivePostTraverseBT {
             Stack<TreeNode> s1 = new Stack<>();
             Stack<TreeNode> s2 = new Stack<>();
             s1.push(cur);
-            while (!s1.isEmpty()) {
-                cur = s1.pop();
-                s2.push(cur);
-                if (cur.left != null) {
-                    s1.push(cur.left);
+            while (cur != null) {
+                TreeNode node = s1.pop();
+                s2.push(node);
+                if (node.left != null) {
+                    s1.push(node.left);
                 }
-                if (cur.right != null) {
-                    s1.push(cur.right);
+                if (node.right != null) {
+                    s1.push(node.right);
                 }
             }
 
-            while (!s2.isEmpty()) {
+            while(!s2.isEmpty()) {
                 ans.add(s2.pop().val);
             }
         }
+
         return ans;
     }
 
