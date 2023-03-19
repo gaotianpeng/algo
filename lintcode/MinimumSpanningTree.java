@@ -51,16 +51,16 @@ public class MinimumSpanningTree {
         return results;
     }
 
-        static Comparator<Connection> comp = new Comparator<Connection>() {
-            public int compare(Connection a, Connection b) {
-                if (a.cost != b.cost)
-                    return a.cost - b.cost;
-                if (a.city1.equals(b.city1)) {
-                    return a.city2.compareTo(b.city2);
-                }
-                return a.city1.compareTo(b.city1);
+    static Comparator<Connection> comp = new Comparator<Connection>() {
+        public int compare(Connection a, Connection b) {
+            if (a.cost != b.cost)
+                return a.cost - b.cost;
+            if (a.city1.equals(b.city1)) {
+                return a.city2.compareTo(b.city2);
             }
-        };
+            return a.city1.compareTo(b.city1);
+        }
+    };
 
     public static  int find(int num, int[] father) {
         if (father[num] == 0)
@@ -79,7 +79,7 @@ public class MinimumSpanningTree {
     public List<Connection> lowestCost1(List<Connection> connections) {
         // Write your code here
         List<Connection> ans = new ArrayList<>();
-        UFS ufs = new UFS(connections.size()    2);
+        UFS ufs = new UFS(connections.size()*2);
 
         Collections.sort(connections, new Comparator<Connection>() {
             public int compare(Connection a, Connection b) {
