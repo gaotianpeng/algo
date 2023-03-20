@@ -7,17 +7,16 @@ import java.util.*;
 
 // 小根堆
 public class HeapGreater<T> {
+    private int heap_size_;
     private ArrayList<T> heap_;
     private HashMap<T, Integer> index_map_;
-    private int heap_size_;
     private Comparator<? super T> comp_;
 
     public HeapGreater(Comparator<T> c) {
+        heap_size_ = 0;
         heap_ = new ArrayList<>();
         index_map_ = new HashMap<>();
-        heap_size_ = 0;
         comp_ = c;
-
     }
 
     public boolean isEmpty() {
@@ -44,7 +43,7 @@ public class HeapGreater<T> {
 
     public T pop() {
         T ans = heap_.get(0);
-        swap(0, heap_size_ - 1);
+        swap(0, heap_size_-1);
         index_map_.remove(ans);
         heap_.remove(--heap_size_);
         heapify(0);
@@ -64,35 +63,35 @@ public class HeapGreater<T> {
     }
 
     public void resign(T obj) {
-        heapInsert(index_map_.get(obj));
         heapify(index_map_.get(obj));
+        heapInsert(index_map_.get(obj));
     }
 
     public List<T> getAllElements() {
         List<T> ans = new ArrayList<>();
-        for (T c: heap_) {
-            ans.add(c);
+        for (T cur: heap_) {
+            ans.add(cur);
         }
-
         return ans;
     }
 
     private void heapInsert(int index) {
         while (comp_.compare(heap_.get(index), heap_.get((index-1)/2)) < 0) {
-            swap(index, (index - 1) / 2);
-            index = (index - 1)/2;
+            swap(index, (index-1) / 2);
+            index = (index-1)/2;
         }
     }
 
     private void heapify(int index) {
-        int left = index * 2 + 1;
+        int left = 2 * index + 1;
         while (left < heap_size_) {
-            int best = left + 1 < heap_size_ && comp_.compare(heap_.get(left+1), heap_.get(left)) < 0 ? left + 1 : left;
-            best = comp_.compare(heap_.get(best), heap_.get(index)) < 0 ? best : index;
+            int best = left + 1 < heap_size_ && comp_.compare(heap_.get(left + 1), heap_.get(left)) < 0
+                    ? left + 1 : left;
+            best = comp_.compare(heap_.get(index), heap_.get(best)) < 0? index : best;
             if (best == index) {
                 break;
             }
-            swap(best, index);
+            swap(index, best);
             index = best;
             left = index * 2 + 1;
         }
