@@ -13,8 +13,9 @@ public class Code05_ReverseStackUsingRecursive {
         if (stack.isEmpty()) {
             return;
         }
+
         int i = f(stack);
-        reverse(stack);
+        reverse(stack);;
         stack.push(i);
     }
 
@@ -23,9 +24,9 @@ public class Code05_ReverseStackUsingRecursive {
         上面的元素盖下来
         返回移除掉的栈底元素
      */
-    public static int f(Stack<Integer> stack) {
+    private static int f(Stack<Integer> stack) {
         int result = stack.pop();
-        if (stack.isEmpty()) {
+        if (stack.empty()) {
             return result;
         } else {
             int last = f(stack);
@@ -33,6 +34,7 @@ public class Code05_ReverseStackUsingRecursive {
             return last;
         }
     }
+
     /*
         for test
      */
