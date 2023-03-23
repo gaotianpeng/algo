@@ -29,9 +29,8 @@ public class Code01_Knapstack {
         int p2 = 0;
         int next = process(weight, value, index + 1, rest - weight[index]);
         if (next != -1) {
-            p2 = value[index] + next;
+            p2 = next + value[index];
         }
-
         return Math.max(p1, p2);
     }
 

@@ -18,7 +18,7 @@ public class Code02_ConvertToLetterString {
         str[0....i-1] 已经处理好
         str[i...] 待处理
      */
-    private static int process(char[] str, int i) {
+    public static int process(char[] str, int i) {
         if (i == str.length) {
             return 1;
         }
@@ -27,12 +27,15 @@ public class Code02_ConvertToLetterString {
             return 0;
         }
 
-        int ways = process(str, i + 1);
-        if (i + 1 < str.length && (str[i] - '0') * 10 + str[i+1] - '0' < 27) {
-            ways += process(str, i + 2);
+        int p1 = process(str, i+1);
+        int p2 = 0;
+        if (i + 1 < str.length && (str[i] - '0')*10 + str[i+1] - '0' < 27) {
+            p2 = process(str, i + 2);
         }
-        return ways;
+
+        return p1 + p2;
     }
+
 
     public static int number2(String s) {
         if (s == null || s.length() == 0) {
@@ -40,17 +43,20 @@ public class Code02_ConvertToLetterString {
         }
 
         int n = s.length();
-        char[] str = s.toCharArray();
-        int[] dp = new int[n + 1];
+        int[] dp = new int[n+1];
         dp[n] = 1;
+        char[] str = s.toCharArray();
         for (int i = n - 1; i >= 0; i--) {
-            if (str[i] != '0') {
-                int ways = dp[i + 1];
-                if (i + 1 < str.length && (str[i] - '0') * 10 + str[i+1] - '0' < 27) {
-                    ways += dp[i + 2];
-                }
-                dp[i] = ways;
+             if (str[i] == '0') {
+                 continue;
+             }
+
+            int p1 = dp[i+1];
+            int p2 = 0;
+            if (i + 1 < str.length && (str[i] - '0')*10 + str[i+1] - '0' < 27) {
+                p2 = dp[i + 2];
             }
+            dp[i] = p1 + p2;
         }
 
         return dp[0];
