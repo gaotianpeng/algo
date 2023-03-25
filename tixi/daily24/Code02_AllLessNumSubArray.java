@@ -2,7 +2,7 @@ package tixi.daily24;
 
 import java.util.LinkedList;
 
-public class AllLessNumSubArray {
+public class Code02_AllLessNumSubArray {
     /*
         给定一个整型数组arr，和一个整数sum
         某个arr中的子数组sub，如果想达标，必须满足：
@@ -53,8 +53,9 @@ public class AllLessNumSubArray {
             return 0;
         }
 
+        int ans = 0;
         int n = arr.length;
-        int count = 0;
+
         for (int left = 0; left < n; ++left) {
             for (int right = left; right < n; ++right) {
                 int max = arr[left];
@@ -63,14 +64,13 @@ public class AllLessNumSubArray {
                     max = Math.max(max, arr[i]);
                     min = Math.min(min, arr[i]);
                 }
-
                 if (max - min <= sum) {
-                    ++count;
+                    ++ans;
                 }
             }
         }
 
-        return count;
+        return ans;
     }
 
     public static int[] generateRandomArray(int maxSize, int maxValue) {

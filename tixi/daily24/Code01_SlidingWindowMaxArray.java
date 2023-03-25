@@ -1,34 +1,37 @@
 package tixi.daily24;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Code01_SlidingWindowMaxArray {
     /*
-        假设一个固定大小为W的窗口，依次划过arr，
-        返回每一次滑出状况的最大值
-        例如，arr = [4,3,5,4,3,3,6,7], W = 3
-        返回：[5,5,5,4,6,7]
+        https://leetcode.cn/problems/sliding-window-maximum/submissions/
+        leetcode 239 滑动窗口最大值
+            假设一个固定大小为W的窗口，依次划过arr，
+            返回每一次滑出状况的最大值
+            例如，arr = [4,3,5,4,3,3,6,7], W = 3
+            返回：[5,5,5,4,6,7]
      */
-    public static int[] getMaxWindow(int[] arr, int w) {
+    public static int[] maxSlidingWindow(int[] arr, int w) {
         if (arr == null || w < 1 || arr.length < w) {
             return null;
         }
 
-        LinkedList<Integer> max_q = new LinkedList<Integer>();
-        int[] ans = new int [arr.length - w + 1];
+        int n = arr.length;
+        int[] ans = new int[n - w + 1];
         int index = 0;
-        for (int right = 0; right < arr.length; ++right) {
-            while (!max_q.isEmpty() && arr[max_q.peekLast()] <= arr[right]) {
-                max_q.pollLast();
-            }
 
-            max_q.addLast(right);
-            if (max_q.peekFirst() == right - w) {
-                max_q.pollFirst();
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int right = 0; right < n; ++right) {
+            while (!queue.isEmpty() && arr[queue.peekLast()] <= arr[right]) {
+                queue.pollLast();
             }
-
+            queue.add(right);
+            if (queue.peekFirst() == right - w) {
+                queue.pollFirst();
+            }
             if (right >= w - 1) {
-                ans[index++] = arr[max_q.peekFirst()];
+                ans[index++] = arr[queue.peekFirst()];
             }
         }
 
@@ -37,25 +40,24 @@ public class Code01_SlidingWindowMaxArray {
 
 
     public static int[] test(int[] arr, int w) {
-        if (arr == null || w < 1 || arr.length < w) {
+        if (arr == null || w < 1|| arr.length < w) {
             return null;
         }
 
         int n = arr.length;
-        int [] ans = new int[n - w + 1];
+        int index = 0;
+        int[] ans = new int[n - w + 1];
         int left = 0;
         int right = w - 1;
-        int index = 0;
         while (right < n) {
             int max = arr[left];
             for (int i = left + 1; i <= right; ++i) {
-                max = Math.max(max, arr[i]);
+                max = Math.max(arr[i], max);
             }
             ans[index++] = max;
-            ++left;
-            ++right;
+            left++;
+            right++;
         }
-
         return ans;
     }
 
@@ -99,7 +101,6 @@ public class Code01_SlidingWindowMaxArray {
         return true;
     }
 
-
     public static void main(String[] args) {
         System.out.println("test starting...");
         int test_times = 100000;
@@ -108,7 +109,7 @@ public class Code01_SlidingWindowMaxArray {
         for (int i = 0; i < test_times; ++i) {
             int[] arr = generateRandomArray(max_num, max_val);
             int w = (int) (Math.random() * (arr.length + 1));
-            int[] ans1 = getMaxWindow(arr, w);
+            int[] ans1 = maxSlidingWindow(arr, w);
             int[] ans2 = test(arr, w);
             if (!isEqual(ans1, ans2)) {
                 System.out.println("test failed");
