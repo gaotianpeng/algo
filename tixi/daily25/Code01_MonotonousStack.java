@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.ArrayList;
 
-public class MonotonousStack {
+public class Code01_MonotonousStack {
     /*
         单调栈：一种特别设计的栈结构，为了解决如下的问题：
             给定一个可能含有重复值的数组arr，i位置的数一定存在如下两个信息
@@ -17,8 +17,9 @@ public class MonotonousStack {
     public static int[][] getNearLessNoRepeat(int[] arr) {
         int n = arr.length;
         int[][] ans = new int[n][2];
+
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < arr.length; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
                 int j = stack.pop();
                 int left_less_index = stack.isEmpty() ? -1 : stack.peek();

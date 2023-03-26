@@ -4,6 +4,8 @@ import java.util.Stack;
 
 public class MaxmimumSubArrayMinProducct {
     /*
+        https://leetcode.cn/problems/maximum-subarray-min-product/
+        leetcode 1856 子数组最小乘积的最大值
         一个数组的 最小乘积定义为这个数组中 最小值乘以数组的 和。
         比方说，数组[3,2,5]（最小值是2）的最小乘积为2 * (3+2+5) = 2 * 10 = 20。
         给你一个正整数数组nums，请你返回nums任意非空子数组的最小乘积的最大值。由于答案可能很大，请你返回答案对10^9 + 7取余的结果。
