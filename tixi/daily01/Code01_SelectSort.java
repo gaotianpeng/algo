@@ -13,20 +13,18 @@ public class Code01_SelectSort {
         arr[N-1～N-1]范围上，找到最小值位置，然后把最小值交换到N-1位置
     */
     public static void selectSort(int arr[]) {
-        if (arr == null || arr.length < 1) {
+        if (arr == null || arr.length < 2) {
             return;
         }
 
-        for (int i = 0; i < arr.length; ++i) {
+        int n = arr.length;
+        for (int i = 0; i < n; ++i) {
             int min_index = i;
-            for (int j = i + 1; j < arr.length; ++j) {
-                if (arr[j] < arr[min_index]) {
-                    min_index = j;
-                }
+            for (int j = i + 1; j < n; ++j) {
+                min_index = arr[j] < arr[min_index] ? j : min_index;
             }
-
             if (min_index != i) {
-                swap(arr, i, min_index);
+                swap(arr, min_index, i);
             }
         }
     }
@@ -43,7 +41,8 @@ public class Code01_SelectSort {
             return;
         }
 
-        for (int i = arr.length - 1; i >= 0; --i) {
+        int n = arr.length;
+        for (int i = n - 1; i >= 0; --i) {
             int max_index = i;
             for (int j = 0; j < i; j++) {
                 max_index = arr[j] > arr[max_index] ? j : max_index;
