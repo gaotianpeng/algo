@@ -13,7 +13,8 @@ public class Code01_Knapstack {
             return 0;
         }
 
-        return process(weight, value, 0, bag);
+        int ans = process(weight, value, 0, bag);
+        return ans == -1 ? 0 : ans;
     }
 
     private static int process(int[] weight, int[] value, int index, int rest) {
@@ -31,6 +32,7 @@ public class Code01_Knapstack {
         if (next != -1) {
             p2 = next + value[index];
         }
+
         return Math.max(p1, p2);
     }
 
