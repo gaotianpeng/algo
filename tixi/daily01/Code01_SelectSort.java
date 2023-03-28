@@ -32,30 +32,26 @@ public class Code01_SelectSort {
     }
     /*
     选择排序
-        arr[0～N-1]范围上，找到最小值所在的位置，然后把最大值交换到 N-1 位置
-        arr[0～N-2]范围上，找到最小值所在的位置，然后把最小值交换到 N-2 位置
-        arr[0～N-3]范围上，找到最小值所在的位置，然后把最小值交换到 M-3 位置
+        arr[0～N-1]范围上，找到最大值所在的位置，然后把最大值交换到 N-1 位置
+        arr[0～N-2]范围上，找到最大值所在的位置，然后把最大值交换到 N-2 位置
+        arr[0～N-3]范围上，找到最磊值所在的位置，然后把最大值交换到 M-3 位置
         …
-        arr[0~0] 范围上，找到最小值位置，然后把最小值交换到 0 位置
+        arr[0~0] 范围上，找到最大值位置，然后把最大值交换到 0 位置
     */
     public static void selectSort1(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
 
-        int n = arr.length;
-        for (int i = n - 1; i >= 0; --i) {
+        for (int i = arr.length - 1; i >= 0; --i) {
             int max_index = i;
             for (int j = 0; j < i; j++) {
-                if (arr[j] > arr[max_index]) {
-                    max_index = j;
-                }
+                max_index = arr[j] > arr[max_index] ? j : max_index;
             }
-
             if (max_index != i) {
                 swap(arr, max_index, i);
             }
-        }
+        } 
     }
 
     /*
