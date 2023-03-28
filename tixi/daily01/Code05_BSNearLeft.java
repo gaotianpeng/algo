@@ -10,7 +10,7 @@ public class Code05_BSNearLeft {
         if (arr == null || arr.length == 0) {
             return -1;
         }
-
+        
         int ans = -1;
         int left = 0;
         int right = arr.length - 1;

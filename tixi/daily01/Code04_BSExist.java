@@ -15,12 +15,12 @@ public class Code04_BSExist {
         int right = arr.length - 1;
         while (left < right) {
             int mid = left + ((right - left) >> 1);
-            if (arr[mid] > num) {
-                right = mid - 1;
-            } else if (arr[mid] == num) {
+            if (arr[mid] == num) {
                 return true;
-            } else {
+            } else if (arr[mid] < num) {
                 left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
 
@@ -38,7 +38,6 @@ public class Code04_BSExist {
         }
         return false;
     }
-
 
     public static int[] generateRandomArray(int max_size, int max_value) {
         int[] arr = new int[(int) ((max_size + 1) * Math.random())];
