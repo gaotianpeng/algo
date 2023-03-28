@@ -5,7 +5,7 @@ import java.util.Arrays;
 /*
 冒泡排序
 过程：
-    在arr[0～N-1]范围上：arr[0]和arr[1]，谁大谁来到1位置；arr[1]和arr[2]，谁大谁来到2位置…arr[N-2]和arr[N-1]，谁大谁来到N-1位置
+    在arr[0～N-1]范围上 在arr[0]和arr[1]，谁大谁来到1位置；在arr[1]和arr[2]，谁大谁来到2位置…arr[N-2]和arr[N-1]，谁大谁来到N-1位置
     在arr[0～N-2]范围上，重复上面的过程，但最后一步是arr[N-3]和arr[N-2]，谁大谁来到N-2位置
     在arr[0～N-3]范围上，重复上面的过程，但最后一步是arr[N-4]和arr[N-3]，谁大谁来到N-3位置
     …
@@ -18,7 +18,7 @@ public class Code02_BubbleSort {
         }
 
         int n = arr.length;
-        for (int i = n - 1; i >= 0; --i) {
+        for (int i = n - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j+1]) {
                     swap(arr, j, j + 1);
