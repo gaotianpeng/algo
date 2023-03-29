@@ -1,9 +1,9 @@
 public class test {
     public static void main(String[] args) {
-        String str = new String("  222   ");
-        System.out.println(str);
-        String str2 = str.trim();
-        System.out.println(str2);
-        System.out.println(str2.length());
+        int[] arr = new int[32];
+        for (int i = 0; i < arr.length; ++i) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
     }
 }

@@ -14,21 +14,22 @@ public class Code03_TwoOdds {
         }
 
         int[] ans = new int[2];
+        int n = arr.length;
         int xor = 0;
-        for (int i = 0; i < arr.length; ++i) {
+        for (int i = 0; i < n; ++i) {
             xor ^= arr[i];
         }
 
         int right_one = xor & (-xor);
-        int only_one = 0;
-        for (int i = 0; i < arr.length; ++i) {
+        int xor2 = 0;
+        for (int i = 0; i < n; ++i) {
             if ((arr[i] & right_one) == 0) {
-                only_one ^= arr[i];
+                xor2 ^= arr[i];
             }
         }
 
-        ans[0] = only_one;
-        ans[1] = xor ^ only_one;
+        ans[0] = xor2;
+        ans[1] = xor ^ xor2;
         return ans;
     }
 

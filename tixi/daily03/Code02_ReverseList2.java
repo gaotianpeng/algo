@@ -17,9 +17,12 @@ public class Code02_ReverseList2 {
     }
 
     public static DoubleNode reverseDoubleList(DoubleNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
         DoubleNode prev = null;
         DoubleNode next = null;
-
         while (head != null) {
             next = head.next;
             head.next = prev;
@@ -27,6 +30,7 @@ public class Code02_ReverseList2 {
             prev = head;
             head = next;
         }
+
         return prev;
     }
 
