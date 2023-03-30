@@ -20,20 +20,22 @@ public class Code01_SlidingWindowMaxArray {
         int n = arr.length;
         int[] ans = new int[n - w + 1];
         int index = 0;
-
-        LinkedList<Integer> queue = new LinkedList<>();
+        LinkedList<Integer> qmax = new LinkedList<>();
         for (int right = 0; right < n; ++right) {
-            while (!queue.isEmpty() && arr[queue.peekLast()] <= arr[right]) {
-                queue.pollLast();
+            while (!qmax.isEmpty() && arr[qmax.peekLast()] < arr[right]) {
+                qmax.pollLast();
             }
-            queue.add(right);
-            if (queue.peekFirst() == right - w) {
-                queue.pollFirst();
+            qmax.addLast(right);
+
+            if (qmax.peekFirst() == right - w) {
+                qmax.pollFirst();
             }
+            
             if (right >= w - 1) {
-                ans[index++] = arr[queue.peekFirst()];
+                ans[index++] = arr[qmax.peekFirst()];
             }
         }
+
 
         return ans;
     }
