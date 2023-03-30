@@ -8,19 +8,21 @@ public class Code02_MergeSort2 {
             return;
         }
 
-        int merge_size = 1;
         int n = arr.length;
+        int merge_size = 1;
         while (merge_size < n) {
             int left = 0;
             while (left < n) {
                 if (merge_size > n - left) {
                     break;
                 }
+
                 int mid = left + merge_size - 1;
                 int right = mid + Math.min(merge_size, n - mid - 1);
                 merge(arr, left, mid, right);
                 left = right + 1;
             }
+            
             if (merge_size > n/2) {
                 break;
             }

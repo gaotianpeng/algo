@@ -2,13 +2,13 @@ package tixi.daily04;
 
 /*
     在一个数组中，一个数左边比它小的数的总和，叫数的小和，所有数的小和累加起来，叫数组小和。求数组小和。
-    例子： [1,3,4,2,5]
-    1左边比1小的数：没有
-    3左边比3小的数：1
-    4左边比4小的数：1、3
-    2左边比2小的数：1
-    5左边比5小的数：1、3、4、 2
-    所以数组的小和为1+1+3+1+1+3+4+2=16
+        例子： [1,3,4,2,5]
+        1左边比1小的数：没有
+        3左边比3小的数：1
+        4左边比4小的数：1、3
+        2左边比2小的数：1
+        5左边比5小的数：1、3、4、 2
+        所以数组的小和为1+1+3+1+1+3+4+2=16
  */
 public class Code03_SmallSum {
     public static int smallSum(int[] arr) {
@@ -16,46 +16,45 @@ public class Code03_SmallSum {
             return 0;
         }
 
-        return process(arr, 0, arr.length - 1);
+        return process(arr, 0, arr.length - 1);   
     }
 
-    public static int process(int[] arr, int left, int right) {
+    private static int process(int[] arr, int left, int right) {
         if (left == right) {
             return 0;
         }
 
-        int mid = left + ((right - left)>>1);
+        int mid = left + ((right - left) >> 1);
         return process(arr, left, mid)
                 + process(arr, mid + 1, right)
                 + merge(arr, left, mid, right);
     }
 
     private static int merge(int[] arr, int left, int mid, int right) {
-        int[] helper = new int[right - left + 1];
-        int left_index = left;
-        int right_index = mid + 1;
-        int index = 0;
+        int[] helper = new int [right - left + 1];
         int ans = 0;
-        while (left_index <= mid && right_index <= right) {
-            ans += arr[left_index] < arr[right_index] ? (right - right_index + 1)*arr[left_index] : 0;
-            helper[index++] = arr[left_index] < arr[right_index] ? arr[left_index++] : arr[right_index++];
+        int p1 = left;
+        int p2 = mid + 1;
+        int index = 0;
+        
+        while (p1 <= mid && p2 <= right) {
+            ans += arr[p1] < arr[p2] ? (right - p2 + 1) * arr[p1] : 0;
+            helper[index++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
         }
 
-        while (left_index <= mid) {
-            helper[index++] = arr[left_index++];
+        while (p1 <= mid) {
+            helper[index++] = arr[p1++];
+        }
+        while (p2 <= right) {
+            helper[index++] = arr[p2++];
         }
 
-        while (right_index <= right) {
-            helper[index++] = arr[right_index++];
-        }
-
-        for (int i = 0; i < helper.length; i++) {
+        for (int i = 0; i < helper.length; ++i) {
             arr[left + i] = helper[i];
         }
 
         return ans;
     }
-
 
     /*
         for test
