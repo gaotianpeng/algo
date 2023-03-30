@@ -4,19 +4,19 @@ import java.util.Arrays;
 
 public class Code01_MergeSort {
     public static void mergeSort(int[] nums) {
-        if (nums == null || nums.length == 0) {
+        if (nums == null || nums.length <2) {
             return;
         }
 
         process(nums, 0, nums.length - 1);
     }
 
-    public static void process(int[] nums, int left, int right) {
+    private static void process(int[] nums, int left, int right) {
         if (left == right) {
             return;
         }
 
-        int mid = left + ((right - left)>>1);
+        int mid = left + ((right - left) >> 1);
         process(nums, left, mid);
         process(nums, mid + 1, right);
         merge(nums, left, mid, right);
@@ -24,26 +24,26 @@ public class Code01_MergeSort {
 
     private static void merge(int[] nums, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int left_idx = left;
-        int right_idx = mid + 1;
+        int p1 = left;
+        int p2 = mid + 1;
         int index = 0;
-
-        while (left_idx <= mid && right_idx <= right) {
-            helper[index++] = nums[left_idx] <= nums[right_idx] ? nums[left_idx++] : nums[right_idx++];
+        while (p1 <= mid && p2 <= right) {
+            helper[index++] = nums[p1] < nums[p2] ? nums[p1++] : nums[p2++];
         }
 
-        while (left_idx <= mid) {
-            helper[index++] = nums[left_idx++];
+        while (p1 <= mid) {
+            helper[index++] = nums[p1++];
         }
 
-        while (right_idx <= right) {
-            helper[index++] = nums[right_idx++];
+        while (p2 <= right) {
+            helper[index++] = nums[p2++];
         }
 
-        for (int i = 0; i < helper.length; i++) {
+        for (int i = 0; i < helper.length; ++i) {
             nums[left + i] = helper[i];
         }
     }
+
 
     /*
         for test
