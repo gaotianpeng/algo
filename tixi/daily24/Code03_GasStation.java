@@ -2,7 +2,7 @@ package tixi.daily24;
 
 import java.util.LinkedList;
 
-public class GasStation {
+public class Code03_GasStation {
     /*
         134: gas station，加油站
         在一条环路上有 n个加油站，其中第 i个加油站有汽油gas[i]升。
