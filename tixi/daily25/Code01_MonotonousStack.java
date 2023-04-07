@@ -17,25 +17,21 @@ public class Code01_MonotonousStack {
     public static int[][] getNearLessNoRepeat(int[] arr) {
         int n = arr.length;
         int[][] ans = new int[n][2];
-
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < arr.length; ++i) {
+        for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
-                int j = stack.pop();
-                int left_less_index = stack.isEmpty() ? -1 : stack.peek();
-                ans[j][0] = left_less_index;
-                ans[j][1] = i;
+                int cur = stack.pop();
+                ans[cur][0] = stack.isEmpty() ? -1 : stack.peek();
+                ans[cur][1] = i;
             }
             stack.push(i);
         }
 
         while (!stack.isEmpty()) {
-            int j = stack.pop();
-            int left_less_index = stack.isEmpty() ? -1 : stack.peek();
-            ans[j][0] = left_less_index;
-            ans[j][1] = -1;
+            int cur = stack.pop();
+            ans[cur][0] = stack.isEmpty() ? -1 : stack.peek();
+            ans[cur][1] = -1;
         }
-
         return ans;
     }
 
