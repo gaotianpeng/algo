@@ -19,30 +19,30 @@ public class Code02_MaxmimumSubArrayMinProducct {
      */
     public static int maxSumMinProduct(int[] arr) {
         int n = arr.length;
-        int[] sum = new int[n];
-        sum[0] = arr[0];
+        int ans = Integer.MIN_VALUE;
+
+        int[] pre_sum = new int[n];
+        pre_sum[0] = arr[0];
         for (int i = 1; i < n; ++i) {
-            sum[i] = sum[i-1] + arr[i];
+            pre_sum[i] = pre_sum[i-1] + arr[i];
         }
 
-        int max = Integer.MIN_VALUE;
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
-                int j = stack.pop();
-                int val = (stack.isEmpty() ? sum[i-1] :(sum[i-1] - sum[stack.peek()])) * arr[j];
-                max = Math.max(max, val);
+                int cur = stack.pop();
+                ans = Math.max(ans,
+                        arr[cur] * (stack.isEmpty() ? pre_sum[i-1]: pre_sum[i-1] - pre_sum[stack.peek()]));
             }
-            stack.push(i);
+            stack.add(i);
         }
-
         while (!stack.isEmpty()) {
-            int j = stack.pop();
-            int val = (stack.isEmpty() ? sum[n - 1] : (sum[n - 1] - sum[stack.peek()])) * arr[j];
-            max = Math.max(max, val);
+            int cur = stack.pop();
+            ans = Math.max(ans,
+                    arr[cur] * (stack.isEmpty() ? pre_sum[n-1]: pre_sum[n-1] - pre_sum[stack.peek()]));
         }
 
-        return max;
+        return ans;
     }
 
     public static int test(int[] arr) {
@@ -71,11 +71,8 @@ public class Code02_MaxmimumSubArrayMinProducct {
                 cur_right_limit = j;
             }
 
-            int tmp = cur_right_limit == cur_left_limit ? arr[cur]*arr[cur] :
-                    (pre_sum[cur_right_limit] - pre_sum[cur_left_limit] + arr[cur_left_limit]) * arr[cur];
-            ans = Math.max(ans, tmp);
+            ans = Math.max((pre_sum[cur_right_limit] - pre_sum[cur_left_limit] + arr[cur_left_limit]) * arr[cur], ans);
         }
-
 
         return ans;
     }
