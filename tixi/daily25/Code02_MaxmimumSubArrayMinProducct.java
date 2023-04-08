@@ -2,7 +2,7 @@ package tixi.daily25;
 
 import java.util.Stack;
 
-public class MaxmimumSubArrayMinProducct {
+public class Code02_MaxmimumSubArrayMinProducct {
     /*
         https://leetcode.cn/problems/maximum-subarray-min-product/
         leetcode 1856 子数组最小乘积的最大值
@@ -47,20 +47,56 @@ public class MaxmimumSubArrayMinProducct {
 
     public static int test(int[] arr) {
         int n = arr.length;
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < n; ++i) {
-            for (int j = i; j < n; ++j) {
-                int min_num = Integer.MAX_VALUE;
-                int sum = 0;
-                for (int k = i; k <= j; ++k) {
-                    sum += arr[k];
-                    min_num = Math.min(min_num, arr[k]);
+        int ans = Integer.MIN_VALUE;
+        int[] pre_sum = new int[n];
+        pre_sum[0] = arr[0];
+        for (int i = 1; i < n; ++i) {
+            pre_sum[i] = pre_sum[i-1] + arr[i];
+        }
+
+        for (int cur = 0; cur < n; ++cur) {
+            int cur_left_limit = cur;
+            int cur_right_limit = cur;
+            for (int j = cur; j >= 0; j--) {
+                if (arr[j] < arr[cur]) {
+                    break;
                 }
-                max = Math.max(max, sum * min_num);
+                cur_left_limit = j;
+            }
+
+            for (int j = cur; j < n; j++) {
+                if (arr[j] < arr[cur]) {
+                    break;
+                }
+                cur_right_limit = j;
+            }
+
+            int tmp = cur_right_limit == cur_left_limit ? arr[cur]*arr[cur] :
+                    (pre_sum[cur_right_limit] - pre_sum[cur_left_limit] + arr[cur_left_limit]) * arr[cur];
+            ans = Math.max(ans, tmp);
+        }
+
+
+        return ans;
+    }
+
+    public static int test1(int[] arr) {
+        int ans = Integer.MIN_VALUE;
+        int n = arr.length;
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; j++) {
+                int sum = 0;
+                int min = Integer.MAX_VALUE;
+                for(int k = i; k <= j; ++k) {
+                    min = Math.min(min, arr[k]);
+                    sum += arr[k];
+                }
+                ans = Math.max(ans, sum * min);
             }
         }
 
-        return max;
+        return ans;
     }
 
     public static int[] gerenareRondomArray() {
@@ -78,9 +114,18 @@ public class MaxmimumSubArrayMinProducct {
             int[] arr = gerenareRondomArray();
             if (test(arr) != maxSumMinProduct(arr)) {
                 System.out.println("test failed");
+                System.out.println(test(arr));
+                System.out.println(maxSumMinProduct(arr));
+                break;
+            }
+            if (test1(arr) != maxSumMinProduct(arr)) {
+                System.out.println("test failed");
+                System.out.println(test(arr));
+                System.out.println(maxSumMinProduct(arr));
                 break;
             }
         }
+
 
         System.out.println("test end");
     }
