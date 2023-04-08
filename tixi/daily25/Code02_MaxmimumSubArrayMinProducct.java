@@ -18,6 +18,10 @@ public class Code02_MaxmimumSubArrayMinProducct {
         那么所有子数组中，这个值最大是多少
      */
     public static int maxSumMinProduct(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
         int n = arr.length;
         int ans = Integer.MIN_VALUE;
 
@@ -46,6 +50,10 @@ public class Code02_MaxmimumSubArrayMinProducct {
     }
 
     public static int test(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
         int n = arr.length;
         int ans = Integer.MIN_VALUE;
         int[] pre_sum = new int[n];
@@ -78,6 +86,10 @@ public class Code02_MaxmimumSubArrayMinProducct {
     }
 
     public static int test1(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
         int ans = Integer.MIN_VALUE;
         int n = arr.length;
 
