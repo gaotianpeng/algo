@@ -21,7 +21,7 @@ public class Code01_MonotonousStack {
         for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
                 int cur = stack.pop();
-                ans[cur][0] = stack.isEmpty() ? -1 : stack.peek();
+                ans[cur][0] = stack.isEmpty() ? -1:stack.peek();
                 ans[cur][1] = i;
             }
             stack.push(i);
@@ -32,40 +32,39 @@ public class Code01_MonotonousStack {
             ans[cur][0] = stack.isEmpty() ? -1 : stack.peek();
             ans[cur][1] = -1;
         }
+
         return ans;
     }
 
     public static int[][] getNearLesss(int[] arr) {
         int n = arr.length;
         int[][] ans = new int[n][2];
+
         Stack<List<Integer>> stack = new Stack<>();
         for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek().get(0)] > arr[i]) {
-                List<Integer> pop_list = stack.pop();
-                int left_less_index = stack.isEmpty() ? -1:
-                        stack.peek().get(stack.peek().size() - 1);
-                for (Integer popi: pop_list) {
-                    ans[popi][0] = left_less_index;
-                    ans[popi][1] = i;
+                List<Integer> cur = stack.pop();
+                int cur_left_index = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+                for (Integer idx : cur) {
+                    ans[idx][0] = cur_left_index;
+                    ans[idx][1] = i;
                 }
             }
-
             if (!stack.isEmpty() && arr[stack.peek().get(0)] == arr[i]) {
-                stack.peek().add(i);
+                stack.peek().add(Integer.valueOf(i));
             } else {
-                ArrayList<Integer> list = new ArrayList<>();
+                List<Integer> list = new ArrayList<>();
                 list.add(i);
-                stack.push(list);
+                stack.add(list);
             }
         }
 
-        while (!stack.isEmpty()) {
-            List<Integer> pop_ls = stack.pop();
-            int left_less_index = stack.isEmpty() ? -1:
-                    stack.peek().get(stack.peek().size() - 1);
-            for (Integer popi: pop_ls) {
-                ans[popi][0] = left_less_index;
-                ans[popi][1] = -1;
+        while(!stack.isEmpty()) {
+            List<Integer> cur = stack.pop();
+            int cur_left_index = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+            for (Integer idx: cur) {
+                ans[idx][0] = cur_left_index;
+                ans[idx][1] = -1;
             }
         }
 
