@@ -2,9 +2,9 @@ package tixi.daily26;
 
 /*
     https://leetcode.cn/problems/sum-of-subarray-minimums/
-    907 给定一个数组arr，返回所有子数组最小值的累加和
+    leetcode 907 给定一个数组arr，返回所有子数组最小值的累加和
  */
-public class SumOfSubarrayMinimums {
+public class Code01_SumOfSubarrayMinimums {
     public static int sumSubarrayMins(int[] arr) {
         int[] left = nearLeftEqual(arr);
         int[] right = nearRight(arr);
