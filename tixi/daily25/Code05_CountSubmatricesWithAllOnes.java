@@ -4,7 +4,7 @@ package tixi.daily25;
     给定一个二维数组matrix，其中的值不是0就是1，
     返回全部由1组成的子矩形数量
  */
-public class CountSubmatricesWithAllOnes {
+public class Code05_CountSubmatricesWithAllOnes {
     public static int numSubmat(int[][] mat) {
         if (mat == null || mat.length == 0 || mat[0].length == 0) {
             return 0;
