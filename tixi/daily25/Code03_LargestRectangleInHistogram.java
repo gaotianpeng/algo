@@ -2,7 +2,13 @@ package tixi.daily25;
 
 import java.util.Stack;
 
-public class LargestRectangleInHistogram {
+public class Code03_LargestRectangleInHistogram {
+    /*
+        给定一个非负数组arr，代表直方图返回直方图的最大长方形面积
+
+        leetcode 84 柱状图中最大的矩形
+        https://leetcode.cn/problems/largest-rectangle-in-histogram/
+    */
     public static int largestRectangleArea(int[] height) {
         if (height == null || height.length == 0) {
             return 0;
