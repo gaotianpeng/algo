@@ -37,14 +37,15 @@ public class Code01_Manacher {
         return max - 1;
     }
 
-    public static char[] manacherString(String str) {
-        char[] charArr = str.toCharArray();
-        char[] res = new char[str.length() * 2 + 1];
+    public static char[] manacherString(String s) {
+        int n = s.length();
+        char[] str = s.toCharArray();
+        char[] ans = new char[2*n + 1];
         int index = 0;
-        for (int i = 0; i != res.length; i++) {
-            res[i] = (i & 1) == 0 ? '#' : charArr[index++];
+        for (int i = 0; i < ans.length; ++i) {
+            ans[i] = (i & 1) == 0 ? '#' : str[index++];
         }
-        return res;
+        return ans;
     }
 
     public static int test(String s) {
@@ -65,7 +66,7 @@ public class Code01_Manacher {
             ans = Math.max(right - left - 1, ans);
         }
 
-        return ans/2;
+        return ans / 2;
     }
 
     // for test
