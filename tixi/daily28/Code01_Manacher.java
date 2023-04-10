@@ -8,33 +8,33 @@ public class Code01_Manacher {
         if (s == null || s.length() == 0) {
             return 0;
         }
-        // "12132" -> "#1#2#1#3#2#"
+
         char[] str = manacherString(s);
-        // 回文半径的大小
-        int[] pArr = new int[str.length];
-        int C = -1;
-        // 讲述中：R代表最右的扩成功的位置
-        // coding：最右的扩成功位置的，再下一个位置
-        int R = -1;
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < str.length; i++) { // 0 1 2
+        int n = str.length;
+        int[] p_radius_arr = new int[n]; // 回文半径大小数组
+        int p_center = -1;
+        int right = -1; // 成功扩至最右的下一个位置
+        int ans = Integer.MIN_VALUE;
+        for (int i = 0; i < n; ++i) {
             // R第一个违规的位置，i>= R
             // i位置扩出来的答案，i位置扩的区域，至少是多大。
-            pArr[i] = R > i ? Math.min(pArr[2 * C - i], R - i) : 1;
-            while (i + pArr[i] < str.length && i - pArr[i] > -1) {
-                if (str[i + pArr[i]] == str[i - pArr[i]])
-                    pArr[i]++;
-                else {
+            p_radius_arr[i] = right > i ? Math.min(right - i, p_radius_arr[2*p_center - i]) : 1;
+            while (i + p_radius_arr[i] < str.length && i - p_radius_arr[i] > -1) {
+                if (str[i+p_radius_arr[i]] == str[i-p_radius_arr[i]]) {
+                    p_radius_arr[i]++;
+                } else {
                     break;
                 }
             }
-            if (i + pArr[i] > R) {
-                R = i + pArr[i];
-                C = i;
+            if (i + p_radius_arr[i] > right) {
+                right = i + p_radius_arr[i];
+                p_center = i;
             }
-            max = Math.max(max, pArr[i]);
+
+            ans = Math.max(ans, p_radius_arr[i]);
         }
-        return max - 1;
+
+        return ans - 1;
     }
 
     public static char[] manacherString(String s) {
