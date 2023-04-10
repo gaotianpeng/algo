@@ -87,9 +87,6 @@ public class Code01_Manacher {
             String s = getRandomString(posibilities, str_size);
             if (test(s) != manacher(s)) {
                 System.out.println("test failed");
-                System.out.println(s);
-                System.out.println(test(s));
-                System.out.println(manacher(s));
                 break;
             }
         }
