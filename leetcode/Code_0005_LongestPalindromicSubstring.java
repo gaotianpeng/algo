@@ -53,14 +53,14 @@ public class Code_0005_LongestPalindromicSubstring {
     }
 
     public static String test(String s) {
-        if (s == null || s.length() == 0) {
+        if ( s == null || s.length() == 0) {
             return "";
         }
 
         char[] str = manacherString(s);
         int n = str.length;
-        int ans = 0;
-        int mid = -1;
+        int max = Integer.MIN_VALUE;
+        int mid = 0;
         for (int i = 0; i < n; ++i) {
             int left = i - 1;
             int right = i + 1;
@@ -68,15 +68,18 @@ public class Code_0005_LongestPalindromicSubstring {
                 --left;
                 ++right;
             }
-            if (right - left - 1 > ans) {
-                ans = right - left - 1;
+            if (right - left - 1 > max) {
+                max = right - left - 1;
                 mid = i;
             }
         }
 
-        ans = ans / 2;
-        mid = (mid-1) / 2;
-        return s.substring((ans & 1) == 0 ? mid - (ans / 2) + 1 : mid - (ans / 2), mid + (ans / 2) + 1);
+        max = max / 2;
+        mid = (mid - 1)/2;
+
+        int start = (max&1) == 0 ? mid - max/2 + 1 : mid - max/2;
+        int end = mid + max/2 + 1;
+        return s.substring(start, end);
     }
 
     public static String getRandomString(int possibilities, int size) {
