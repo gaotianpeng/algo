@@ -14,10 +14,10 @@ public class Code_0647_PalindromicSubstrings {
         char[] str = manacherString(s);
         int n = str.length - 1;
         int[] p_radius_arr = new int[n];
-        int p_center = 0;
-        int right = 0;
+        int p_center = -1;
+        int right = -1;
         int ans = 0;
-        for (int i = 1; i < n; ++i) {
+        for (int i = 0; i < n; ++i) {
             p_radius_arr[i] = right > i ? Math.min(right - i, p_radius_arr[2*p_center - i]) : 1;
             while (i + p_radius_arr[i] < str.length && i - p_radius_arr[i] > -1) {
                 if (str[i+p_radius_arr[i]] == str[i-p_radius_arr[i]]) {
