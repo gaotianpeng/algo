@@ -10,8 +10,6 @@ public class NC_149_KMP {
      * @return int整型
      */
     public static int kmp (String S, String T) {
-        // write code here
-        // write code here
         if (S == null || T == null || T.length() == 0 || T.length() < S.length()) {
             return 0;
         }
@@ -21,18 +19,18 @@ public class NC_149_KMP {
         char[] str2 = S.toCharArray();
         int[] next = getNextArray(str2);
 
-        int pre = 0;
         int x = 0;
-        while (x < str1.length) {
-            while (pre > 0 && str1[x] != str2[pre]) {
-                pre = next[pre-1];
+        int y = 0;
+        while (x < str1.length && y < str2.length) {
+            while (x > 0 && str1[x] != str2[y]) {
+                y = next[y - 1];
             }
-            if (str1[x] == str2[pre]) {
-                pre++;
+            if (str1[x] == str2[y]) {
+                ++y;
             }
-            if (pre == str2.length) {
+            if (y == str2.length) {
                 ++ans;
-                pre = next[pre-1];
+                y = next[y-1];
             }
             ++x;
         }
@@ -48,7 +46,7 @@ public class NC_149_KMP {
         int[] next = new int[n];
         next[0] = 0;
         int cn = 0;
-        int i = 2;
+        int i = 1;
         while (i < n) {
             if (str[i-1] == str[cn]) {
                 next[i++] = ++cn;
@@ -58,7 +56,9 @@ public class NC_149_KMP {
                 next[i++] = 0;
             }
         }
+        return next;
     }
+
     public static void main(String[] args) {
         String s = "aa";
         String t = "aaaaa";
