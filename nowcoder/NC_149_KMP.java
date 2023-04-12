@@ -62,6 +62,11 @@ public class NC_149_KMP {
     public static void main(String[] args) {
         String s = "aa";
         String t = "aaaaa";
-        System.out.println(kmp(s, t));
+//        System.out.println(kmp(s, t));
+        int[] next = getNextArray(s.toCharArray());
+        for (int i = 0; i < next.length; ++i) {
+            System.out.print(next[i] +  " ");
+        }
+        System.out.println();
     }
 }
