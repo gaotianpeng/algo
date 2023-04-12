@@ -22,37 +22,42 @@ public class NC_149_KMP {
         int[] next = getNextArray(str2);
 
         int pre = 0;
-        for (int i = 0; i < str1.length; ++i) {
-            while (pre > 0 && str1[i] != str2[pre]) {
+        int x = 0;
+        while (x < str1.length) {
+            while (pre > 0 && str1[x] != str2[pre]) {
                 pre = next[pre-1];
             }
-            if (str1[i] == str2[pre]) {
+            if (str1[x] == str2[pre]) {
                 pre++;
             }
             if (pre == str2.length) {
                 ++ans;
                 pre = next[pre-1];
             }
+            ++x;
         }
 
         return ans;
     }
 
     private static int[] getNextArray(char[] str) {
-        int[] next = new int[str.length];
-        int pre = 0;
-        next[0] = 0;
-        for(int sufix = 1; sufix< str.length; sufix++){
-            while(pre > 0 && str[pre]!= str[sufix]){
-                pre = next[sufix-1];
-            }
-            if(str[pre] == str[sufix]){
-                pre++;
-            }
-            next[sufix] = pre;
+        if (str.length == 1) {
+            return new int[] {0};
         }
-
-        return next;
+        int n = str.length;
+        int[] next = new int[n];
+        next[0] = 0;
+        int cn = 0;
+        int i = 2;
+        while (i < n) {
+            if (str[i-1] == str[cn]) {
+                next[i++] = ++cn;
+            } else if (cn > 0) {
+                cn = next[cn];
+            } else {
+                next[i++] = 0;
+            }
+        }
     }
     public static void main(String[] args) {
         String s = "aa";
