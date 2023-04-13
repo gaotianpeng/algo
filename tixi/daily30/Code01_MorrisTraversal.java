@@ -1,6 +1,6 @@
 package tixi.daily30;
 
-public class MorrisTraversal {
+public class Code01_MorrisTraversal {
     public static class Node {
         public int value;
         Node left;
@@ -35,23 +35,22 @@ public class MorrisTraversal {
         }
 
         Node cur = head;
-        Node mostRight = null;
-
+        Node most_right = null;
         while (cur != null) {
-            mostRight = cur.left;
-            if (mostRight != null) {
-                while (mostRight.right != null && mostRight.right != cur) {
-                    mostRight = mostRight.right;
+            most_right = cur.left;
+            if (most_right != null) {
+                while (most_right.right != null && most_right.right != cur) {
+                    most_right = most_right.right;
                 }
-
-                if (mostRight.right == null) {
-                    mostRight.right = cur;
+                if (most_right.right == null) {
+                    most_right.right = cur;
                     cur = cur.left;
                     continue;
                 } else {
-                    mostRight.right = null;
+                    most_right.right = null;
                 }
             }
+
             cur = cur.right;
         }
     }
