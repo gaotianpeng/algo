@@ -19,6 +19,7 @@ public class Code01_MorrisTraversal {
         preTraverse(root.left);
         preTraverse(root.right);
     }
+
     public static void inTraverse(Node root) {
         if (root == null) {
             return;
@@ -26,6 +27,15 @@ public class Code01_MorrisTraversal {
         inTraverse(root.left);
         System.out.print(root.value + " ");
         inTraverse(root.right);
+    }
+
+    public static void posTraverse(Node root) {
+        if (root == null) {
+            return;
+        }
+        posTraverse(root.left);
+        posTraverse(root.right);
+        System.out.print(root.value + " ");
     }
     /*
         Morris 遍历
@@ -121,6 +131,58 @@ public class Code01_MorrisTraversal {
         System.out.println();
     }
 
+    public static void posMorris(Node head) {
+        if (head == null) {
+            return;
+        }
+
+        Node cur = head;
+        Node most_right = null;
+        while (cur != null) {
+            most_right = cur.left;
+            if (most_right != null) {
+                while (most_right.right != null && most_right.right != cur) {
+                    most_right = most_right.right;
+                }
+
+                if (most_right.right == null) {
+                    most_right.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    most_right.right = null;
+                    printEdge(cur.left);
+                }
+            }
+
+            cur = cur.right;
+        }
+
+        printEdge(head);
+        System.out.println();
+    }
+
+    public static void printEdge(Node head) {
+        Node tail = reverseEdge(head);
+        Node cur = tail;
+        while (cur != null) {
+            System.out.print(cur.value + " ");
+            cur = cur.right;
+        }
+        reverseEdge(tail);
+    }
+
+    public static Node reverseEdge(Node from) {
+        Node pre = null;
+        Node next = null;
+        while (from != null) {
+            next = from.right;
+            from.right = pre;
+            pre = from;
+            from = next;
+        }
+        return pre;
+    }
 
     public static void main(String[] args) {
         Node head = new Node(4);
@@ -137,5 +199,8 @@ public class Code01_MorrisTraversal {
         inTraverse(head);
         System.out.println();
         inMorris(head);
+        posTraverse(head);
+        System.out.println();
+        posMorris(head);
     }
 }
