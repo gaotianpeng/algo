@@ -19,6 +19,14 @@ public class Code01_MorrisTraversal {
         preTraverse(root.left);
         preTraverse(root.right);
     }
+    public static void inTraverse(Node root) {
+        if (root == null) {
+            return;
+        }
+        inTraverse(root.left);
+        System.out.print(root.value + " ");
+        inTraverse(root.right);
+    }
     /*
         Morris 遍历
             假设来到当前节点 cur, 开始时，cur 来到头节点位置
@@ -55,6 +63,7 @@ public class Code01_MorrisTraversal {
         }
     }
 
+    // morris序第一次到来就打印
     public static void preMorris(Node head) {
         if (head == null) {
             return;
@@ -84,6 +93,35 @@ public class Code01_MorrisTraversal {
         System.out.println();
      }
 
+    // morris序列第二次打印，只有一次的第一次打印
+    public static void inMorris(Node head) {
+        if (head == null) {
+            return;
+        }
+
+        Node cur = head;
+        Node mostRight = null;
+        while (cur != null) {
+            mostRight = cur.left;
+            if (mostRight != null) {
+                while (mostRight.right != null && mostRight.right != cur) {
+                    mostRight = mostRight.right;
+                }
+                if (mostRight.right == null) {
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    mostRight.right = null;
+                }
+            }
+            System.out.print(cur.value + " ");
+            cur = cur.right;
+        }
+        System.out.println();
+    }
+
+
     public static void main(String[] args) {
         Node head = new Node(4);
         head.left = new Node(2);
@@ -96,5 +134,8 @@ public class Code01_MorrisTraversal {
         preTraverse(head);
         System.out.println();
         preMorris(head);
+        inTraverse(head);
+        System.out.println();
+        inMorris(head);
     }
 }
