@@ -9,29 +9,29 @@ public class NC_149_KMP {
      * @param T string字符串 文本串
      * @return int整型
      */
-    public static int kmp (String S, String T) {
-        int m = S.length(), n = T.length();
-        if (m > n || n == 0) {
+    public static int kmp (String s, String t) {
+        if (s == null || t == null || t.length() == 0 || t.length() < s.length()) {
             return 0;
         }
 
-        //初始化计数，获取next数组
+        char[] str1 = t.toCharArray();
+        char[] str2 = s.toCharArray();
+        int n = str1.length;
+
         int cnt = 0;
-        int[] next = getNext(S);
+        int[] next = getNextArray(s);
 
         //遍历主串和模式串
-        for (int i = 0,j = 0; i < n; i++){
+        for (int i = 0, j = 0; i < n; i++) {
             //只要不相等，回退到next数组记录的下一位
-            while(j > 0 && T.charAt(i) != S.charAt(j)){
+            while(j > 0 && str1[i] != str2[j]){
                 j = next[j-1];
             }
-            if(T.charAt(i) == S.charAt(j)) {
+            if(str1[i] == str2[j]) {
                 j++;
             }
 
-            //如果j为m，说明完全匹配一次
-            if(j == m){
-                //计数加一，索引回退到next数组记录的下一位
+            if(j == str2.length) {
                 cnt++;
                 j = next[j-1];
             }
@@ -39,25 +39,26 @@ public class NC_149_KMP {
         return cnt;
     }
 
-    //确定next数组
-    private static int[] getNext(String S){
-        int m = S.length();
-        int[] next=new int[m];
-        for(int i = 1, j = 0; i < m; i++){
-            //只要不相等，回退到next数组记录的下一位
-            while(j > 0 && S.charAt(i) != S.charAt(j)){
+    private static int[] getNextArray(String s) {
+        int n = s.length();
+        int[] next = new int[n];
+        char[] str = s.toCharArray();
+
+        int i = 1;
+        int j = 0;
+        while ( i < n) {
+            while (j > 0 && str[i] != str[j]) {
                 j = next[j-1];
             }
-            //前缀索引后移
-            if(S.charAt(i) == S.charAt(j)) {
-                j++;
+            if (str[i] == str[j]) {
+                ++j;
             }
-            //确定应该回退到的下一个索引
-            next[i] = j;
+            next[i++] = j;
         }
 
         return next;
     }
+
     // for test
     public static int test(String s, String t) {
         if (s == null || t == null || t.length() == 0 || t.length() < s.length()) {
@@ -76,6 +77,7 @@ public class NC_149_KMP {
 
         return ans;
     }
+
     public static String getRandomString(int possibilities, int size) {
         char[] ans = new char[(int) (Math.random() * size) + 1];
         for (int i = 0; i < ans.length; i++) {
@@ -89,7 +91,7 @@ public class NC_149_KMP {
         System.out.println("test start...");
         int possibilities = 5;
         int s_size = 6;
-        int t_size = 12;
+        int t_size = 100;
         int testTimes = 5000000;
         for (int i = 0; i < testTimes; i++) {
             String s = getRandomString(possibilities, s_size);
