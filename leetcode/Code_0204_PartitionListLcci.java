@@ -1,6 +1,6 @@
 package leetcode;
 
-public class Code0204_PartitionListLcci {
+public class Code_0204_PartitionListLcci {
     /*
         https://leetcode.cn/problems/partition-list-lcci/
         面试题 02.04. 分割链表
