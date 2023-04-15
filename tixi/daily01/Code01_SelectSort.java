@@ -18,14 +18,14 @@ public class Code01_SelectSort {
         }
 
         int n = arr.length;
-        for (int i = n - 1; i >= 0; --i) {
-            int max_index = i;
-            for (int j = 0; j < i; j++) {
-                max_index = arr[j] > arr[max_index] ? j: max_index;
+        for (int i = 0; i < n; ++i) {
+            int min_index = i;
+            for (int j = i + 1; j < n; j++) {
+                min_index = arr[j] < arr[min_index] ? j: min_index;
             }
 
-            if (max_index != i) {
-                swap(arr, i, max_index);
+            if (min_index != i) {
+                swap(arr, i, min_index);
             }
         }
     }
