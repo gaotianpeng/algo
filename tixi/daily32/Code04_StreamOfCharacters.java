@@ -5,6 +5,7 @@ import java.util.Queue;
 
 /*
     leetcode 1032 字符流
+        https://leetcode.cn/problems/stream-of-characters/
  */
 public class Code04_StreamOfCharacters {
     class StreamChecker {
