@@ -37,8 +37,8 @@ public class Code03_AC {
 
         public void insert(String s) {
             char[] str = s.toCharArray();
-            Node cur = root;
             int index = 0;
+            Node cur = root;
             for (int i = 0; i < str.length; ++i) {
                 index = str[i] - 'a';
                 if (cur.nexts[index] == null) {
@@ -56,8 +56,10 @@ public class Code03_AC {
             Node cfail = null;
 
             while (!queue.isEmpty()) {
+                // 取出父Node
                 cur = queue.poll();
-                for (int i = 0; i < 26; ++i) {
+                for (int i = 0; i < 26; ++i) { // 所有的路
+                    // 把i号儿子的 fail 设置好
                     if (cur.nexts[i] != null) {
                         cur.nexts[i].fail = root;
                         cfail = cur.fail;
@@ -73,18 +75,27 @@ public class Code03_AC {
                 }
             }
         }
-
+        /*
+            abcde
+              cde
+               de
+                e
+         */
+        // content 大文章
         public List<String> containWords(String content) {
             char[] str = content.toCharArray();
+            int index = 0;
             Node cur = root;
             Node follow = null;
-            int index = 0;
-            List<String> ans = new ArrayList<>();
+            List<String> ans = new LinkedList<>();
             for (int i = 0; i < str.length; ++i) {
                 index = str[i] - 'a';
+                // 如果在当前字符在这条路上没配出来，就随着fail方向走向下条路径
                 while (cur.nexts[index] == null && cur != root) {
                     cur = cur.fail;
                 }
+                // 1) 现在来到的路径，是可以继续匹配的
+                // 2) 现在来到的节点，就是前缀树的根节点
                 cur = cur.nexts[index] != null ? cur.nexts[index] : root;
                 follow = cur;
                 while (follow != root) {
@@ -98,6 +109,7 @@ public class Code03_AC {
                     follow = follow.fail;
                 }
             }
+
             return ans;
         }
     }
