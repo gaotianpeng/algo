@@ -74,7 +74,7 @@ public class Code01_AVLTreeMap {
             return null;
         }
 
-        // 获取最小的key
+        // 获取最小的K
         public K fistKey() {
             if (root == null) {
                 return null;
@@ -86,7 +86,7 @@ public class Code01_AVLTreeMap {
             return ans.key;
         }
 
-        // 获取最大的key
+        // 获取最大的 K
         public K lastKey() {
             if (root == null) {
                 return null;
@@ -100,7 +100,7 @@ public class Code01_AVLTreeMap {
             return ans.key;
         }
 
-        // 函数返回小于或等于key的最大key
+        // 函数返回 <= key的最大K
         public K floorKey(K key) {
             if (key == null) {
                 return null;
@@ -110,7 +110,7 @@ public class Code01_AVLTreeMap {
             return lastNoBigNode == null ? null : lastNoBigNode.key;
         }
 
-        // 返回大于等于给定键的最小键
+        // 返回>=key的最小K
         public K ceilingKey(K key) {
             if (key == null) {
                 return null;
