@@ -116,7 +116,7 @@ public class Code01_AVLTreeMap {
                 return null;
             }
 
-            AVLNode<K, V> last_no_big = findLastNoBigIndex(key);
+            AVLNode<K, V> last_no_big = findLastNoSmallIndex(key);
             return last_no_big == null ? null : last_no_big.key;
         }
 
@@ -325,11 +325,14 @@ public class Code01_AVLTreeMap {
         AVLTree<Integer, Integer> tree = new AVLTree<>();
         tree.put(1, 2);
         tree.put(2, 3);
+        tree.put(3, 4);
+        tree.put(4, 5);
         System.out.println(tree.size());
         System.out.println(tree.get(1));
         System.out.println(tree.get(2));
         tree.remove(2);
         System.out.println(tree.size());
+        System.out.println(tree.floorKey(2));
         System.out.println("test end");
     }
 }
