@@ -1,5 +1,7 @@
 package tixi.daily35;
 
+import java.util.TreeMap;
+
 public class Code01_AVLTreeMap {
     public static class AVLNode<K extends Comparable<K>, V> {
         public K key;
@@ -321,18 +323,10 @@ public class Code01_AVLTreeMap {
     }
 
     public static void main(String[] args) {
-        System.out.println("test start...");
-        AVLTree<Integer, Integer> tree = new AVLTree<>();
-        tree.put(1, 2);
-        tree.put(2, 3);
-        tree.put(3, 4);
-        tree.put(4, 5);
-        System.out.println(tree.size());
-        System.out.println(tree.get(1));
-        System.out.println(tree.get(2));
-        tree.remove(2);
-        System.out.println(tree.size());
-        System.out.println(tree.floorKey(2));
-        System.out.println("test end");
+        TreeMap<Integer, Integer> tree = new TreeMap<>();
+        tree.put(1000, 110000);
+        if (110000 == tree.get(1000)) {
+            System.out.println("hello ");
+        }
     }
 }
