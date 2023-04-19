@@ -29,23 +29,29 @@ public class Code_0450_DeleteNodeInABST {
                 cur = cur.right;
             }
         }
-
+        // 未找要要删除的节点, 返回root
         if (cur == null) {
             return root;
         }
 
+        // cur 来到要删除的节点(cur.val = key)
+        // 1) cur 左树为空，右树也为空
         if (cur.left == null && cur.right == null) {
             cur = null;
+            // 2) cur 右树为空
         } else if (cur.right == null) {
             cur = cur.left;
+            // 3) cur 左树为空
         } else if (cur.left == null) {
             cur = cur.right;
+            // 4) cur 左树、右树均不为空，用右树最小节点代替cur
         } else {
             TreeNode right_left_most = cur.right, right_left_most_p = cur;
             while (right_left_most.left != null) {
                 right_left_most_p = right_left_most;
                 right_left_most = right_left_most.left;
             }
+
             if (right_left_most_p.val == cur.val) {
                 right_left_most_p.right = right_left_most.right;
             } else {
