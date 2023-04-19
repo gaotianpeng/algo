@@ -1,9 +1,11 @@
+import java.util.TreeMap;
+
 public class test {
     public static void main(String[] args) {
-        String str = new String();
-        str += 'a';
-
-        str += 'a';
-        System.out.println(str);
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(1, 2);
+        if (map.get(2) == map.get(2)) {
+            System.out.println("-----------");;
+        }
     }
 }
