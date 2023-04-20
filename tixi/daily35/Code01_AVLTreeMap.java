@@ -334,7 +334,12 @@ public class Code01_AVLTreeMap {
             AVLTree<Integer, Integer> avl_tree = new AVLTree<>();
             for (int j = 0; j < 100; ++j) {
                 if (Math.random() < 0.1) {
-                    continue;
+                    int key = (int)(Math.random() * max_val);
+                    if (tree_map.containsKey(key) != avl_tree.containsKey(key)) {
+                        success = false;
+                        System.out.println("test failed 1");
+                        break;
+                    }
                 } else if (Math.random() < 0.5) {
                     int key = (int)(Math.random() * max_val);
                     int val = (int)(Math.random() * max_val);
