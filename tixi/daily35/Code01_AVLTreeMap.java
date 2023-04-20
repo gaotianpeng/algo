@@ -306,35 +306,6 @@ public class Code01_AVLTreeMap {
 
             return cur;
         }
-        private AVLNode<K, V> maintain1(AVLNode<K, V> cur) {
-            if (cur == null) {
-                return null;
-            }
-            int leftHeight = cur.l != null ? cur.l.h : 0;
-            int rightHeight = cur.r != null ? cur.r.h : 0;
-            if (Math.abs(leftHeight - rightHeight) > 1) {
-                if (leftHeight > rightHeight) {
-                    int leftLeftHeight = cur.l != null && cur.l.l != null ? cur.l.l.h : 0;
-                    int leftRightHeight = cur.l != null && cur.l.r != null ? cur.l.r.h : 0;
-                    if (leftLeftHeight >= leftRightHeight) {
-                        cur = rightRotate(cur);
-                    } else {
-                        cur.l = leftRotate(cur.l);
-                        cur = rightRotate(cur);
-                    }
-                } else {
-                    int rightLeftHeight = cur.r != null && cur.r.l != null ? cur.r.l.h : 0;
-                    int rightRightHeight = cur.r != null && cur.r.r != null ? cur.r.r.h : 0;
-                    if (rightRightHeight >= rightLeftHeight) {
-                        cur = leftRotate(cur);
-                    } else {
-                        cur.r = rightRotate(cur.r);
-                        cur = leftRotate(cur);
-                    }
-                }
-            }
-            return cur;
-        }
 
         private AVLNode<K, V> add(AVLNode<K, V> cur, K key, V value) {
             if (cur == null) {
@@ -406,6 +377,5 @@ public class Code01_AVLTreeMap {
             }
         }
         System.out.println("test end...");
-
     }
 }
