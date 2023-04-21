@@ -343,7 +343,7 @@ public class Code01_AVLTreeMap {
                         System.out.println("test failed 1");
                         break;
                     }
-                } else if (Math.random() < 0.5) {
+                } else if (Math.random() < 0.2) {
                     int key = (int)(Math.random() * max_val);
                     int val = (int)(Math.random() * max_val);
                     tree_map.put(key, val);
@@ -353,7 +353,7 @@ public class Code01_AVLTreeMap {
                         System.out.println("test failed 2");
                         break;
                     }
-                } else if (Math.random() < 0.7) {
+                } else if (Math.random() < 0.4) {
                     int key = (int)(Math.random() * max_val);
                     if (tree_map.get(key) == avl_tree.get(key)) {
                         continue;
@@ -362,7 +362,7 @@ public class Code01_AVLTreeMap {
                         System.out.println("test faield 3");
                         break;
                     }
-                } else if (Math.random() < 0.9) {
+                } else if (Math.random() < 0.6) {
                     int key = (int)(Math.random() * max_val);
                     tree_map.remove(key);
                     avl_tree.remove(key);
@@ -371,11 +371,36 @@ public class Code01_AVLTreeMap {
                         System.out.println("test failed 4");
                         break;
                     }
-                } else {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.ceilingKey(key) != avl_tree.ceilingKey(key)) {
+                } else if (Math.random() < 0.7) {
+                    if (tree_map.isEmpty()) {
+                        continue;
+                    }
+                    if (tree_map.firstKey() != avl_tree.fistKey()) {
                         success = false;
                         System.out.println("test failed 5");
+                        break;
+                    }
+                } else if (Math.random() < 0.8) {
+                    if (tree_map.isEmpty()) {
+                        continue;
+                    }
+                    if (tree_map.lastKey() != avl_tree.lastKey()) {
+                        success = false;
+                        System.out.println("test failed 6");
+                        break;
+                    }
+                } else if (Math.random() < 0.9) {
+                    int key = (int)(Math.random() * max_val);
+                    if (tree_map.ceilingKey(key) != tree_map.ceilingKey(key)) {
+                        success = false;
+                        System.out.println("test failed 7");
+                        break;
+                    }
+                } else {
+                    int key = (int)(Math.random() * max_val);
+                    if (tree_map.floorKey(key) != tree_map.floorKey(key)) {
+                        success = false;
+                        System.out.println("test failed 7");
                         break;
                     }
                 }
