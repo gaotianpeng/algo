@@ -196,20 +196,23 @@ public class Code01_AVLTreeMap {
 
         // 找到 <= key 的第一个
         private AVLNode<K, V> findLastNoBigIndex(K key) {
-            AVLNode<K, V> ans = null;
+            if (key == null) {
+                return null;
+            }
+
             AVLNode<K, V> cur = root;
+            AVLNode<K, V> pre = null;
             while (cur != null) {
-                if (key.compareTo(cur.k) == 0) {
-                    ans = cur;
-                    break;
-                } else if (key.compareTo(cur.k) < 0) {
-                    cur = cur.l;
-                } else {
-                    ans = cur;
+                if (key.compareTo(cur.k) < 0) {
                     cur = cur.r;
+                } else {
+                    pre = cur;
+                    cur = cur.l;
+                    break;
                 }
             }
-            return ans;
+
+            return pre;
         }
 
         private AVLNode<K, V> delete(AVLNode<K, V> cur, K key) {
