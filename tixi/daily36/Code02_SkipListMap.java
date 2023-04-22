@@ -7,7 +7,7 @@ public class Code02_SkipListMap {
         public K key;
         public V val;
 
-        public ArrayList<SkipListNode<K, V>> next_nodes;
+        public ArrayList<SkipListNode<K, V>> next_nodes; // 当前 SkipListNode 包括的每一层的head
 
         public SkipListNode(K k, V v) {
             key = k;
