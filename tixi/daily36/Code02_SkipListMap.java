@@ -112,6 +112,7 @@ public class Code02_SkipListMap {
                     if (next != null && next.isKeyEqual(key)) {
                         pre.next_nodes.set(level, next.next_nodes.get(level));
                     }
+                    // level 层只有一个节点，就是默认的head
                     if (level != 0 && pre == head && pre.next_nodes.get(level) == null) {
                         head.next_nodes.remove(level);
                         max_level--;
