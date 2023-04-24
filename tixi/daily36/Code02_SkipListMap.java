@@ -76,7 +76,7 @@ public class Code02_SkipListMap {
                 int level = max_level;
                 SkipListNode<K, V> pre = head;
                 while (level >= 0) {
-                    pre = mostRightLesNodeInLevel(key, pre, level);
+                    pre = mostRightLessNodeInLevel(key, pre, level);
                     if (level <= new_node_level) {
                         new_node.next_nodes.set(level, pre.next_nodes.get(level));
                         pre.next_nodes.set(level, new_node);
@@ -107,7 +107,7 @@ public class Code02_SkipListMap {
                 int level = max_level;
                 SkipListNode<K, V> pre = head;
                 while (level >= 0) {
-                    pre = mostRightLesNodeInLevel(key, pre, level);
+                    pre = mostRightLessNodeInLevel(key, pre, level);
                     SkipListNode<K, V> next = pre.next_nodes.get(level);
                     if (next != null && next.isKeyEqual(key)) {
                         pre.next_nodes.set(level, next.next_nodes.get(level));
@@ -132,7 +132,7 @@ public class Code02_SkipListMap {
             int level = max_level;
             SkipListNode<K, V> cur = head;
             while (level >= 0) {
-                cur = mostRightLesNodeInLevel(key, cur, level--);
+                cur = mostRightLessNodeInLevel(key, cur, level--);
             }
             return cur;
         }
@@ -141,9 +141,9 @@ public class Code02_SkipListMap {
             在第 level 层里，如何向右移动
             现在来到的节点是 cur, 来到了cur的level层, 在level层上，找到 <key最后一个节点返回
          */
-        private SkipListNode<K, V> mostRightLesNodeInLevel(K key,
-                                                           SkipListNode<K, V> cur,
-                                                           int level) {
+        private SkipListNode<K, V> mostRightLessNodeInLevel(K key,
+                                                            SkipListNode<K, V> cur,
+                                                            int level) {
             SkipListNode<K, V> next = cur.next_nodes.get(level);
             while (next != null && next.isKeyLess(key)) {
                 cur = next;
