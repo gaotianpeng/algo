@@ -1,7 +1,5 @@
 package tixi.daily36;
 
-import tixi.daily35.Code01_AVLTreeMap;
-
 import java.util.TreeMap;
 
 public class Code01_SizeBalancedTreeMap {
