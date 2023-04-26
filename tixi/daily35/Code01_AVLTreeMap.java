@@ -77,7 +77,7 @@ public class Code01_AVLTreeMap {
         }
 
         // 获取最小的K
-        public K fistKey() {
+        public K firstKey() {
             if (root == null) {
                 return null;
             }
@@ -375,7 +375,7 @@ public class Code01_AVLTreeMap {
                     if (tree_map.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.firstKey() != avl_tree.fistKey()) {
+                    if (tree_map.firstKey() != avl_tree.firstKey()) {
                         success = false;
                         System.out.println("test failed 5");
                         break;
