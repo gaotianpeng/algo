@@ -34,7 +34,7 @@ public class Code01_SizeBalancedTreeMap {
             cur.r = right.l;
             right.l = cur;
             right.size = cur.size;
-            cur.size = (cur.l != null ? cur.l.size : 0) + (cur.r != null ? cur.r.size: 0) + 1;
+            cur.size = (cur.l != null ? cur.l.size : 0) + (cur.r != null ? cur.r.size : 0) + 1;
             return right;
         }
 
@@ -74,8 +74,9 @@ public class Code01_SizeBalancedTreeMap {
             return cur;
         }
 
+        // 找到最后一个 <= key
         private SBTNode<K, V> findLastIndex(K key) {
-            SBTNode<K, V> pre = root;
+            SBTNode<K, V> pre = null;
             SBTNode<K, V> cur = root;
             while (cur != null) {
                 pre = cur;
@@ -91,25 +92,26 @@ public class Code01_SizeBalancedTreeMap {
             return pre;
         }
 
+        // >= key
         private SBTNode<K, V> findLastNoSmallIndex(K key) {
             SBTNode<K, V> ans = null;
             SBTNode<K, V> cur = root;
             while (cur != null) {
-                if (key.compareTo(cur.key) == 0) {
-                    ans = cur;
-                    break;
-                } else if (key.compareTo(cur.key) < 0) {
-                    ans = cur;
-                    cur = cur.l;
-                } else {
-                    cur = cur.r;
-                }
-
-                return ans;
+              if (key.compareTo(cur.key) == 0) {
+                  ans = cur;
+                  break;
+              } else if (key.compareTo(cur.key) < 0) {
+                  ans = cur;
+                  cur = cur.l;
+              } else {
+                  cur = cur.r;
+              }
             }
-            return null;
+
+            return ans;
         }
 
+        // <= key
         private SBTNode<K, V> findLastNoBigIndex(K key) {
             SBTNode<K, V> ans = null;
             SBTNode<K, V> cur = root;
