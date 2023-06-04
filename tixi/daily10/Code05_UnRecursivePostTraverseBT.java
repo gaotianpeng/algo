@@ -25,7 +25,7 @@ public class Code05_UnRecursivePostTraverseBT {
             Stack<TreeNode> s1 = new Stack<>();
             Stack<TreeNode> s2 = new Stack<>();
             s1.push(cur);
-            while (cur != null) {
+            while (!s1.empty()) {
                 TreeNode node = s1.pop();
                 s2.push(node);
                 if (node.left != null) {
