@@ -47,6 +47,10 @@ public class Code01_LRUCache {
                 return;
             }
 
+            if (node == tail) {
+                return;
+            }
+
             if (head == node) {
                 head = head.next;
                 head.last = null;
