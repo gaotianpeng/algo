@@ -1,7 +1,5 @@
 package shuati.daily05;
 
-import com.sun.source.tree.Tree;
-
 import java.util.Stack;
 
 public class Code01_ConstructBinarySearchTreeFromPreorderTraversal {

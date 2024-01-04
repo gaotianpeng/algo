@@ -1,7 +1,5 @@
 package leetcode;
 
-import com.sun.tools.attach.AgentLoadException;
-
 public class Code_0005_LongestPalindromicSubstring {
     /*
         https://leetcode.cn/problems/longest-palindromic-substring/
