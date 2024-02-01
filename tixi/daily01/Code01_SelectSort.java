@@ -19,14 +19,13 @@ public class Code01_SelectSort {
 
         for (int i = 0; i < arr.length - 1; ++i) {
             int min_idx = i;
-            for (int j = i + 1; j < arr.length; j++) {
+            for (int j = i + 1; j < arr.length; ++j) {
                 if (arr[j] < arr[min_idx]) {
                     min_idx = j;
                 }
             }
-
             if (min_idx != i) {
-                swap(arr, min_idx, i);
+                swap(arr, i, min_idx);
             }
         }
     }
@@ -43,16 +42,18 @@ public class Code01_SelectSort {
             return;
         }
 
-        int n = arr.length;
-        for (int i = n - 1; i >= 0; --i) {
-            int max_index = i;
+        for (int i = arr.length - 1; i > 0; --i) {
+            int max_idx = i;
             for (int j = 0; j < i; j++) {
-                max_index = arr[j] > arr[max_index] ? j : max_index;
+                if (arr[j] > arr[max_idx]) {
+                    max_idx = j;
+                }
             }
-            if (max_index != i) {
-                swap(arr, max_index, i);
+
+            if (max_idx != i) {
+                swap(arr, max_idx, i);
             }
-        } 
+        }
     }
 
     /*
