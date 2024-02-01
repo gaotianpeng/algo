@@ -16,11 +16,10 @@ public class Code03_InsertSort {
             return;
         }
 
-        int n = arr.length;
-        for (int i = 1; i < n; ++i) {
-            for (int j = i - 1; j >= 0; --j) {
-                if (arr[j+1] < arr[j]) {
-                    swap(arr, j + 1, j);
+        for (int i = 1; i < arr.length; ++i) {
+            for (int j = i; j > 0; j--) {
+                if (arr[j] < arr[j-1]) {
+                    swap(arr, j, j - 1);
                 }
             }
         }
