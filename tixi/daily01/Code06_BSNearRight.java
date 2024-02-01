@@ -8,12 +8,12 @@ public class Code06_BSNearRight {
         if (arr == null || arr.length == 0) {
             return -1;
         }
-        
-        int ans = -1;
+
         int left = 0;
         int right = arr.length - 1;
+        int ans = -1;
         while (left <= right) {
-            int mid = left + ((right - left) >> 1);
+            int mid = left + ((right - left));
             if (arr[mid] <= num) {
                 ans = mid;
                 left = mid + 1;
@@ -21,6 +21,7 @@ public class Code06_BSNearRight {
                 right = mid - 1;
             }
         }
+
         return ans;
     }
 
