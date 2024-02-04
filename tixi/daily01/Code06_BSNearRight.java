@@ -13,7 +13,7 @@ public class Code06_BSNearRight {
         int right = arr.length - 1;
         int ans = -1;
         while (left <= right) {
-            int mid = left + ((right - left));
+            int mid = left + ((right - left) >> 1);
             if (arr[mid] <= num) {
                 ans = mid;
                 left = mid + 1;
@@ -62,15 +62,21 @@ public class Code06_BSNearRight {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_time = 500000;
-        int max_size = 10;
+        int test_time = 5;
+        int max_size = 20;
         int max_value = 100;
         boolean success = true;
         for (int i = 0; i < test_time; i++) {
             int[] arr = genRandomArray(max_size, max_value);
             Arrays.sort(arr);
             int value = (int) ((max_value + 1) * Math.random()) - (int) (max_value * Math.random());
-            if (test(arr, value) != rightestValue(arr, value)) {
+            printArray(arr);
+
+            int pos1 = test(arr, value);
+            int pos2 = rightestValue(arr, value);
+            System.out.println("value " + value +  " pos1 " + pos1 + " pos2 " + pos2);
+
+            if (pos1 != pos2) {
                 printArray(arr);
                 System.out.println(value);
                 System.out.println(test(arr, value));
