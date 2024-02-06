@@ -70,13 +70,7 @@ public class Code06_BSNearRight {
             int[] arr = genRandomArray(max_size, max_value);
             Arrays.sort(arr);
             int value = (int) ((max_value + 1) * Math.random()) - (int) (max_value * Math.random());
-            printArray(arr);
-
-            int pos1 = test(arr, value);
-            int pos2 = rightestValue(arr, value);
-            System.out.println("value " + value +  " pos1 " + pos1 + " pos2 " + pos2);
-
-            if (pos1 != pos2) {
+            if (test(arr, value) != rightestValue(arr, value)) {
                 printArray(arr);
                 System.out.println(value);
                 System.out.println(test(arr, value));
