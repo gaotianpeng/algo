@@ -24,7 +24,7 @@ public class Code01_ReverseList {
             next = head.next;
             head.next = prev;
             prev = head;
-            head =  next;
+            head = next;
         }
 
         return prev;
