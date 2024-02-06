@@ -26,11 +26,7 @@ public class Code03_TwoOdds {
             }
         }
 
-        int[] ans = new int[2];
-        ans[0] = xor2;
-        ans[1] = xor ^ xor2;
-
-        return ans;
+        return new int[] {xor2, xor ^ xor2};
     }
 
     /*
