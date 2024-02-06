@@ -9,7 +9,7 @@ import java.util.HashMap;
 */
 public class Code03_TwoOdds {
     public static int[] getTwoOddsNum(int [] arr) {
-        if (arr == null || arr.length < 2) {
+        if (arr == null || arr.length == 0) {
             return null;
         }
 
@@ -18,7 +18,6 @@ public class Code03_TwoOdds {
             xor ^= arr[i];
         }
 
-        int[] ans = new int[2];
         int rightOne = xor & (-xor);
         int xor2 = 0;
         for (int i = 0; i < arr.length; ++i) {
@@ -27,8 +26,10 @@ public class Code03_TwoOdds {
             }
         }
 
+        int[] ans = new int[2];
         ans[0] = xor2;
         ans[1] = xor ^ xor2;
+
         return ans;
     }
 
