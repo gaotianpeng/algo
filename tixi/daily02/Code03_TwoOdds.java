@@ -13,17 +13,16 @@ public class Code03_TwoOdds {
             return null;
         }
 
-        int[] ans = new int[2];
-        int n = arr.length;
         int xor = 0;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < arr.length; ++i) {
             xor ^= arr[i];
         }
 
-        int right_one = xor & (-xor);
+        int[] ans = new int[2];
+        int rightOne = xor & (-xor);
         int xor2 = 0;
-        for (int i = 0; i < n; ++i) {
-            if ((arr[i] & right_one) == 0) {
+        for (int i = 0; i < arr.length; ++i) {
+            if ((arr[i] & rightOne) == 0) {
                 xor2 ^= arr[i];
             }
         }
