@@ -1,11 +1,12 @@
+import java.util.PriorityQueue;
 import java.util.TreeMap;
 
 public class test {
     public static void main(String[] args) {
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(1, 2);
-        if (map.get(2) == map.get(2)) {
-            System.out.println("-----------");;
-        }
+        PriorityQueue<Integer> minQueue = new PriorityQueue<>();
+        minQueue.add(1);
+        System.out.println(minQueue.size());
+        minQueue.poll();
+        System.out.println(minQueue.size());
     }
 }

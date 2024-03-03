@@ -23,29 +23,26 @@ public class Code01_CoverMax {
         }
     }
 
-    public static class StartComparator implements Comparator<Line> {
-        @Override
-        public int compare(Line o1, Line o2) {
-            return o1.start - o2.start;
-        }
-    }
-
-    public static int maxCover(int[][] m) {
-        Line[] lines = new Line[m.length];
-        for (int i = 0; i < m.length; i++) {
-            lines[i] = new Line(m[i][0], m[i][1]);
+    public static int maxCover(int[][] lines) {
+        if (lines == null || lines.length < 1) {
+            return 0;
         }
 
-        Arrays.sort(lines, new StartComparator());
+        int[][] copyLines = new int[lines.length][2];
+        for (int i = 0; i < lines.length; ++i) {
+            copyLines[i][0] = lines[i][0];
+            copyLines[i][1] = lines[i][1];
+        }
 
-        PriorityQueue<Integer> heap = new PriorityQueue<>();
         int ans = 0;
-        for (int i = 0; i < lines.length; i++) {
-            while (!heap.isEmpty() && heap.peek() <= lines[i].start) {
-                heap.poll();
+        Arrays.sort(copyLines, (a, b) -> (a[0] - b[0]));
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int[] line: copyLines) {
+            while (!minHeap.isEmpty() && minHeap.peek() <= line[0]) {
+                minHeap.poll();
             }
-            heap.add(lines[i].end);
-            ans = Math.max(ans, heap.size());
+            minHeap.add(line[1]);
+            ans = Math.max(ans, minHeap.size());
         }
 
         return ans;
@@ -58,17 +55,29 @@ public class Code01_CoverMax {
         }
     }
 
-    public static int maxCover1(int[][] m) {
-        Arrays.sort(m, (a, b) -> (a[0] - b[0]));
+    public static int maxCover1(int[][] lines) {
+        if (lines == null || lines.length < 1) {
+            return 0;
+        }
+
+        int[][] copyLines = new int[lines.length][2];
+        for (int i = 0; i < lines.length; ++i) {
+            copyLines[i][0] = lines[i][0];
+            copyLines[i][1] = lines[i][1];
+        }
+
+        Arrays.sort(copyLines, (a, b) -> (a[0] - b[0]));
         PriorityQueue<Integer> heap = new PriorityQueue<>();
         int max = 0;
-        for (int[] line : m) {
+        for (int[] line : copyLines) {
             while (!heap.isEmpty() && heap.peek() <= line[0]) {
                 heap.poll();
             }
             heap.add(line[1]);
             max = Math.max(max, heap.size());
         }
+
+
         return max;
     }
 
@@ -76,6 +85,10 @@ public class Code01_CoverMax {
         for test
      */
     public static int test(int[][] lines) {
+        if (lines == null || lines.length == 0) {
+            return 0;
+        }
+
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < lines.length; ++i) {
