@@ -78,19 +78,22 @@ public class Code01_CoverMax {
     public static int test(int[][] lines) {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
-        for (int i = 0; i < lines.length; i++) {
+        for (int i = 0; i < lines.length; ++i) {
             min = Math.min(min, lines[i][0]);
             max = Math.max(max, lines[i][1]);
         }
 
+        double start = min + 0.5;
+        double end = max - 0.5;
         int ans = 0;
-        for (double i = min + 0.5; i < max; i += 0.5) {
+        for (double i = start; i <= end; ++i) {
             int cur = 0;
-            for (int j = 0; j < lines.length; j++) {
-                if (lines[j][0] < i && lines[j][1] > i) {
+            for (int[] line: lines) {
+                if (line[0] < i && line[1] > i) {
                     ++cur;
                 }
             }
+
             ans = Math.max(ans, cur);
         }
 
