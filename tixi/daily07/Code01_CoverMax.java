@@ -13,29 +13,19 @@ import java.util.PriorityQueue;
     返回线段最多重合区域中，包含了几条线段
  */
 public class Code01_CoverMax {
-    public static class Line {
-        public int start;
-        public int end;
-
-        public Line(int s, int e) {
-            start = s;
-            end = e;
-        }
-    }
-
     public static int maxCover(int[][] lines) {
         if (lines == null || lines.length < 1) {
             return 0;
         }
 
+        int ans = 0;
         int[][] copyLines = new int[lines.length][2];
         for (int i = 0; i < lines.length; ++i) {
             copyLines[i][0] = lines[i][0];
             copyLines[i][1] = lines[i][1];
         }
 
-        int ans = 0;
-        Arrays.sort(copyLines, (a, b) -> (a[0] - b[0]));
+        Arrays.sort(copyLines, (a, b) ->(a[0] - b[0]));
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
         for (int[] line: copyLines) {
             while (!minHeap.isEmpty() && minHeap.peek() <= line[0]) {
@@ -48,12 +38,6 @@ public class Code01_CoverMax {
         return ans;
     }
 
-    public static class EndComparator implements Comparator<Line> {
-        @Override
-        public int compare(Line o1, Line o2) {
-            return o1.end - o2.end;
-        }
-    }
 
     public static int maxCover1(int[][] lines) {
         if (lines == null || lines.length < 1) {
