@@ -6,42 +6,48 @@ import java.util.Stack;
 
 public class Code09_TwoStacksImplementQueue {
     public static class TwoStacksQueue {
+        private Stack<Integer> pushStack;
+        private Stack<Integer> popStack;
+
         public TwoStacksQueue() {
-            push_ = new Stack<>();
-            pop_ = new Stack<>();
+            pushStack = new Stack<>();
+            popStack = new Stack<>();
         }
 
         public void add(int val) {
-            push_.add(val);
+            pushStack.push(val);
             pushToPop();
         }
 
         public int poll() {
-            if (push_.isEmpty() && pop_.isEmpty()) {
-                throw new RuntimeException("Queue is empty");
+            if (popStack.empty() && pushStack.empty()) {
+                throw new RuntimeException("queue is empty");
             }
-            pushToPop();
-            return pop_.pop();
+
+            if (popStack.empty()) {
+                pushToPop();
+            }
+
+            return popStack.pop();
         }
 
-        public int peek()  {
-            if (push_.isEmpty() && pop_.isEmpty()) {
-                throw new RuntimeException("Queue is empty");
+        public int peek() {
+            if (popStack.empty() && pushStack.empty()) {
+                throw new RuntimeException("queue is empty");
             }
-            pushToPop();
-            return pop_.peek();
+
+            if (popStack.empty()) {
+                pushToPop();
+            }
+
+            return popStack.peek();
         }
 
         private void pushToPop() {
-            if (pop_.isEmpty()) {
-                while (!push_.isEmpty()) {
-                    pop_.push(push_.pop());
-                }
+            while (!pushStack.empty()) {
+                popStack.push(pushStack.pop());
             }
         }
-
-        private Stack<Integer> push_;
-        private Stack<Integer> pop_;
     }
 
     public static boolean isEqual(Integer o1, Integer o2) {
