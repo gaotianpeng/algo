@@ -10,37 +10,43 @@ import java.util.Stack;
  */
 public class Code08_GetMinStack {
     public static class MyStack {
-        private Stack<Integer> data_;
-        private Stack<Integer> min_;
+        private Stack<Integer> data;
+        private Stack<Integer> curMin;
 
-        public MyStack() {
-            data_ = new Stack<>();
-            min_ = new Stack<>();
-        }
-
-        public void push(int new_num) {
-            if (min_.isEmpty() || new_num < min_.peek()) {
-                min_.push(new_num);
-            } else {
-                min_.push(min_.peek());
-            }
+        public MyStack()  {
+            data = new Stack<>();
+            curMin = new Stack<>();
         }
 
         public int pop() {
-            if (data_.empty()) {
-                throw new RuntimeException("Your stack is empty.");
+            if (data.empty()) {
+                throw new RuntimeException("current stack is empty!!!");
             }
 
-            min_.pop();
-            return data_.pop();
+            curMin.pop();
+            return data.pop();
+        }
+
+        public void push(int val) {
+            data.push(val);
+            if (curMin.empty()) {
+                curMin.push(val);
+            } else {
+                int min = curMin.peek();
+                if (val <= min) {
+                    curMin.push(val);
+                } else {
+                    curMin.push(min);
+                }
+            }
         }
 
         public int getMin() {
-            if (min_.isEmpty()) {
-                throw new RuntimeException("Your stack is empty.");
+            if (data.empty()) {
+                throw new RuntimeException("current stack is empty!!!");
             }
 
-            return min_.peek();
+            return curMin.peek();
         }
     }
 
