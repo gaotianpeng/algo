@@ -9,6 +9,12 @@ import java.util.Stack;
     除此之外可以申请新的变量，但不能申请额外的数据结构。如何完成排序
  */
 public class SortStackByStack {
+    /*
+        将要排序的栈记为stack，申请的辅助栈记为help。在stack上执行pop操作，弹出的元素记为cur
+            - 如果cur小于或等于help的栈顶元素，则将cur直接压入help
+            - 如果cur大于help的栈顶元素，则将help的元素逐一弹出，逐一压入stack，
+                直到cur小于或等于help的栈顶元素，再将cur压入help
+     */
     public static void sortStack(Stack<Integer> stack) {
         if (stack == null || stack.size() < 2) {
             return;
@@ -16,11 +22,11 @@ public class SortStackByStack {
 
         Stack<Integer> help = new Stack<>();
         while (!stack.isEmpty()) {
-            int cur = stack.pop();
-            while (!help.isEmpty() && help.peek() < cur) {
+            int top = stack.pop();
+            while (!help.isEmpty() && top > help.peek()) {
                 stack.push(help.pop());
             }
-            help.push(cur);
+            help.push(top);
         }
 
         while (!help.isEmpty()) {
