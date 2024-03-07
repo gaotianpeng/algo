@@ -66,15 +66,8 @@ public class SortStackByStack {
         }
 
         Stack<Integer> ans = new Stack<>();
-        int[] array = new int[stack.size()];
-        int i = 0;
-        while (!stack.isEmpty()) {
-            array[i++] = stack.pop();
-        }
-
-        for (i = array.length - 1; i >= 0; --i) {
-            stack.push(array[i]);
-            ans.push(array[i]);
+        for (int i = 0; i < stack.size(); ++i) {
+            ans.push(stack.get(i));
         }
 
         return ans;
@@ -93,8 +86,8 @@ public class SortStackByStack {
             return false;
         }
 
-        while (!stack1.isEmpty()) {
-            if (stack1.pop() != stack2.pop()) {
+        for (int i = 0; i < stack1.size(); ++i) {
+            if (stack1.get(i) != stack2.get(i)) {
                 return false;
             }
         }

@@ -1,12 +1,12 @@
-import java.util.PriorityQueue;
-import java.util.TreeMap;
+import java.util.Stack;
 
 public class test {
     public static void main(String[] args) {
-        PriorityQueue<Integer> minQueue = new PriorityQueue<>();
-        minQueue.add(1);
-        System.out.println(minQueue.size());
-        minQueue.poll();
-        System.out.println(minQueue.size());
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(1);
+        stack.push(2);
+        System.out.println(stack.get(0));
+        System.out.println(stack.get(1));
     }
 }
