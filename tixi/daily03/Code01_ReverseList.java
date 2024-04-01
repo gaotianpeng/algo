@@ -18,16 +18,17 @@ public class Code01_ReverseList {
             return head;
         }
 
-        Node prev = null;
+        Node pre = null;
         Node next = null;
+
         while (head != null) {
             next = head.next;
-            head.next = prev;
-            prev = head;
+            head.next = pre;
+            pre = head;
             head = next;
         }
 
-        return prev;
+        return pre;
     }
 
     /*

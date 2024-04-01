@@ -15,25 +15,23 @@ public class Code03_DeleteGivenValue {
     }
 
     public static Node deleteGivenValue(Node head, int val) {
-        if (head == null) {
-            return null;
-        }
-
         while (head != null) {
             if (head.value != val) {
                 break;
             }
+
             head = head.next;
         }
 
-        Node prev = head;
         Node cur = head;
+        Node pre = head;
         while (cur != null) {
             if (cur.value == val) {
-                prev.next = cur.next;
+                pre.next = cur.next;
             } else {
-                prev = cur;
+                pre = cur;
             }
+
             cur = cur.next;
         }
 
