@@ -14,22 +14,22 @@ public class Code03_DeleteGivenValue {
         }
     }
 
-    public static Node deleteGivenValue(Node head, int val) {
+    public static Node deleteGivenValue(Node head, int num) {
         while (head != null) {
-            if (head.value != val) {
+            if (head.value != num) {
                 break;
             }
 
             head = head.next;
         }
 
+        Node prev = head;
         Node cur = head;
-        Node pre = head;
         while (cur != null) {
-            if (cur.value == val) {
-                pre.next = cur.next;
+            if (cur.value == num) {
+                prev.next = cur.next;
             } else {
-                pre = cur;
+                prev = cur;
             }
 
             cur = cur.next;
