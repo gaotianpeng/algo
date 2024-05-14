@@ -16,7 +16,6 @@ public class Code09_TwoStacksImplementQueue {
 
         public void add(int val) {
             pushStack.push(val);
-            pushToPop();
         }
 
         public int poll() {
