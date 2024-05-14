@@ -14,21 +14,16 @@ public class Code01_ReverseList {
     }
 
     public static Node reverseLinkedList(Node head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-
-        Node pre = null;
+        Node prev = null;
         Node next = null;
-
         while (head != null) {
-            next = head.next;
-            head.next = pre;
-            pre = head;
-            head = next;
+             next = head.next;
+             head.next = prev;
+             prev = head;
+             head = next;
         }
 
-        return pre;
+        return prev;
     }
 
     /*
