@@ -12,56 +12,60 @@ public class Code06_ReversePair2 {
             return 0;
         }
 
-        int merge_size = 1;
-        int n = arr.length;
+        int N = arr.length;
+        int mergeSize = 1;
         int ans = 0;
-        while (merge_size < n) {
+        while (mergeSize < N) {
             int left = 0;
-            while (left < n) {
-                if (merge_size > n - left) {
+            while (left < N) {
+                if (N - left < mergeSize) {
                     break;
                 }
 
-                int mid = left + merge_size - 1;
-                int right = mid + Math.min(merge_size, n - mid - 1);
+                int mid = left + mergeSize - 1;
+                int right = mid + Math.min(mergeSize, N - mid - 1);
                 ans += merge(arr, left, mid, right);
                 left = right + 1;
             }
-            if (merge_size > n / 2) {
+
+            if (mergeSize > N / 2) {
                 break;
             }
-            merge_size <<= 1;
+
+            mergeSize <<= 1;
         }
 
         return ans;
     }
 
-    private static int merge(int[] arr, int left, int mid, int right) {
+    public static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int left_index = mid;
-        int right_index = right;
+        int leftmost = mid;
+        int rightmost = right;
         int index = helper.length - 1;
         int ans = 0;
-        while (left_index >= left && right_index > mid) {
-            ans += arr[left_index] > arr[right_index] ?
-                    right_index - mid : 0;
-            helper[index--] = arr[left_index] > arr[right_index] ?
-                    arr[left_index--] : arr[right_index--];
+
+        while (leftmost >= left && rightmost > mid) {
+            ans += arr[leftmost] > arr[rightmost] ? rightmost - mid : 0;
+            helper[index--] = arr[leftmost] > arr[rightmost] ? arr[leftmost--]: arr[rightmost--];
         }
 
-        while (left_index >= left) {
-            helper[index--] = arr[left_index--];
+        while (leftmost >= left) {
+            helper[index--] = arr[leftmost--];
         }
 
-        while (right_index > mid) {
-            helper[index--] = arr[right_index--];
+        while (rightmost > mid) {
+            helper[index--] = arr[rightmost--];
         }
 
-        for (int i = 0; i < helper.length; i++) {
+        for (int i = 0; i < helper.length; ++i) {
             arr[left + i] = helper[i];
         }
+
         return ans;
     }
+
+
 
     /*
         for test

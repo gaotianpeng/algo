@@ -14,13 +14,13 @@ public class Code05_ReversePair {
         return process(arr, 0, arr.length - 1);
     }
 
-
     public static int process(int[] arr, int left, int right) {
         if (left == right) {
             return 0;
         }
 
         int mid = left + ((right - left) >> 1);
+
         return process(arr, left, mid)
                 + process(arr, mid + 1, right)
                 + merge(arr, left, mid, right);
@@ -28,14 +28,14 @@ public class Code05_ReversePair {
 
     public static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int ans = 0;
+        int rightmost = right;
         int leftmost = mid;
         int index = helper.length - 1;
-        int rightmost = right;
-
+        int ans = 0;
+        
         while (leftmost >= left && rightmost > mid) {
             ans += arr[leftmost] > arr[rightmost] ? rightmost - mid : 0;
-            helper[index--] = arr[leftmost] > arr[rightmost] ? arr[leftmost--]: arr[rightmost--];
+            helper[index--] = arr[leftmost] > arr[rightmost] ? arr[leftmost--] : arr[rightmost--];
         }
 
         while (leftmost >= left) {
@@ -47,7 +47,7 @@ public class Code05_ReversePair {
         }
 
         for (int i = 0; i < helper.length; ++i) {
-            arr[left+i] = helper[i];
+            arr[left + i] = helper[i];
         }
 
         return ans;

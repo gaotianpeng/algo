@@ -19,6 +19,7 @@ public class Code03_DeleteGivenValue {
             if (head.value != num) {
                 break;
             }
+
             head = head.next;
         }
 
@@ -30,6 +31,7 @@ public class Code03_DeleteGivenValue {
             } else {
                 prev = cur;
             }
+
             cur = cur.next;
         }
 
