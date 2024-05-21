@@ -20,51 +20,48 @@ public class Code07_BiggerThanTwice {
         return process(arr, 0, arr.length - 1);
     }
 
-    private static int process(int[] arr, int left, int right) {
+    public static int process(int[] arr, int left, int right) {
         if (left == right) {
             return 0;
         }
 
-        int mid = left + ((right - left)>>1);
+        int mid = left + ((right - left) >> 1);
         return process(arr, left, mid)
                 + process(arr, mid + 1, right)
                 + merge(arr, left, mid, right);
     }
 
-    private static int merge(int[] arr, int left, int mid, int right) {
+    public static int merge(int[] arr, int left, int mid, int right) {
         int ans = 0;
-        int win_r = mid + 1;
-        for (int i = left; i <= mid; i++) {
-            while (win_r <= right && (long)arr[i] > 2*(long)(arr[win_r])) {
-                win_r++;
+        int winR = mid + 1;
+        for (int index = left; index <= mid; ++index) {
+            while (winR <= right && (long)arr[index] > (long)(arr[winR]*2)) {
+                winR++;
             }
-            ans += win_r - mid - 1;
+            ans += winR - mid - 1;
         }
 
         int[] helper = new int[right - left + 1];
-        int left_index = left;
-        int right_index = mid + 1;
         int index = 0;
-        while (left_index <= mid && right_index <= right) {
-            helper[index++] = arr[left_index] <= arr[right_index] ?
-                    arr[left_index++] : arr[right_index++];
+        int p1 = left;
+        int p2 = mid + 1;
+        while (p1 <= mid && p2 <= right) {
+            helper[index++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
         }
 
-        while (left_index <= mid ) {
-            helper[index++] = arr[left_index++];
+        while (p1 <= mid) {
+            helper[index++] = arr[p1++];
         }
 
-        while (right_index <= right) {
-            helper[index++] = arr[right_index++];
+        while (p2 <= right) {
+            helper[index++] = arr[p2++];
         }
 
-        for (int i = 0; i < helper.length; i++) {
+        for (int i = 0; i < helper.length; ++i) {
             arr[left + i] = helper[i];
         }
         return ans;
     }
-
-
     /*
         for test
      */
