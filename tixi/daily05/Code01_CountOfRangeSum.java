@@ -9,68 +9,71 @@ public class Code01_CountOfRangeSum {
             return 0;
         }
 
-        int ans = 0;
-        long[] pre_sum = new long[nums.length];
-        pre_sum[0] = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            pre_sum[i] = pre_sum[i-1] + nums[i];
+        int N = nums.length;
+        long[] preSum = new long[N];
+        preSum[0] = nums[0];
+        for (int i = 1; i < N; ++i) {
+            preSum[i] = preSum[i-1] + nums[i];
         }
 
-        return process(pre_sum, 0, nums.length - 1, lower, upper);
+        return process(preSum, 0, preSum.length - 1, lower, upper);
     }
 
-    private static int process(long[] sum, int left, int right, int lower, int upper) {
+    public static int process(long[] sums, int left, int right, int lower, int upper) {
         if (left == right) {
-            return checkValid(sum[left], lower, upper) == true ? 1: 0;
+            return checkValid(sums[left], lower, upper) ? 1: 0;
         }
 
         int mid = left + ((right - left) >> 1);
-        return process(sum, left, mid, lower, upper)
-                + process(sum, mid + 1, right, lower, upper)
-                + merge(sum, left, mid, right, lower, upper);
+        return process(sums, left, mid, lower, upper)
+                + process(sums, mid + 1, right, lower, upper)
+                + merge(sums, left, mid, right, lower, upper);
     }
 
-    private static int merge(long[] sum, int left, int mid, int right, int lower,int upper) {
+    public static int merge(long[] sums, int left, int mid, int right, int lower, int upper) {
         int ans = 0;
-        int win_left = left;
-        int win_right = left;
-        for (int i = mid + 1; i <= right; i++) {
-            long min = sum[i] - upper;
-            long max = sum[i] - lower;
-            while (win_right <= mid && sum[win_right] <= max) {
-                win_right++;
+        int winLeft = left;
+        int winRight = left;
+        for (int i = mid + 1; i <= right; ++i) {
+            long min = sums[i] - upper;
+            long max = sums[i] - lower;
+            
+            while (winRight <= mid && sums[winRight] <= max) {
+                winRight++;
             }
-            while (win_left <= mid && sum[win_left] < min) {
-                win_left++;
+            
+            while (winLeft <= mid && sums[winLeft] < min) {
+                winLeft++;
             }
-            ans += win_right - win_left;
+
+            ans += winRight - winLeft;
         }
 
         long[] helper = new long[right - left + 1];
-        int left_index = left;
-        int right_index = mid + 1;
         int index = 0;
-        while (left_index <= mid && right_index <= right) {
-            helper[index++] = sum[left_index] <= sum[right_index] ?
-                        sum[left_index++] : sum[right_index++];
+        int p1 = left;
+        int p2 = mid + 1;
+        while (p1 <= mid && p2 <= right) {
+            helper[index++] = sums[p1] <= sums[p2] ? sums[p1++] : sums[p2++];
         }
 
-        while (left_index <= mid) {
-            helper[index++] = sum[left_index++];
+        while (p1 <= mid) {
+            helper[index++] = sums[p1++];
         }
 
-        while (right_index <= right) {
-            helper[index++] = sum[right_index++];
+        while (p2 <= right) {
+            helper[index++] = sums[p2++];
         }
 
-        for (int i = 0; i < helper.length; i++) {
-            sum[left + i] = helper[i];
+        for (int i = 0; i < helper.length; ++i) {
+            sums[left + i] = helper[i];
         }
+
         return ans;
     }
 
-    private static boolean checkValid(long num, int lower, int upper) {
-        return num >= lower && num <= upper;
+    public static boolean checkValid(long sum, int lower, int upper) {
+        return sum >= lower && sum <= upper;
     }
 
     /*
