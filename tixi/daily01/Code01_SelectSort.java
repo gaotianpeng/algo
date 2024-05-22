@@ -44,16 +44,17 @@ public class Code01_SelectSort {
             return;
         }
 
-        for (int i = arr.length - 1; i > 0; --i) {
-            int max_idx = i;
-            for (int j = 0; j < i; j++) {
-                if (arr[j] > arr[max_idx]) {
-                    max_idx = j;
+        int N = arr.length - 1;
+        for (int i = N; i > 0; i--) {
+            int maxIndex = i;
+            for (int j = i - 1; j >= 0; j--) {
+                if (arr[j] > arr[maxIndex]) {
+                    maxIndex = j;
                 }
             }
-
-            if (max_idx != i) {
-                swap(arr, max_idx, i);
+            
+            if (maxIndex != i) {
+                swap(arr, maxIndex, i);
             }
         }
     }
