@@ -17,10 +17,26 @@ public class Code02_BubbleSort {
             return;
         }
 
-        for (int i = arr.length - 1; i > 0; i--) {
+        int N = arr.length;
+        for (int i = N - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j+1]) {
-                    swap(arr, j, j + 1);
+                    swap(arr, j, j+1);
+                }
+            }
+        }
+    }
+
+    public static void bubbleSort1(int arr[]) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+
+        int N = arr.length;
+        for (int i = 0; i < N -1; i++) {
+            for (int j = N - 1; j > i; j--) {
+                if (arr[j-1] > arr[j]) {
+                    swap(arr, arr[j-1], arr[j]);
                 }
             }
         }
@@ -104,13 +120,20 @@ public class Code02_BubbleSort {
         for (int i = 0; i < testTime; ++i) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
+            int[] arr3 = copyArray(arr1);
             test(arr1);
             bubbleSort(arr2);
+            bubbleSort(arr3);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
                 printArray(arr1);
                 printArray(arr2);
                 break;
+            }
+            if (!isEqual(arr1, arr3)) {
+                succeed = false;
+                printArray(arr1);
+                printArray(arr3);
             }
         }
 
