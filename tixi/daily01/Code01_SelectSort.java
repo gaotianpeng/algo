@@ -17,15 +17,17 @@ public class Code01_SelectSort {
             return;
         }
 
-        for (int i = 0; i < arr.length - 1; ++i) {
-            int min_idx = i;
-            for (int j = i + 1; j < arr.length; ++j) {
-                if (arr[j] < arr[min_idx]) {
-                    min_idx = j;
+        int N = arr.length;
+        for (int i = 0; i < N - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < N; j++) {
+                if (arr[minIndex] > arr[j]) {
+                    minIndex = j;
                 }
             }
-            if (min_idx != i) {
-                swap(arr, i, min_idx);
+
+            if (minIndex != i) {
+                swap(arr, minIndex, i);
             }
         }
     }
