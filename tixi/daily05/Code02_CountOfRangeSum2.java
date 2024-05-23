@@ -1,81 +1,94 @@
 package tixi.daily05;
 
 public class Code02_CountOfRangeSum2 {
-    public static int countRangeSum(int[] nums, int lower,int upper) {
+    public static int countRangeSum(int[] nums, int lower, int upper) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
 
-        long[] sum = new long[nums.length];
-        sum[0] = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            sum[i] = sum[i - 1] + nums[i];
+        int ans = 0;
+        int N = nums.length;
+        long[] preSum= new long[N];
+        preSum[0] = nums[0];
+        for (int i = 1; i < N; i++) {
+            preSum[i] = preSum[i - 1] + nums[i];
         }
 
-        int ans = 0;
-        int merge_size = 1;
-        int n = sum.length;
-        for (int i = 0; i < n; i++) {
-            ans += (sum[i] >= lower && sum[i] <= upper ? 1 : 0);
+        for (int i = 0; i < N; ++i) {
+            if (preSum[i] >= lower && preSum[i] <= upper) {
+                ++ans;
+            }
         }
-        while (merge_size < n) {
+
+        int mergeSize = 1;
+        while (mergeSize < N) {
             int left = 0;
-            while (left < n) {
-                if (merge_size > n - left) {
+            while (left < N) {
+                if (N - left < mergeSize) {
                     break;
                 }
-                int mid = left + merge_size - 1;
-                int right = mid + Math.min(merge_size, n - mid - 1);
-                ans += merge(sum, left, mid, right, lower, upper);
+
+                int mid = left + mergeSize - 1;
+                int right = mid + Math.min(mergeSize, N - mid - 1);
+                ans += merge(preSum, left, mid, right, lower, upper);
                 left = right + 1;
             }
 
-            if (merge_size > n / 2) {
+            if (mergeSize > N / 2) {
                 break;
             }
-            merge_size <<= 1;
+
+            mergeSize <<= 1;
         }
+ 
+
         return ans;
     }
 
-    private static int merge(long[] sum, int left, int mid, int right, int lower,int upper) {
+    public static int merge(long[] preSum, int left, int mid, int right, int lower, int upper) {
         int ans = 0;
-        int win_left = left;
-        int win_right = left;
+        int winLeft = left;
+        int winRight = left;
+
         for (int i = mid + 1; i <= right; i++) {
-            long min = sum[i] - upper;
-            long max = sum[i] - lower;
-            while (win_right <= mid && sum[win_right] <= max) {
-                win_right++;
+            long max = preSum[i] - lower;
+            long min = preSum[i] - upper;
+            while (winRight <= mid && preSum[winRight] <= max) {
+                ++winRight;
             }
-            while (win_left <= mid && sum[win_left] < min) {
-                win_left++;
+
+            while (winLeft <= mid && preSum[winLeft] < min) {
+                ++winLeft;
             }
-            ans += win_right - win_left;
+
+            ans += winRight - winLeft;
         }
 
-        long[] helper = new long[right - left + 1];
-        int left_index = left;
-        int right_index = mid + 1;
         int index = 0;
-        while (left_index <= mid && right_index <= right) {
-            helper[index++] = sum[left_index] <= sum[right_index] ?
-                    sum[left_index++] : sum[right_index++];
+        long[] helper = new long[right - left + 1];
+        int p1 = left;
+        int p2 = mid + 1;
+        while (p1 <= mid && p2 <= right) {
+            helper[index++] = preSum[p1] <= preSum[p2] ? preSum[p1++] : preSum[p2++];
         }
 
-        while (left_index <= mid) {
-            helper[index++] = sum[left_index++];
+        while (p1 <= mid) {
+            helper[index++] = preSum[p1++];
         }
 
-        while (right_index <= right) {
-            helper[index++] = sum[right_index++];
+        while (p2 <= right) {
+            helper[index++] = preSum[p2++];
         }
 
-        for (int i = 0; i < helper.length; i++) {
-            sum[left + i] = helper[i];
+        for (int i = 0; i < helper.length; ++i) {
+            preSum[left + i] = helper[i];
         }
+
         return ans;
     }
+
+
+
 
     /*
         for test
