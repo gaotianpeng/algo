@@ -14,7 +14,7 @@ public class Code03_QuickSort {
         process(arr, 0, arr.length - 1);
     }
 
-    private static void process(int[] arr, int left, int right) {
+    public static void process(int[] arr, int left, int right) {
         if (left >= right) {
             return;
         }
@@ -24,7 +24,7 @@ public class Code03_QuickSort {
         process(arr, mid + 1, right);
     }
 
-    private static int partition(int[] arr, int left, int right) {
+    public static int partition(int[] arr, int left, int right) {
         if (left > right) {
             return -1;
         }
@@ -37,15 +37,17 @@ public class Code03_QuickSort {
         int index = left;
         while (index < right) {
             if (arr[index] <= arr[right]) {
-                less++;
-                swap(arr, less, index);
+                swap(arr, ++less, index);
             }
-            index++;
+            ++index;
         }
+
 
         swap(arr, ++less, right);
         return less;
     }
+
+
 
     private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];

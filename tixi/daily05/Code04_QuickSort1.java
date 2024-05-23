@@ -12,42 +12,43 @@ public class Code04_QuickSort1 {
         process(arr, 0, arr.length - 1);
     }
 
-    private static void process(int[] arr, int left, int right) {
+    public static void process(int[] arr, int left, int right) {
         if (left >= right) {
             return;
         }
 
-        int[] equal_area = netherlandsFlag(arr, left, right);
-        process(arr, left, equal_area[0] - 1);
-        process(arr, equal_area[1] + 1, right);
+        int[] area = partition(arr, left, right);
+        process(arr, left, area[0] - 1);
+        process(arr, area[1] + 1, right);
     }
 
-    private static int[] netherlandsFlag(int[] arr, int left, int right) {
+    public static int[] partition(int[] arr, int left, int right) {
         if (left > right) {
             return new int [] {-1, -1};
         }
 
         if (left == right) {
-            return new int[] {left, left};
+            return new int[] {left, right};
         }
 
         int less = left - 1;
-        int index = left;
         int more = right;
+        int index = left;
         while (index < more) {
             if (arr[index] == arr[right]) {
                 ++index;
             } else if (arr[index] < arr[right]) {
-                swap(arr, index, ++less);
+                swap(arr, ++less, index);
                 ++index;
             } else {
-                swap(arr, --more, index);
+                swap(arr, index, --more);
             }
         }
 
-        swap(arr, right, more);
-        return new int[] {less + 1, more};
+        swap(arr, more, right);
+        return new int[] {++less, more};
     }
+
 
     private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
