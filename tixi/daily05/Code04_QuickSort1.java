@@ -24,21 +24,20 @@ public class Code04_QuickSort1 {
 
     public static int[] partition(int[] arr, int left, int right) {
         if (left > right) {
-            return new int [] {-1, -1};
+            return new int[] {-1, -1};
         }
 
         if (left == right) {
-            return new int[] {left, right};
+            return new int[] {left, left};
         }
 
         int less = left - 1;
         int more = right;
         int index = left;
         while (index < more) {
-            if (arr[index] == arr[right]) {
-                ++index;
-            } else if (arr[index] < arr[right]) {
-                swap(arr, ++less, index);
+            if (arr[index] < arr[right]) {
+                swap(arr, ++less, index++);
+            } else if (arr[index] == arr[right]) {
                 ++index;
             } else {
                 swap(arr, index, --more);
@@ -48,6 +47,7 @@ public class Code04_QuickSort1 {
         swap(arr, more, right);
         return new int[] {++less, more};
     }
+
 
 
     private static void swap(int[] arr, int i, int j) {
