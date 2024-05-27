@@ -4,41 +4,57 @@ import java.util.Comparator;
 
 public class Code01_Heap {
     public static class MyMaxHeap {
-        private int[] heap_;
-        private int size_;
-        private int limit_;
+        private int[] data;
+        private int limit;
+        private int size;
 
         public MyMaxHeap(int limit) {
-            heap_ = new int[limit];
-            limit_ = limit;
-            size_ = 0;
+            data = new int[limit];
+            size = 0;
+            this.limit = limit;
         }
 
         public boolean isEmpty() {
-            return size_ == 0;
+            return size == 0;
         }
 
         public boolean isFull() {
-            return size_ == limit_;
+            return size == limit;
         }
 
-        public void push(int val) {
+        public void push(int value) {
             if (isFull()) {
-                throw new RuntimeException("heap is full");
+                throw new RuntimeException("the heap is full!!!");
             }
-            heap_[size_] = val;
-            heapInsert(heap_, size_++);
+
+            data[size] = value;
+            heapInsert(data, size++);
         }
 
         public int pop() {
             if (isEmpty()) {
-                throw new RuntimeException("heap is empty");
+                throw new RuntimeException("the heap is empty!!!");
             }
 
-            int ans = heap_[0];
-            swap(heap_, 0, --size_);
-            heapify(heap_, 0, size_);
+            int ans = data[0];
+            swap(data, 0, --size);
+            heapify(data, 0, size);
             return ans;
+        }
+
+        private void heapify(int[] arr, int index, int heapSize) {
+            int left = index * 2 + 1;
+            while (left < heapSize) {
+                int largest = left + 1 < heapSize && arr[left] < arr[left + 1] ? left + 1 : left;
+                largest = arr[index] < arr[largest] ? largest: index;
+                if (largest == index) {
+                    break;
+                }
+
+                swap(arr, index, largest);
+                index = largest;
+                left = 2 * index + 1;
+            }
         }
 
         private void heapInsert(int[] arr, int index) {
@@ -48,26 +64,14 @@ public class Code01_Heap {
             }
         }
 
-        private void heapify(int[] arr, int index, int heap_size) {
-            int left = index * 2 + 1;
-            while (left < heap_size) {
-                int largest =  left + 1 < heap_size && arr[left] < arr[left + 1] ?
-                        left + 1 : left;
-                largest = arr[index] < arr[largest] ? largest : index;
-                if (largest == index) {
-                    break;
-                }
-                
-                swap(arr, index, largest);
-                index = largest;
-                left = index * 2 + 1;
-            }
-        }
-
         private void swap(int[] arr, int i, int j) {
-            int temp = arr[i];
+            if (i == j) {
+                return;
+            }
+
+            int tmp = arr[i];
             arr[i] = arr[j];
-            arr[j] = temp;
+            arr[j] = tmp;
         }
     }
 
