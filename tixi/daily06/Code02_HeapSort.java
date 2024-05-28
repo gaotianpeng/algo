@@ -22,8 +22,6 @@ public class Code02_HeapSort {
         }
 
         int heapSize = arr.length;
-        swap(arr, 0, --heapSize);
-        heapify(arr, 0, heapSize);
         while (heapSize > 0) {
             swap(arr, 0, --heapSize);
             heapify(arr, 0, heapSize);
@@ -40,8 +38,6 @@ public class Code02_HeapSort {
         }
 
         int heapSize = arr.length;
-        swap(arr, 0, --heapSize);
-        heapify(arr, 0, heapSize);
         while (heapSize > 0) {
             swap(arr, 0, --heapSize);
             heapify(arr, 0, heapSize);
