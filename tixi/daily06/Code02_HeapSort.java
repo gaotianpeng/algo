@@ -17,20 +17,21 @@ public class Code02_HeapSort {
             return;
         }
 
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; ++i) {
             heapInsert(arr, i);
         }
 
-        int heap_size = arr.length;
-        swap(arr, 0, --heap_size);
-        while (heap_size > 0) {
-            heapify(arr, 0, heap_size);
-            swap(arr, 0, --heap_size);
+        int heapSize = arr.length;
+        swap(arr, 0, --heapSize);
+        heapify(arr, 0, heapSize);
+        while (heapSize > 0) {
+            swap(arr, 0, --heapSize);
+            heapify(arr, 0, heapSize);
         }
     }
 
     public static void heapSort1(int[] arr) {
-        if (arr == null || arr.length < 2) {
+        if (arr == null || arr.length <2) {
             return;
         }
 
@@ -38,25 +39,21 @@ public class Code02_HeapSort {
             heapify(arr, i, arr.length);
         }
 
-        int heap_size = arr.length;
-        swap(arr, 0, --heap_size);
-        while (heap_size > 0) {
-            heapify(arr, 0, heap_size);
-            swap(arr, 0, --heap_size);
+        int heapSize = arr.length;
+        swap(arr, 0, --heapSize);
+        heapify(arr, 0, heapSize);
+        while (heapSize > 0) {
+            swap(arr, 0, --heapSize);
+            heapify(arr, 0, heapSize);
         }
     }
 
-    private static void heapInsert(int arr[], int index) {
-        while (arr[index] > arr[(index - 1) / 2]) {
-            swap(arr, index, (index-1) / 2);
-            index = (index - 1) / 2;
-        }
-    }
 
-    private static void heapify(int arr[], int index, int heap_size) {
+    private static void heapify(int[] arr, int index, int heapSize) {
         int left = index * 2 + 1;
-        while (left < heap_size) {
-            int largest = left + 1 < heap_size && arr[left] < arr[left + 1] ? left + 1 : left;
+        while (left < heapSize) {
+            int largest = left + 1 < heapSize && arr[left] < arr[left + 1] ? 
+                            left + 1 : left;
             largest = arr[index] < arr[largest] ? largest : index;
             if (largest == index) {
                 break;
@@ -64,14 +61,25 @@ public class Code02_HeapSort {
 
             swap(arr, index, largest);
             index = largest;
-            left = index * 2 + 1;
+            left = 2 * index + 1;
         }
     }
 
+    private static void heapInsert(int[] arr, int index) {
+        while (arr[index] > arr[(index-1)/2]) {
+            swap(arr, index, (index - 1)/2);
+            index = (index - 1) / 2;
+        }
+    }
+    
     private static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
+        if (i == j) {
+            return;
+        }
+
+        int tmp = arr[i];
         arr[i] = arr[j];
-        arr[j] = temp;
+        arr[j] = tmp;
     }
 
     /*
