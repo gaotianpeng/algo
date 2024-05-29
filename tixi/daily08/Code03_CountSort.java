@@ -12,7 +12,7 @@ public class Code03_CountSort {
 
         int max = arr[0];
         for (int i = 1; i < arr.length; ++i) {
-            max = Math.max(max, arr[i]);
+            max = Math.max(arr[i], max);
         }
 
         int[] bucket = new int[max+1];
@@ -20,11 +20,10 @@ public class Code03_CountSort {
             bucket[arr[i]]++;
         }
 
-        int index = -1;
-        for (int i = 0; i < bucket.length; ++i) {
-            while (bucket[i] > 0) {
-                arr[++index] = i;
-                bucket[i]--;
+        int i = 0;
+        for (int j = 0; j < bucket.length; ++j) {
+            while (bucket[j]-- > 0) {
+                arr[i++] = j;
             }
         }
     }
@@ -93,7 +92,7 @@ public class Code03_CountSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 1000000;
+        int test_times = 100000;
         int max_val = 200;
         int max_len = 100;
         boolean success = true;

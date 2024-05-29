@@ -9,7 +9,7 @@ public class Code04_RadixSort {
             return;
         }
 
-        radixSort(arr, 0, arr.length - 1, maxbits(arr));
+        radixSort(arr, 0, arr.length - 1, maxBits(arr));   
     }
 
     private static void radixSort(int[] arr, int left, int right, int digit) {
@@ -18,27 +18,34 @@ public class Code04_RadixSort {
         int[] help = new int[right - left + 1];
         for (int d = 1; d <= digit; d++) {
             int[] count = new int[radix];
-            for (i = left; i <= right; i++) {
-                j = getDigit(arr[i], d);
+            for (i = left; i <= right; ++i) {
+                j = getDigits(arr[i], d);
                 count[j]++;
             }
-            for (i = 1; i < radix; i++) {
+    
+            for (i = 1; i < radix; ++i) {
                 count[i] = count[i] + count[i-1];
             }
-            for (i = right; i >= left; i--) {
-                j = getDigit(arr[i], d);
+
+            for (i = right; i >= left; --i) {
+                j = getDigits(arr[i], d);
                 help[count[j] - 1] = arr[i];
                 count[j]--;
             }
-            for (i = left, j = 0; j <= right; i++, j++) {
+
+            for (i = left, j = 0; i <= right; i++, j++) {
                 arr[i] = help[j];
             }
         }
     }
 
-    private static int maxbits(int[] arr) {
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < arr.length; i++) {
+    private static int getDigits(int x, int d) {
+        return ((x/((int)Math.pow(10, d - 1))) % 10);
+    }
+
+    private static int maxBits(int[] arr) {
+        int max = arr[0];
+        for (int i = 1; i < arr.length; ++i) {
             max = Math.max(max, arr[i]);
         }
 
@@ -47,11 +54,8 @@ public class Code04_RadixSort {
             ans++;
             max /= 10;
         }
-        return ans;
-    }
 
-    private static int getDigit(int x, int d) {
-        return ((x / ((int)Math.pow(10, d - 1))) % 10);
+        return ans;
     }
 
     /*
@@ -118,12 +122,12 @@ public class Code04_RadixSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 1000000;
-        int max_val = 200;
-        int max_len = 100;
+        int testTimes = 1000000;
+        int maxVal = 200;
+        int maxLen = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateRandomArray(max_val, max_len);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray(maxVal, maxLen);
             int[] arr2 = copyArray(arr);
             int[] arr3 = copyArray(arr);
             radixSort(arr);
