@@ -16,96 +16,97 @@ import java.util.HashMap;
         4）int prefixNumber(String str)       查询有多少个字符串，是以str做前缀的
  */
 public class Code01_TrieTree {
-    public static class TrieNode {
-        public TrieNode [] nexts;
+    public static class Node {
         public int pass;
         public int end;
+        public Node[] nexts;
 
-        public TrieNode() {
-            nexts = new TrieNode[26];
-            pass = 0;
-            end = 0;
+        public Node() {
+            nexts = new Node[26];
         }
     }
 
     public static class TrieTree {
-        private TrieNode root;
+        private Node root;
 
         public TrieTree() {
-            root = new TrieNode();
+            root = new Node();
         }
 
         public void insert(String word) {
-            if (word == null) {
+            if (word == null || word.isEmpty()) {
                 return;
             }
 
             char[] chs = word.toCharArray();
-            TrieNode node = root;
-            for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
+            int index = 0;
+            Node node = root;
+            for (int i = 0; i < chs.length; ++i) {
+                index = chs[i] - 'a';
                 if (node.nexts[index] == null) {
-                    node.nexts[index] = new TrieNode();
+                    node.nexts[index] = new Node();
                 }
+                node.nexts[index].pass++;
                 node = node.nexts[index];
-                node.pass++;
             }
             node.end++;
         }
 
         public void delete(String word) {
-            if (word == null) {
-                return;
-            }
-
             if (search(word) == 0) {
                 return;
             }
 
             char[] chs = word.toCharArray();
-            TrieNode node = root;
-            for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
+            int index = 0;
+            Node node = root;
+            for (int i = 0; i < chs.length; ++i) {
+                index = chs[i] - 'a';
                 if (--node.nexts[index].pass == 0) {
                     node.nexts[index] = null;
                     return;
                 }
+                
                 node = node.nexts[index];
             }
             node.end--;
         }
 
         public int search(String word) {
-            if (word == null) {
+            if (word == null || word.isEmpty()) {
                 return 0;
             }
 
-            TrieNode node = root;
             char[] chs = word.toCharArray();
-            for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
+            int index = 0;
+            Node node = root;
+            for (int i = 0; i < chs.length; ++i) {
+                index = chs[i] - 'a';
                 if (node.nexts[index] == null) {
                     return 0;
                 }
                 node = node.nexts[index];
             }
+
             return node.end;
         }
 
-        public int prefixNumber(String prefix) {
-            if (prefix == null) {
+        public int prefixNumber(String word) {
+            if (word == null || word.isEmpty()) {
                 return 0;
             }
 
-            TrieNode node = root;
-            char[] chs = prefix.toCharArray();
-            for (int i = 0; i < chs.length; i++) {
-                int index = chs[i] - 'a';
+            char[] chs = word.toCharArray();
+            int index = 0;
+            Node node = root;
+            for (int i = 0; i < chs.length; ++i) {
+                index = chs[i] - 'a';
                 if (node.nexts[index] == null) {
                     return 0;
                 }
                 node = node.nexts[index];
             }
+
             return node.pass;
         }
     }
