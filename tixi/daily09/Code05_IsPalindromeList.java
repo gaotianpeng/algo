@@ -46,25 +46,21 @@ public class Code05_IsPalindromeList {
             return true;
         }
 
-        Node right = head.next;
-        Node cur = head;
-        while (cur.next != null && cur.next.next != null) {
-            right = right.next;
-            cur = cur.next.next;
-        }
-
         Stack<Node> stack = new Stack<>();
-        while (right != null) {
-            stack.push(right);
-            right = right.next;
+        Node cur = head;
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.next;
         }
 
         cur = head;
         while (!stack.isEmpty()) {
-            if (cur.value != stack.pop().value) {
+            if (stack.peek().value == cur.value) {
+                cur = cur.next;
+                stack.pop();
+            } else {
                 return false;
             }
-            cur = cur.next;
         }
 
         return true;
@@ -82,37 +78,34 @@ public class Code05_IsPalindromeList {
             fast = fast.next.next;
         }
 
-        Node reverse_head = reverseList(slow.next);
-        Node cur = reverse_head;
-        Node start = head;
-        boolean ans = true;
-        while (cur != null) {
-            if (cur.value != start.value) {
-                ans = false;
-                break;
+        Node reverseHead = reverse(slow.next);
+        Node curReverse = reverseHead;
+        Node cur = head;
+        while (cur != null && curReverse != null) {
+            if (cur.value != curReverse.value) {
+                slow.next = reverse(reverseHead);
+                return false;
             }
             cur = cur.next;
-            start = start.next;
+            curReverse = curReverse.next;
         }
-        slow.next = reverseList(reverse_head);
-        return ans;
+
+        slow.next = reverse(reverseHead);
+        return true;
     }
 
-    public static Node reverseList(Node head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-
-        Node pre = null;
+    public static Node reverse(Node head) {
+        Node prev = null;
         Node next = null;
+
         while (head != null) {
             next = head.next;
-            head.next = pre;
-            pre = head;
+            head.next = prev;
+            prev = head;
             head = next;
         }
 
-        return pre;
+        return prev;
     }
 
     /*
