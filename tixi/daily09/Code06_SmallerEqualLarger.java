@@ -15,55 +15,56 @@ public class Code06_SmallerEqualLarger {
     }
 
     public static Node reorganizeLinkedList(Node head, int pivot) {
-        Node small_head = null;
-        Node small_tail = null;
-        Node equal_head = null;
-        Node equal_tail = null;
-        Node large_head = null;
-        Node large_tail = null;
+        Node smallH = null;
+        Node smallT = null;
+        Node equalH = null;
+        Node equalT = null;
+        Node biggerH = null;
+        Node biggerT = null;
 
         Node next = null;
         while (head != null) {
             next = head.next;
             head.next = null;
             if (head.value < pivot) {
-                if (small_head == null) {
-                    small_head = head;
-                    small_tail = head;
+                if (smallH == null) {
+                    smallH = head;
+                    smallT = head;
                 } else {
-                    small_tail.next = head;
-                    small_tail = small_tail.next;
+                    smallT.next = head;
+                    smallT = smallT.next;
                 }
             } else if (head.value == pivot) {
-                if (equal_head == null) {
-                    equal_head = head;
-                    equal_tail = head;
+                if (equalH == null) {
+                    equalH = head;
+                    equalT = head;
                 } else {
-                    equal_tail.next = head;
-                    equal_tail = equal_tail.next;
+                    equalT.next = head;
+                    equalT = equalT.next;
                 }
             } else {
-                if (large_head == null) {
-                    large_head = head;
-                    large_tail = head;
+                if (biggerH == null) {
+                    biggerH = head;
+                    biggerT = head;
                 } else {
-                    large_tail.next = head;
-                    large_tail = large_tail.next;
+                    biggerT.next = head;
+                    biggerT = biggerT.next;
                 }
             }
+
             head = next;
         }
 
-        if (small_tail != null) {
-            small_tail.next = equal_head;
-            equal_tail = equal_tail == null ? small_tail : equal_tail;
+        if (smallT != null) {
+            smallT.next = equalH;
+            equalT = equalT == null ? smallT: equalT;
         }
 
-        if (equal_tail != null) {
-            equal_tail.next = large_head;
+        if (equalT != null) {
+            equalT.next = biggerH;
         }
 
-        return small_head != null ? small_head : (equal_head != null ? equal_head: large_head);
+        return smallH != null ? smallH : (equalH != null? equalH: biggerH);
     }
 
     /*
@@ -74,11 +75,11 @@ public class Code06_SmallerEqualLarger {
             return head;
         }
 
-        ArrayList<Node> sorted_list = new ArrayList<>();
+        ArrayList<Node> sortedList = new ArrayList<>();
         Node cur = head;
         while (cur != null) {
             if (cur.value < pivot) {
-                sorted_list.add(cur);
+                sortedList.add(cur);
             }
             cur = cur.next;
         }
@@ -86,7 +87,7 @@ public class Code06_SmallerEqualLarger {
         cur = head;
         while (cur != null) {
             if (cur.value == pivot) {
-                sorted_list.add(cur);
+                sortedList.add(cur);
             }
             cur = cur.next;
         }
@@ -94,19 +95,19 @@ public class Code06_SmallerEqualLarger {
         cur = head;
         while (cur != null) {
             if (cur.value > pivot) {
-                sorted_list.add(cur);
+                sortedList.add(cur);
             }
             cur = cur.next;
         }
 
-        Node prev = sorted_list.get(0);
-        for (int i = 1; i < sorted_list.size(); i++) {
-            Node node = sorted_list.get(i);
+        Node prev = sortedList.get(0);
+        for (int i = 1; i < sortedList.size(); i++) {
+            Node node = sortedList.get(i);
             prev.next = node;
             prev = node;
             prev.next = null;
         }
-        return sorted_list.get(0);
+        return sortedList.get(0);
     }
 
     public static int getLinkListRandomPivot(Node head) {
@@ -226,12 +227,12 @@ public class Code06_SmallerEqualLarger {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 1000000;
-        int max_val = 10;
-        int max_len = 30;
+        int testTimes = 1000000;
+        int maxVal = 10;
+        int maxLen = 30;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            Node head1 = generateRandomLinkedList(max_val, max_len);
+        for (int i = 0; i < testTimes; i++) {
+            Node head1 = generateRandomLinkedList(maxVal, maxLen);
             Node head2 = copyLinkedList(head1);
             Node head3 = copyLinkedList(head1);
             int pivot = getLinkListRandomPivot(head2);
