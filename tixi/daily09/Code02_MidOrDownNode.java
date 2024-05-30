@@ -2,6 +2,7 @@ package tixi.daily09;
 
 import java.util.ArrayList;
 
+// 输入链表头节点，奇数长度返回中点，偶数长度返回下中点
 public class Code02_MidOrDownNode {
     public static class Node {
         public int value;
