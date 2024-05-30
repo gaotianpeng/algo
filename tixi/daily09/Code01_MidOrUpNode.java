@@ -22,10 +22,12 @@ public class Code01_MidOrUpNode {
 
         Node slow = head.next;
         Node fast = head.next.next;
+
         while (fast.next != null && fast.next.next != null) {
-            fast = fast.next.next;
             slow = slow.next;
+            fast = fast.next.next;
         }
+
         return slow;
     }
 
