@@ -25,17 +25,20 @@ public class Code03_UnRecursivePreTraverseBT {
         if (root != null) {
             Stack<TreeNode> stack = new Stack<>();
             stack.add(root);
-            while (!stack.isEmpty()) {
+            while (!stack.empty()) {
                 TreeNode node = stack.pop();
                 ans.add(node.val);
+                
                 if (node.right != null) {
                     stack.add(node.right);
                 }
+
                 if (node.left != null) {
                     stack.add(node.left);
                 }
             }
         }
+
         return ans;
     }
 

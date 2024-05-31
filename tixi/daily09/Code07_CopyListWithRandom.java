@@ -62,7 +62,6 @@ public class Code07_CopyListWithRandom {
         while (cur != null) {
             next = cur.next.next;
             copy = cur.next;
-            copy.next = next;
             copy.next = next != null ? next.next : null;
             cur = next;
         }
