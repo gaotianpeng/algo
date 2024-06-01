@@ -25,29 +25,29 @@ public class Code_0023_MergeKSortedLists {
             return null;
         }
 
-        PriorityQueue<ListNode> min_heap = new PriorityQueue<>(new ListNodeComparator());
+        PriorityQueue<ListNode> heap = new PriorityQueue<>(new ListNodeComparator());
         for (int i = 0; i < lists.length; ++i) {
             if (lists[i] != null) {
-                min_heap.add(lists[i]);
+                heap.add(lists[i]);
             }
         }
 
-        if (min_heap.isEmpty()) {
+        if (heap.isEmpty()) {
             return null;
         }
 
-        ListNode head = min_heap.poll();
+        ListNode head = heap.poll();
         ListNode pre = head;
         if (pre.next != null) {
-            min_heap.add(pre.next);
+            heap.add(pre.next);
         }
 
-        while (!min_heap.isEmpty()) {
-            ListNode cur = min_heap.poll();
+        while (!heap.isEmpty()) {
+            ListNode cur = heap.poll();
             pre.next = cur;
             pre = cur;
             if (cur.next != null) {
-                min_heap.add(cur.next);
+                heap.add(cur.next);
             }
         }
 
