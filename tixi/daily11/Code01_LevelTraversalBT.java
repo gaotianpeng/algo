@@ -1,7 +1,5 @@
 package tixi.daily11;
 
-import tixi.daily10.Code05_UnRecursivePostTraverseBT;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,21 +26,21 @@ public class Code01_LevelTraversalBT {
         }
 
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
+        queue.add(root);
         while (!queue.isEmpty()) {
-            List<Integer> curLevel = new ArrayList<>();
+            List<Integer> curAns = new ArrayList<>();
             int curLevelSize = queue.size();
             for (int i = 0; i < curLevelSize; ++i) {
                 TreeNode node = queue.poll();
-                curLevel.add(node.val);
+                curAns.add(node.val);
                 if (node.left != null) {
-                    queue.offer(node.left);
+                    queue.add(node.left);
                 }
                 if (node.right != null) {
-                    queue.offer(node.right);
+                    queue.add(node.right);
                 }
             }
-            ans.add(curLevel);
+            ans.add(curAns);
         }
 
         return ans;
@@ -78,23 +76,23 @@ public class Code01_LevelTraversalBT {
         levelOrderHelper(node.right, level + 1, ans);
     }
 
-    public static TreeNode generateRandomBT(int max_val, int max_level) {
-        return generate(1, max_level, max_val);
+    public static TreeNode generateRandomBT(int maxVal, int maxLevel) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    public static TreeNode generate(int level, int max_level, int max_val) {
-        if (level > max_level || Math.random() > 0.5) {
+    public static TreeNode generate(int level, int maxLevel, int maxVal) {
+        if (level > maxLevel || Math.random() > 0.5) {
             return null;
         }
 
-        TreeNode node = new TreeNode(randomVal(max_val));
-        node.left = generate(level + 1, max_level, max_val);
-        node.right = generate(level + 1, max_level, max_val);
+        TreeNode node = new TreeNode(randomVal(maxVal));
+        node.left = generate(level + 1, maxLevel, maxVal);
+        node.right = generate(level + 1, maxLevel, maxVal);
         return node;
     }
 
-    public static int randomVal(int max_val) {
-        return (int)(Math.random() * (max_val + 1));
+    public static int randomVal(int maxVal) {
+        return (int)(Math.random() * (maxVal + 1));
     }
 
     public static boolean isEqual(List<List<Integer>> ans1, List<List<Integer>> ans2) {

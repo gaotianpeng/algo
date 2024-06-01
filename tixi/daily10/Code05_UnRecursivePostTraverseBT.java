@@ -19,24 +19,26 @@ public class Code05_UnRecursivePostTraverseBT {
 
     public static List<Integer> postOrder(TreeNode cur) {
         List<Integer> ans = new ArrayList<>();
-        if (cur != null) {
-            Stack<TreeNode> s1 = new Stack<>();
-            Stack<TreeNode> s2 = new Stack<>();
-            s1.push(cur);
-            while (!s1.empty()) {
-                TreeNode node = s1.pop();
-                s2.push(node);
-                if (node.left != null) {
-                    s1.push(node.left);
-                }
-                if (node.right != null) {
-                    s1.push(node.right);
-                }
-            }
+        if (cur == null) {
+            return ans;
+        }
 
-            while(!s2.isEmpty()) {
-                ans.add(s2.pop().val);
+        Stack<TreeNode> s1 = new Stack<>();
+        Stack<TreeNode> s2 = new Stack<>();
+        s1.push(cur);
+        while (!s1.empty()) {
+            TreeNode node = s1.pop();
+            s2.push(node);
+            if (node.left != null) {
+                s1.push(node.left);
             }
+            if (node.right != null) {
+                s1.push(node.right);
+            }
+        }
+
+        while (!s2.empty()) {
+            ans.add(s2.pop().val);
         }
 
         return ans;
@@ -61,23 +63,23 @@ public class Code05_UnRecursivePostTraverseBT {
         ans.add(root.val);
     }
 
-    public static TreeNode generateRandomBT(int max_val, int max_level) {
-        return generate(1, max_level, max_val);
+    public static TreeNode generateRandomBT(int maxVal, int maxLevel) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    public static TreeNode generate(int level, int max_level, int max_val) {
-        if (level > max_level || Math.random() > 0.5) {
+    public static TreeNode generate(int level, int maxLevel, int maxVal) {
+        if (level > maxLevel || Math.random() > 0.5) {
             return null;
         }
 
-        TreeNode node = new TreeNode(randomVal(max_val));
-        node.left = generate(level + 1, max_level, max_val);
-        node.right = generate(level + 1, max_level, max_val);
+        TreeNode node = new TreeNode(randomVal(maxVal));
+        node.left = generate(level + 1, maxLevel, maxVal);
+        node.right = generate(level + 1, maxLevel, maxVal);
         return node;
     }
 
-    public static int randomVal(int max_val) {
-        return (int)(Math.random() * (max_val + 1));
+    public static int randomVal(int maxVal) {
+        return (int)(Math.random() * (maxVal + 1));
     }
 
     public static boolean isEqual(List<Integer> order1, List<Integer> order2) {
@@ -111,11 +113,11 @@ public class Code05_UnRecursivePostTraverseBT {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 1000000;
-        int max_level = 20;
-        int max_val = 100;
-        for (int i = 0; i < test_times; i++) {
-            TreeNode root = generateRandomBT(max_val, max_level);
+        int testTimes = 1000000;
+        int maxLevel = 20;
+        int maxVal = 100;
+        for (int i = 0; i < testTimes; i++) {
+            TreeNode root = generateRandomBT(maxVal, maxLevel);
             List<Integer> order1 = postOrder(root);
             List<Integer> order2 = test(root);
             if (!isEqual(order1, order2)) {

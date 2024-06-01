@@ -1,5 +1,6 @@
 package tixi.daily11;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -37,7 +38,7 @@ public class Code02_SerializeAndReconstructBT {
         return ans;
     }
 
-    private static void preSer(Node head, Queue<String> ans) {
+    public static void preSer(Node head, Queue<String> ans) {
         if (head == null) {
             ans.add(null);
             return;
@@ -48,14 +49,16 @@ public class Code02_SerializeAndReconstructBT {
         preSer(head.right, ans);
     }
 
-    public static Node preDeserialize(Queue<String> pre_list) {
-        String val = pre_list.poll();
+
+    public static Node preDeserialize(Queue<String> preList) {
+        String val = preList.poll();
         if (val == null) {
             return null;
         }
+
         Node node = new Node(Integer.valueOf(val));
-        node.left = preDeserialize(pre_list);
-        node.right = preDeserialize(pre_list);
+        node.left = preDeserialize(preList);
+        node.right = preDeserialize(preList);
         return node;
     }
 
@@ -65,26 +68,27 @@ public class Code02_SerializeAndReconstructBT {
         return ans;
     }
 
-    private static void postSer(Node head, Queue<String> ans) {
+    public static void postSer(Node head, Queue<String> ans) {
         if (head == null) {
             ans.add(null);
             return;
         }
-
+        
         postSer(head.left, ans);
         postSer(head.right, ans);
         ans.add(String.valueOf(head.value));
     }
 
-    public static Node postDeserialize(Queue<String> post_list) {
-        if (post_list == null || post_list.size() == 0) {
+    public static Node postDeserialize(Queue<String> postList) {
+        if (postList == null || postList.size() == 0) {
             return null;
         }
+
         Stack<String> stack = new Stack<>();
-        // 左右中 --> 中左右
-        while (!post_list.isEmpty()) {
-            stack.push(post_list.poll());
+        while (!postList.isEmpty()) {
+            stack.push(postList.poll());
         }
+
         return postDe(stack);
     }
 
@@ -99,6 +103,7 @@ public class Code02_SerializeAndReconstructBT {
         node.left = postDe(stack);
         return node;
     }
+
 
     public static Queue<String> levelSerialize(Node head) {
         Queue<String> ans = new LinkedList<>();
@@ -208,18 +213,18 @@ public class Code02_SerializeAndReconstructBT {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 100000;
-        int max_level = 20;
-        int max_val = 30;
-        for (int i = 0; i < test_times; i++) {
-            Node tree = generateRandomBT(max_level, max_val);
-            Queue<String> pre_list = preSerialize(tree);
-            Queue<String> post_list = postSerialize(tree);
-            Queue<String> level_list = levelSerialize(tree);
+        int testTimes = 100000;
+        int maxLevel = 20;
+        int maxVal = 30;
+        for (int i = 0; i < testTimes; i++) {
+            Node tree = generateRandomBT(maxLevel, maxVal);
+            Queue<String> preList = preSerialize(tree);
+            Queue<String> postList = postSerialize(tree);
+            Queue<String> levelList = levelSerialize(tree);
 
-            Node pre_tree = preDeserialize(pre_list);
-            Node post_tree = postDeserialize(post_list);
-            Node level_tree = levelDeserialize(level_list);
+            Node pre_tree = preDeserialize(preList);
+            Node post_tree = postDeserialize(postList);
+            Node level_tree = levelDeserialize(levelList);
 
             if (!isEqual(tree, pre_tree)) {
                 System.out.println("-------------------- pre error");
