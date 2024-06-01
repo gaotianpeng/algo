@@ -85,4 +85,83 @@ public class Code03_EncodeNaryTreeToBinaryTree {
             return ans;
         }
     }
+
+    // Generates a random n-ary tree
+    public static Node generateRandomNTree(int maxVal, int maxLevel, int maxChildren) {
+        return generateNTree(1, maxLevel, maxVal, maxChildren);
+    }
+
+    private static Node generateNTree(int level, int maxLevel, int maxVal, int maxChildren) {
+        if (level > maxLevel || Math.random() > 0.5) {
+            return null;
+        }
+
+        Node node = new Node(randomVal(maxVal));
+        int numChildren = (int) (Math.random() * (maxChildren + 1));
+        node.children = new ArrayList<>();
+        for (int i = 0; i < numChildren; i++) {
+            Node child = generateNTree(level + 1, maxLevel, maxVal, maxChildren);
+            if (child != null) {
+                node.children.add(child);
+            }
+        }
+
+        return node;
+    }
+
+    private static int randomVal(int maxVal) {
+        return (int) (Math.random() * (maxVal + 1));
+    }
+
+    // Compares two n-ary trees for equality
+    public static boolean compareNTrees(Node n1, Node n2) {
+        if (n1 == null && n2 == null) {
+            return true;
+        }
+        if (n1 == null || n2 == null) {
+            return false;
+        }
+        if (n1.val != n2.val) {
+            return false;
+        }
+        if ((n1.children == null && n2.children != null) || (n1.children != null && n2.children == null)) {
+            return false;
+        }
+        if (n1.children != null && n2.children != null) {
+            if (n1.children.size() != n2.children.size()) {
+                return false;
+            }
+            for (int i = 0; i < n1.children.size(); i++) {
+                if (!compareNTrees(n1.children.get(i), n2.children.get(i))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        boolean success = true;
+        int testTimes = 100000;
+        int maxLevel = 10;
+        int maxVal = 100;
+        int maxChildren = 5;
+
+        Codec codec = new Codec();
+
+        for (int i = 0; i < testTimes; ++i) {
+            Node tree = generateRandomNTree(maxVal, maxLevel, maxChildren);
+            TreeNode encodedTree = codec.encode(tree);
+            Node decodedTree = codec.decode(encodedTree);
+            if (!compareNTrees(tree, decodedTree)) {
+                success = false;
+                System.out.println("Failed at test case: " + i);
+                break;
+            }
+        }
+
+        System.out.println(success ? "success" : "failed");
+        System.out.println("test end");
+    }
 }
