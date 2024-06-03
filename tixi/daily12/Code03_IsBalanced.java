@@ -11,44 +11,40 @@ public class Code03_IsBalanced {
         }
     }
 
-    public static class Info {
-        public boolean is_balanced;
-        public int height;
-
-        public Info(boolean balanced, int h) {
-            is_balanced = balanced;
-            height = h;
-        }
-    }
-
-    public static boolean isBalance(Node root) {
+    public static boolean isBalanced(Node root) {
         if (root == null) {
             return true;
         }
-
-        return process(root).is_balanced;
+        
+        return process(root).isBalanced;
     }
 
-    public static Info process(Node node) {
-        if (node == null) {
-            return new Info(true, 0);
+    private static class Info {
+        public int height;
+        public boolean isBalanced;
+
+        public Info(int h, boolean balance) {
+            height = h;
+            isBalanced = balance;
+        }
+    }
+
+    private static Info process(Node root) {
+        if (root == null) {
+            return new Info(0, true);
         }
 
-        Info left_info = process(node.left);
-        Info right_info = process(node.right);
-        boolean is_balanced = true;
-        int height = Math.max(left_info.height, right_info.height) + 1;
-        if (!left_info.is_balanced) {
-            is_balanced = false;
-        }
-        if (!right_info.is_balanced) {
-            is_balanced = false;
-        }
-        if (Math.abs(left_info.height - right_info.height) > 1) {
-            is_balanced = false;
+        Info leftInfo = process(root.left);
+        Info rightInfo = process(root.right);
+
+        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+        boolean isBalanced = true;
+        
+        if (!leftInfo.isBalanced || !rightInfo.isBalanced || Math.abs(leftInfo.height - rightInfo.height) > 1) {
+            isBalanced = false;
         }
 
-        return new Info(is_balanced, height);
+        return new Info(height, isBalanced);
     }
 
     /*
@@ -66,26 +62,26 @@ public class Code03_IsBalanced {
             return -1;
         }
 
-        int left_height = process1(head.left, ans);
-        int right_height = process1(head.right, ans);
-        if (Math.abs(left_height - right_height) > 1) {
+        int leftHeight = process1(head.left, ans);
+        int rightHeight = process1(head.right, ans);
+        if (Math.abs(leftHeight - rightHeight) > 1) {
             ans[0] = false;
         }
-        return Math.max(left_height, right_height) + 1;
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    public static Node generateRandomBT(int max_level, int max_val) {
-        return generate(0, max_level, max_val);
+    public static Node generateRandomBT(int maxLevel, int maxVal) {
+        return generate(0, maxLevel, maxVal);
     }
 
-    private static Node generate(int cur_level, int max_level, int max_val) {
-        if (cur_level > max_level || Math.random() > 0.5) {
+    private static Node generate(int curLevel, int maxLevel, int maxVal) {
+        if (curLevel > maxLevel || Math.random() > 0.5) {
             return null;
         }
 
-        Node node = new Node(randomValue(max_val));
-        node.left = generate(cur_level + 1, max_level, max_val);
-        node.right = generate( cur_level + 1, max_level, max_val);
+        Node node = new Node(randomValue(maxVal));
+        node.left = generate(curLevel + 1, maxLevel, maxVal);
+        node.right = generate( curLevel + 1, maxLevel, maxVal);
         return node;
     }
 
@@ -96,13 +92,13 @@ public class Code03_IsBalanced {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 1000000;
-        int max_level = 20;
-        int max_val = 30;
+        int testTimes = 1000000;
+        int maxLevel = 20;
+        int maxVal = 30;
 
-        for (int i = 0; i < test_times; i++) {
-            Node node = generateRandomBT(max_level, max_val);
-            if (isBalance(node) != test(node)) {
+        for (int i = 0; i < testTimes; i++) {
+            Node node = generateRandomBT(maxLevel, maxVal);
+            if (isBalanced(node) != test(node)) {
                 success = false;
                 break;
             }

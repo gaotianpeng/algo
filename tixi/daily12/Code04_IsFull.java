@@ -24,30 +24,34 @@ public class Code04_IsFull {
         }
 
         Info1 all = process1(head);
-        return (1 << all.height) - 1 == all.nodes;
-    }
-
-    private static Info1 process1(Node head) {
-        if (head == null) {
-            return new Info1(0, 0);
-        }
-
-        Info1 left_info = process1(head.left);
-        Info1 right_info = process1(head.right);
-        int height = Math.max(left_info.height, right_info.height) + 1;
-        int nodes = left_info.nodes + 1 + right_info.nodes;
-        return new Info1(height, nodes);
+        return all.nodes == (1 << all.height) - 1;
     }
 
     private static class Info1 {
-        public int height;
         public int nodes;
+        public int height;
 
-        public Info1(int h, int n) {
-            height = h;
+        public Info1(int n, int h) {
             nodes = n;
+            height = h;
         }
     }
+
+    private static Info1 process1(Node root) {
+        if (root == null) {
+            return new Info1(0, 0);
+        }
+
+        Info1 leftInfo = process1(root.left);
+        Info1 rightInfo = process1(root.right);
+
+        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+        int nodes = leftInfo.nodes + rightInfo.nodes + 1;
+
+        return new Info1(nodes, height);
+    }
+
+
 
     /*
         方法2
@@ -60,16 +64,16 @@ public class Code04_IsFull {
             return true;
         }
 
-        return process2(head).is_full;
+        return process2(head).isFull;
     }
 
     private static class Info2 {
         public int height;
-        public boolean is_full;
+        public boolean isFull;
 
         public Info2(int h, boolean f) {
             height = h;
-            is_full = f;
+            isFull = f;
         }
     }
 
@@ -78,38 +82,38 @@ public class Code04_IsFull {
             return new Info2(0, true);
         }
 
-        Info2 left_info = process2(head.left);
-        Info2 right_info = process2(head.right);
-        boolean is_full = left_info.is_full && right_info.is_full && left_info.height == right_info.height;
-        int height = Math.max(left_info.height, right_info.height) + 1;
-        return new Info2(height, is_full);
+        Info2 leftInfo = process2(head.left);
+        Info2 rightInfo = process2(head.right);
+        boolean isFull = leftInfo.isFull && rightInfo.isFull && leftInfo.height == rightInfo.height;
+        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+        return new Info2(height, isFull);
     }
 
     /*
         for test
      */
-    public static Node generateRandomBST(int max_level, int max_val) {
-        return generate(1, max_level, max_val);
+    public static Node generateRandomBST(int maxLevel, int maxVal) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    public static Node generate(int level, int max_level, int max_val) {
-        if (level > max_level || Math.random() < 0.5) {
+    public static Node generate(int level, int maxLevel, int maxVal) {
+        if (level > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node head = new Node((int) (Math.random() * max_val));
-        head.left = generate(level + 1, max_level, max_val);
-        head.right = generate(level + 1, max_level, max_val);
+        Node head = new Node((int) (Math.random() * maxVal));
+        head.left = generate(level + 1, maxLevel, maxVal);
+        head.right = generate(level + 1, maxLevel, maxVal);
         return head;
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_level = 10;
-        int max_val = 100;
-        int test_times = 1000000;
+        int maxLevel = 10;
+        int maxVal = 100;
+        int testTimes = 1000000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            Node head = generateRandomBST(max_level, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            Node head = generateRandomBST(maxLevel, maxVal);
             if (isFull1(head) != isFull2(head)) {
                 success = false;
                 break;
