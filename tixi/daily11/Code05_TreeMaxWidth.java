@@ -22,27 +22,28 @@ public class Code05_TreeMaxWidth {
 
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(head);
-        // 当前层，最右节点是谁
-        TreeNode cur_end = head;
-        // 下一层，最右节点是谁
-        TreeNode next_end = null;
         int max = 0;
-        int cur_level_nodes = 0;
+        int curLevelNodes = 0;
+        TreeNode curEnd = head;
+        TreeNode nextEnd = null;
+
         while (!queue.isEmpty()) {
             TreeNode cur = queue.poll();
             if (cur.left != null) {
+                nextEnd = cur.left;
                 queue.add(cur.left);
-                next_end = cur.left;
             }
             if (cur.right != null) {
+                nextEnd = cur.right;
                 queue.add(cur.right);
-                next_end = cur.right;
             }
-            cur_level_nodes++;
-            if (cur == cur_end) {
-                max = Math.max(max, cur_level_nodes);
-                cur_level_nodes = 0;
-                cur_end = next_end;
+
+            ++curLevelNodes;
+            if (cur == curEnd) {
+                max = Math.max(max, curLevelNodes);
+                curEnd = nextEnd;
+                nextEnd = null;
+                curLevelNodes = 0;
             }
         }
 
@@ -60,33 +61,33 @@ public class Code05_TreeMaxWidth {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(head);
         // key 在哪一层
-        HashMap<TreeNode, Integer> level_map = new HashMap<>();
-        level_map.put(head, 1);
+        HashMap<TreeNode, Integer> levelMap = new HashMap<>();
+        levelMap.put(head, 1);
         // 当前你正在统计哪一层的宽度
-        int cur_level = 1;
+        int curLevel = 1;
         // cur_level层的宽度目前是多少
-        int cur_level_nodes = 0;
+        int curLevelNodes = 0;
         int max = 0;
         while (!queue.isEmpty()) {
             TreeNode cur = queue.poll();
-            int cur_node_level = level_map.get(cur);
+            int curNodeLevel = levelMap.get(cur);
             if (cur.left != null) {
-                level_map.put(cur.left, cur_node_level + 1);
+                levelMap.put(cur.left, curNodeLevel + 1);
                 queue.add(cur.left);
             }
             if (cur.right != null) {
-                level_map.put(cur.right, cur_node_level + 1);
+                levelMap.put(cur.right, curNodeLevel + 1);
                 queue.add(cur.right);
             }
-            if (cur_node_level == cur_level) {
-                cur_level_nodes++;
+            if (curNodeLevel == curLevel) {
+                curLevelNodes++;
             } else {
-                max = Math.max(max, cur_level_nodes);
-                cur_level++;
-                cur_level_nodes = 1;
+                max = Math.max(max, curLevelNodes);
+                curLevel++;
+                curLevelNodes = 1;
             }
         }
-        max = Math.max(max, cur_level_nodes);
+        max = Math.max(max, curLevelNodes);
         return max;
     }
 
@@ -112,11 +113,11 @@ public class Code05_TreeMaxWidth {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int max_level = 20;
-        int max_val = 30;
-        int test_times = 1000000;
-        for (int i = 0; i < test_times; i++) {
-            TreeNode root = generateRandomBT(max_level, max_val);
+        int maxLevel = 20;
+        int maxVal = 30;
+        int testTimes = 1000000;
+        for (int i = 0; i < testTimes; i++) {
+            TreeNode root = generateRandomBT(maxLevel, maxVal);
             int width1 = maxBinaryTreeWidth(root);
             int width2 = test(root);
             if (width1 != width2) {

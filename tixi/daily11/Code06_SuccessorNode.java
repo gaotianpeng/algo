@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
+    后继节点，即中序遍历某节点的下一个节点，即为某节点的后继节点
+
     二叉树结构如下定义：
     Class Node {
         V value;
@@ -35,14 +37,14 @@ public class Code06_SuccessorNode {
             Node parent = node.parent;
             while (parent != null && parent.right == node) {
                 node = parent;
-                parent = node.parent;
+                parent = parent.parent;
             }
 
             return parent;
         }
     }
 
-    private static Node getLeftMost(Node node) {
+    public static Node getLeftMost(Node node) {
         if (node == null) {
             return null;
         }
@@ -53,6 +55,7 @@ public class Code06_SuccessorNode {
 
         return node;
     }
+
 
     /*
         for test
@@ -179,11 +182,11 @@ public class Code06_SuccessorNode {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int max_level = 20;
-        int max_val = 30;
-        int test_times = 1000000;
-        for (int i = 0; i < test_times; i++) {
-            Node root1 = generateRandomBT(max_level, max_val);
+        int maxLevel = 20;
+        int maxVal = 30;
+        int testTimes = 1000000;
+        for (int i = 0; i < testTimes; i++) {
+            Node root1 = generateRandomBT(maxLevel, maxVal);
             Node root2 = copyBT(root1);
 
             List<Node> list1 = getInorderListOfBT(root1);

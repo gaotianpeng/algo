@@ -17,59 +17,59 @@ public class Code01_IsCBT {
         }
     }
 
-    public static class Info {
-        public boolean is_full;
-        public boolean is_cbt;
-        public int height;
-
-        public Info(boolean full, boolean cbt, int h) {
-            is_full = full;
-            is_cbt = cbt;
-            height = h;
-        }
-    }
 
     public static boolean isCBT(Node root) {
         if (root == null) {
             return true;
         }
-        return process(root).is_cbt;
+
+        return process(root).isCBT;
+    }
+    
+    private static class Info {
+        public boolean isFull;
+        public boolean isCBT;
+        public int height;
+
+        public Info(boolean full, boolean cbt, int h) {
+            isFull = full;
+            isCBT = cbt;
+            height = h;
+        }
     }
 
-    public static Info process(Node node) {
+    private static Info process(Node node) {
         if (node == null) {
             return new Info(true, true, 0);
         }
 
-        Info left_info = process(node.left);
-        Info right_info = process(node.right);
-        int height = Math.max(left_info.height, right_info.height) + 1;
-        boolean is_full = left_info.is_full && right_info.is_full
-                    && left_info.height == right_info.height;
-
-        boolean is_cbt = false;
-        if (is_full) {
-            is_cbt = true;
+        Info leftInfo = process(node.left);
+        Info rightInfo = process(node.right);
+        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+        boolean isFull = leftInfo.isFull && rightInfo.isFull &&
+                leftInfo.height == rightInfo.height;
+        boolean isCBT = false;
+        if (isFull) {
+            isCBT = true;
         } else {
-            if (left_info.is_cbt && right_info.is_cbt) {
-                if (left_info.is_full && right_info.is_cbt
-                        && left_info.height == right_info.height) {
-                    is_cbt = true;
+            if (leftInfo.isCBT && rightInfo.isCBT) {
+                if (leftInfo.isFull && rightInfo.isCBT &&
+                        leftInfo.height == rightInfo.height) {
+                    isCBT = true;
+                }
+                if (leftInfo.isFull && rightInfo.isFull &&
+                        leftInfo.height == rightInfo.height + 1) {
+                    isCBT = true;
                 }
 
-                if (left_info.is_cbt && right_info.is_full
-                        && left_info.height == right_info.height + 1) {
-                    is_cbt = true;
-                }
-
-                if (left_info.is_full && right_info.is_full
-                        && left_info.height == right_info.height + 1) {
-                    is_cbt = true;
+                if (leftInfo.isCBT && rightInfo.isFull &&
+                        leftInfo.height == rightInfo.height + 1) {
+                    isCBT = true;
                 }
             }
         }
 
-        return new Info(is_full, is_cbt, height);
+        return new Info(isFull, isCBT, height);
     }
 
     /*
@@ -134,12 +134,12 @@ public class Code01_IsCBT {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 1000000;
-        int max_level = 20;
-        int max_val = 30;
+        int testTimes = 1000000;
+        int maxLevel = 20;
+        int maxVal = 30;
 
-        for (int i = 0; i < test_times; i++) {
-            Node node = generateRandomBT(max_level, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            Node node = generateRandomBT(maxLevel, maxVal);
             if (isCBT(node) != test(node)) {
                 success = false;
                 break;
