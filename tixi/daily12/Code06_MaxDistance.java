@@ -28,8 +28,8 @@ public class Code06_MaxDistance {
         public int maxDistance;
         public int height;
 
-        public Info(int m, int h) {
-            maxDistance = m;
+        public Info(int d, int h) {
+            maxDistance = d;
             height = h;
         }
     }
@@ -38,15 +38,19 @@ public class Code06_MaxDistance {
         if (node == null) {
             return new Info(0, 0);
         }
+
         Info leftInfo = process(node.left);
         Info rightInfo = process(node.right);
         int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+        int maxDistance = 0;
         int p1 = leftInfo.maxDistance;
         int p2 = rightInfo.maxDistance;
-        int p3 = leftInfo.height + rightInfo.height + 1;
-        int max_distance = Math.max(Math.max(p1, p2), p3);
-        return new Info(max_distance, height);
+        int p3 = leftInfo.height + rightInfo.height + 1; 
+
+        maxDistance = Math.max(Math.max(p1, p2), p3);
+        return new Info(maxDistance, height);
     }
+
 
     public static int test(Node head) {
         if (head == null) {
