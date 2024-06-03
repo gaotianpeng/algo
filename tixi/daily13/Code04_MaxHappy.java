@@ -36,9 +36,9 @@ public class Code04_MaxHappy {
         int no = 0;
         int yes = e.happy;
         for (Employee next: e.nexts) {
-            Info next_info = process(next);
-            no += Math.max(next_info.no, next_info.yes);
-            yes += next_info.no;
+            Info nextInfo = process(next);
+            no += Math.max(nextInfo.no, nextInfo.yes);
+            yes += nextInfo.no;
         }
 
         return new Info(no, yes);
@@ -86,37 +86,37 @@ public class Code04_MaxHappy {
         }
     }
 
-    public static Employee generateBoss(int max_level, int max_nexts, int max_happy) {
+    public static Employee generateBoss(int maxLevel, int maxNexts, int maxHappy) {
         if (Math.random() < 0.2) {
             return null;
         }
 
-        Employee boss = new Employee((int)(Math.random() * (max_happy + 1)));
-        generateNexts(boss, 1, max_level, max_nexts, max_happy);
+        Employee boss = new Employee((int)(Math.random() * (maxHappy + 1)));
+        generateNexts(boss, 1, maxLevel, maxNexts, maxHappy);
         return boss;
     }
 
-    public static void generateNexts(Employee e, int level, int max_level, int max_nexts, int max_happy) {
-        if (level > max_level) {
+    public static void generateNexts(Employee e, int level, int maxLevel, int maxNexts, int maxHappy) {
+        if (level > maxLevel) {
             return;
         }
-        int next_size = (int)(Math.random() * (max_nexts + 1));
+        int next_size = (int)(Math.random() * (maxNexts + 1));
         for (int i = 0; i < next_size; i++) {
-            Employee next = new Employee((int)(Math.random()*(max_happy + 1)));
+            Employee next = new Employee((int)(Math.random()*(maxHappy + 1)));
             e.nexts.add(next);
-            generateNexts(next, level + 1, max_level, max_nexts, max_happy);
+            generateNexts(next, level + 1, maxLevel, maxNexts, maxHappy);
         }
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int max_level = 4;
-        int test_times = 10000;
-        int max_nexts = 10;
-        int max_happy = 100;
-        for (int i = 0; i < test_times; i++) {
-            Employee boss = generateBoss(max_level, max_nexts, max_happy);
+        int maxLevel = 4;
+        int testTimes = 10000;
+        int maxNexts = 10;
+        int maxHappy = 100;
+        for (int i = 0; i < testTimes; i++) {
+            Employee boss = generateBoss(maxLevel, maxNexts, maxHappy);
             if (maxHappy(boss) != test(boss)) {
                 success = false;
                 break;

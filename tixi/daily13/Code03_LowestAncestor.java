@@ -28,41 +28,43 @@ public class Code03_LowestAncestor {
         return process(head, p, q).ans;
     }
 
+    private static class Info {
+        public boolean findP;
+        public boolean findQ;
+        public Node ans;
+
+        public Info(boolean findP, boolean findQ, Node ans) {
+            this.findP = findP;
+            this.findQ = findQ;
+            this.ans = ans;
+        }
+    }
+
     private static Info process(Node head, Node p, Node q) {
         if (head == null) {
             return new Info(false, false, null);
         }
 
-        Info left_info = process(head.left, p, q);
-        Info right_info = process(head.right, p, q);
 
-        boolean find_p = (head == p) || left_info.find_p || right_info.find_p;
-        boolean find_q = (head == q) || left_info.find_q || right_info.find_q;
+        Info leftInfo = process(head.left, p, q);
+        Info rightInfo = process(head.right, p, q);
+
+        boolean findP = (head == p) || leftInfo.findP || rightInfo.findP;
+        boolean findQ = (head == q) || leftInfo.findQ || rightInfo.findQ;
         Node ans = null;
-        if (left_info.ans != null) {
-            ans = left_info.ans;
-        } else if (right_info.ans != null) {
-            ans = right_info.ans;
+        if (leftInfo.ans != null) {
+            ans = leftInfo.ans;
+        } else if (rightInfo.ans != null) {
+            ans = rightInfo.ans;
         } else {
-            if (find_p && find_q) {
+            if (findP && findQ) {
                 ans = head;
             }
         }
-
-        return new Info(find_p, find_q, ans);
+        
+        return new Info(findP, findQ, ans);
     }
 
-    private static class Info {
-        public boolean find_p;
-        public boolean find_q;
-        Node ans;
-
-        public Info(boolean find_p, boolean find_q, Node ans) {
-            this.find_p = find_p;
-            this.find_q = find_q;
-            this.ans = ans;
-        }
-    }
 
     /*
         for test
@@ -72,18 +74,18 @@ public class Code03_LowestAncestor {
             return null;
         }
 
-        HashMap<Node, Node> parent_map = getParentMap(head);
+        HashMap<Node, Node> parentMap = getParentMap(head);
         HashSet<Node> set = new HashSet<>();
         Node cur = p;
         set.add(cur);
-        while (parent_map.get(cur) != null) {
-            cur = parent_map.get(cur);
+        while (parentMap.get(cur) != null) {
+            cur = parentMap.get(cur);
             set.add(cur);
         }
 
         cur = q;
         while (!set.contains(cur)) {
-            cur = parent_map.get(cur);
+            cur = parentMap.get(cur);
         }
 
         return cur;
@@ -108,17 +110,17 @@ public class Code03_LowestAncestor {
         }
     }
 
-    private static Node generateRandomBT(int max_level, int max_val) {
-        return generate(1, max_level, max_val);
+    private static Node generateRandomBT(int maxLevel, int maxVal) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    private static Node generate(int cur_level, int max_level, int max_val) {
-        if (cur_level > max_level || Math.random() < 0.5) {
+    private static Node generate(int curLevel, int maxLevel, int maxVal) {
+        if (curLevel > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node ans = new Node(randomVal(max_val));
-        ans.left = generate(cur_level + 1, max_level, max_val);
-        ans.right = generate(cur_level + 1, max_level, max_val);
+        Node ans = new Node(randomVal(maxVal));
+        ans.left = generate(curLevel + 1, maxLevel, maxVal);
+        ans.right = generate(curLevel + 1, maxLevel, maxVal);
 
         return ans;
     }
@@ -128,9 +130,9 @@ public class Code03_LowestAncestor {
             return null;
         }
 
-        List<Node> pre_list = gerPreList(head);
-        int index = (int)(Math.random() * pre_list.size());
-        return pre_list.get(index);
+        List<Node> preList = gerPreList(head);
+        int index = (int)(Math.random() * preList.size());
+        return preList.get(index);
     }
 
     private static List<Node> gerPreList(Node head) {
@@ -148,19 +150,19 @@ public class Code03_LowestAncestor {
         getPre(head.right, ans);
     }
 
-    private static int randomVal(int max_val) {
-        return (int)(Math.random() * (max_val + 1));
+    private static int randomVal(int maxVal) {
+        return (int)(Math.random() * (maxVal + 1));
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int max_level = 20;
-        int max_val = 30;
-        int test_times = 100000;
+        int maxLevel = 20;
+        int maxVal = 30;
+        int testTimes = 100000;
 
-        for (int i = 0; i < test_times; i++) {
-            Node root = generateRandomBT(max_level, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            Node root = generateRandomBT(maxLevel, maxVal);
             Node p = pickOneNode(root);
             Node q = pickOneNode(root);
             if (lowestAncestor(root, p, q) != test(root, p, q)) {
