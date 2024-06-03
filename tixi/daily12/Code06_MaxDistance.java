@@ -21,15 +21,15 @@ public class Code06_MaxDistance {
     }
 
     public static int maxDistance(Node head) {
-        return process(head).max_distance;
+        return process(head).maxDistance;
     }
 
     private static class Info {
-        public int max_distance;
+        public int maxDistance;
         public int height;
 
         public Info(int m, int h) {
-            max_distance = m;
+            maxDistance = m;
             height = h;
         }
     }
@@ -38,12 +38,12 @@ public class Code06_MaxDistance {
         if (node == null) {
             return new Info(0, 0);
         }
-        Info left_info = process(node.left);
-        Info right_info = process(node.right);
-        int height = Math.max(left_info.height, right_info.height) + 1;
-        int p1 = left_info.max_distance;
-        int p2 = right_info.max_distance;
-        int p3 = left_info.height + right_info.height + 1;
+        Info leftInfo = process(node.left);
+        Info rightInfo = process(node.right);
+        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+        int p1 = leftInfo.maxDistance;
+        int p2 = rightInfo.maxDistance;
+        int p3 = leftInfo.height + rightInfo.height + 1;
         int max_distance = Math.max(Math.max(p1, p2), p3);
         return new Info(max_distance, height);
     }
@@ -88,42 +88,42 @@ public class Code06_MaxDistance {
         return map;
     }
 
-    private static void fillParentMap(Node head, HashMap<Node, Node> parent_map) {
+    private static void fillParentMap(Node head, HashMap<Node, Node> parentMap) {
         if (head.left != null) {
-            parent_map.put(head.left, head);
-            fillParentMap(head.left, parent_map);
+            parentMap.put(head.left, head);
+            fillParentMap(head.left, parentMap);
         }
         if (head.right != null) {
-            parent_map.put(head.right, head);
-            fillParentMap(head.right, parent_map);
+            parentMap.put(head.right, head);
+            fillParentMap(head.right, parentMap);
         }
     }
 
-    public static int distance(HashMap<Node, Node> parent_map, Node node1, Node node2) {
-        HashSet<Node> node1_set = new HashSet<>();
+    public static int distance(HashMap<Node, Node> parentMap, Node node1, Node node2) {
+        HashSet<Node> node1Set = new HashSet<>();
         Node cur = node1;
-        node1_set.add(cur);
-        while (parent_map.get(cur) != null) {
-            cur = parent_map.get(cur);
-            node1_set.add(cur);
+        node1Set.add(cur);
+        while (parentMap.get(cur) != null) {
+            cur = parentMap.get(cur);
+            node1Set.add(cur);
         }
 
         cur = node2;
-        while (!node1_set.contains(cur)) {
-            cur = parent_map.get(cur);
+        while (!node1Set.contains(cur)) {
+            cur = parentMap.get(cur);
         }
-        Node lowest_ancestor = cur;
+        Node losestAncestor = cur;
         cur = node1;
         int distance1 = 1;
-        while (cur != lowest_ancestor) {
-            cur = parent_map.get(cur);
+        while (cur != losestAncestor) {
+            cur = parentMap.get(cur);
             distance1++;
         }
 
         cur = node2;
         int distance2 = 1;
-        while (cur != lowest_ancestor) {
-            cur = parent_map.get(cur);
+        while (cur != losestAncestor) {
+            cur = parentMap.get(cur);
             distance2++;
         }
 
@@ -133,28 +133,28 @@ public class Code06_MaxDistance {
     /*
         for test
      */
-    public static Node generateRandomBST(int max_level, int max_val) {
-        return generate(1, max_level, max_val);
+    public static Node generateRandomBST(int maxLevel, int maxVal) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    public static Node generate(int level, int max_level, int max_val) {
-        if (level > max_level || Math.random() < 0.5) {
+    public static Node generate(int level, int maxLevel, int maxVal) {
+        if (level > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node head = new Node((int) (Math.random() * max_val));
-        head.left = generate(level + 1, max_level, max_val);
-        head.right = generate(level + 1, max_level, max_val);
+        Node head = new Node((int) (Math.random() * maxVal));
+        head.left = generate(level + 1, maxLevel, maxVal);
+        head.right = generate(level + 1, maxLevel, maxVal);
         return head;
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_level = 8;
-        int max_val = 100;
-        int test_times = 100000;
+        int maxLevel = 8;
+        int maxVal = 100;
+        int testTimes = 100000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            Node head = generateRandomBST(max_level, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            Node head = generateRandomBST(maxLevel, maxVal);
             if (maxDistance(head) != test(head)) {
                 success = false;
                 break;
