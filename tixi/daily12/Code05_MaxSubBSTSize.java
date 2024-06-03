@@ -18,20 +18,21 @@ public class Code05_MaxSubBSTSize {
         if (head == null) {
             return 0;
         }
-        return process(head).maxBstSubSize;
+
+        return process(head).maxSubBstSize;
     }
 
-    private static class Info {
-        public int maxBstSubSize;
+    private static class Info{
+        public int maxSubBstSize;
         public int allSize;
         public int max;
         public int min;
 
-        public Info(int m, int a, int ma, int mi) {
-            maxBstSubSize = m;
-            allSize = a;
-            max = ma;
-            min = mi;
+        public Info(int maxSubBstSize, int allSize, int max, int min) {
+            this.maxSubBstSize = maxSubBstSize;
+            this.allSize = allSize;
+            this.max = max;
+            this.min = min;
         }
     }
 
@@ -40,40 +41,42 @@ public class Code05_MaxSubBSTSize {
             return null;
         }
 
+        Info leftInfo = process(node.left);
+        Info rightInfo = process(node.right);
+
         int maxSubBstSize = 0;
-        int allSize = 1;
+        int allSize = 1; 
         int max = node.value;
         int min = node.value;
 
-        Info leftInfo = process(node.left);
-        Info rightInfo = process(node.right);
         if (leftInfo != null) {
-            max = Math.max(max, leftInfo.max);
-            min = Math.min(min, leftInfo.min);
             allSize += leftInfo.allSize;
+            max = Math.max(leftInfo.max, max);
+            min = Math.min(leftInfo.min, min);
         }
         if (rightInfo != null) {
-            max = Math.max(max, rightInfo.max);
-            min = Math.min(min, rightInfo.min);
             allSize += rightInfo.allSize;
+            max = Math.max(rightInfo.max, max);
+            min = Math.min(rightInfo.min, min);
         }
 
         int p1 = -1;
         if (leftInfo != null) {
-            p1 = leftInfo.maxBstSubSize;
+            p1 = leftInfo.maxSubBstSize;
         }
+
         int p2 = -1;
         if (rightInfo != null) {
-            p2 = rightInfo.maxBstSubSize;
+            p2 = rightInfo.maxSubBstSize;
         }
 
         int p3 = -1;
-        boolean leftBst = leftInfo == null ? true : (leftInfo.maxBstSubSize == leftInfo.allSize);
-        boolean rightBst = rightInfo == null ? true : (rightInfo.maxBstSubSize == rightInfo.allSize);
+        boolean leftBst = leftInfo == null ? true : (leftInfo.allSize == leftInfo.maxSubBstSize);
+        boolean rightBst = rightInfo == null ? true : (rightInfo.allSize == rightInfo.maxSubBstSize);
         if (leftBst && rightBst) {
-            boolean leftMaxLessNode = leftInfo == null ? true : (leftInfo.max < node.value);
-            boolean rightMaxMoreNode = rightInfo == null ? true : (node.value < rightInfo.min);
-            if (leftMaxLessNode && rightMaxMoreNode) {
+            boolean leftAllLess = leftInfo == null ? true : (leftInfo.max < node.value);
+            boolean rightAllMore = rightInfo == null ? true : (rightInfo.min > node.value);
+            if (leftAllLess && rightAllMore) {
                 int leftSize = leftInfo == null ? 0 : leftInfo.allSize;
                 int rightSize = rightInfo == null ? 0 : rightInfo.allSize;
                 p3 = leftSize + rightSize + 1;
