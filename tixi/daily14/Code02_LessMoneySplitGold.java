@@ -14,21 +14,23 @@ import java.util.PriorityQueue;
 public class Code02_LessMoneySplitGold {
 
     public static int lessMoney(int[] arr) {
-        if (arr == null || arr.length == 1) {
+        if (arr == null || arr.length < 2) {
             return 0;
         }
 
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; ++i) {
             pq.add(arr[i]);
         }
+
         int sum = 0;
         int cur = 0;
         while (pq.size() > 1) {
-            cur = pq.poll()  + pq.poll();
+            cur = pq.poll() + pq.poll();
             sum += cur;
             pq.add(cur);
         }
+        
 
         return sum;
     }
@@ -86,12 +88,12 @@ public class Code02_LessMoneySplitGold {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 10000;
-        int max_size = 6;
-        int max_value = 1000;
+        int testTimes = 10000;
+        int maxSize = 6;
+        int maxValue = 1000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateRandomArray(max_size, max_value);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray(maxSize, maxValue);
             if (lessMoney(arr) != test(arr)) {
                 success = false;
                 break;

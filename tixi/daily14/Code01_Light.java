@@ -21,10 +21,10 @@ public class Code01_Light {
         int lights = 0;
         while (i < str.length) {
             if (str[i] == 'X') {
-                i++;
+                ++i;
             } else {
-                lights++;
-                if (i + 1 == str.length) {
+                ++lights;
+                if (i+1 == str.length) {
                     break;
                 } else {
                     if (str[i+1] == 'X') {
@@ -33,8 +33,10 @@ public class Code01_Light {
                         i = i + 3;
                     }
                 }
+                
             }
         }
+
         return lights;
     }
 
@@ -67,7 +69,7 @@ public class Code01_Light {
 
             return lights.size();
         } else {
-            int no = process(str, index +1, lights);
+            int no = process(str, index + 1, lights);
             int yes = Integer.MAX_VALUE;
             if (str[index] == '.') {
                 lights.add(index);
@@ -91,12 +93,12 @@ public class Code01_Light {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_str_len = 20;
+        int testTimes = 100000;
+        int maxStrLen = 20;
         boolean success = true;
 
-        for (int i = 0; i < test_times; i++) {
-            String road = randomString(max_str_len);
+        for (int i = 0; i < testTimes; i++) {
+            String road = randomString(maxStrLen);
             if (minLight(road) != test(road)) {
                 success = false;
                 break;

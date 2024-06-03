@@ -17,19 +17,21 @@ public class Code05_LowestLexicography {
         }
 
         Arrays.sort(strs, new MyComparator());
-        String res = "";
-        for (int i = 0; i < strs.length; i++) {
-            res += strs[i];
+        String ans = "";
+
+        for (int i = 0; i < strs.length; ++i) {
+            ans += strs[i];
         }
-        return res;
+        return ans;
     }
 
-    public static class MyComparator implements Comparator<String> {
+    private static class MyComparator implements Comparator<String> {
         @Override
         public int compare(String o1, String o2) {
             return (o1 + o2).compareTo(o2 + o1);
         }
     }
+
 
     /*
         for test
@@ -64,17 +66,17 @@ public class Code05_LowestLexicography {
     public static String[] removeIndexString(String[] arr, int index) {
         int n = arr.length;
         String[] ans = new String[n - 1];
-        int ans_index = 0;
+        int ansIndex = 0;
         for (int i = 0; i < n; i++) {
             if (i != index) {
-                ans[ans_index++] = arr[i];
+                ans[ansIndex++] = arr[i];
             }
         }
         return ans;
     }
 
-    public static String generateRandomString(int str_len) {
-        char[] ans = new char[(int)(Math.random() * str_len) + 1];
+    public static String generateRandomString(int strLen) {
+        char[] ans = new char[(int)(Math.random() * strLen) + 1];
         for (int i = 0; i < ans.length; i++) {
             int value = (int)(Math.random() * 5);
             ans[i] = (Math.random() <= 0.5) ? (char)(65 + value) : (char)(97 + value);
@@ -82,10 +84,10 @@ public class Code05_LowestLexicography {
         return String.valueOf(ans);
     }
 
-    public static String[] generateRandomStringArray(int arr_len, int str_len) {
-        String[] ans = new String[(int)(Math.random() * arr_len) + 1];
+    public static String[] generateRandomStringArray(int arrLen, int strLen) {
+        String[] ans = new String[(int)(Math.random() * arrLen) + 1];
         for (int i = 0; i < ans.length; i++) {
-            ans[i] = generateRandomString(str_len);
+            ans[i] = generateRandomString(strLen);
         }
         return ans;
     }
@@ -101,11 +103,11 @@ public class Code05_LowestLexicography {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 50000;
-        int arr_len = 6;
-        int str_len = 5;
-        for (int i = 0; i < test_times; i++) {
-            String[] arr1 = generateRandomStringArray(arr_len, str_len);
+        int testTimes = 50000;
+        int arrLen = 6;
+        int strLen = 5;
+        for (int i = 0; i < testTimes; i++) {
+            String[] arr1 = generateRandomStringArray(arrLen, strLen);
             String[] arr2 = copyStringArray(arr1);
             if (!lowestString(arr1).equals(test(arr2))) {
                 success = false;

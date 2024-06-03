@@ -24,8 +24,22 @@ public class Code04_MaxHappy {
     }
 
     public static int maxHappy(Employee boss) {
+        if (boss == null) {
+            return 0;
+        }
+
         Info all = process(boss);
-        return Math.max(all.no, all.yes);
+        return Math.max(all.yes, all.no);
+    }
+
+    private static class Info{
+        public int yes;
+        public int no;
+
+        public Info(int yes, int no) {
+            this.yes = yes;
+            this.no = no;
+        }
     }
 
     private static Info process(Employee e) {
@@ -33,26 +47,17 @@ public class Code04_MaxHappy {
             return new Info(0, 0);
         }
 
-        int no = 0;
         int yes = e.happy;
+        int no = 0;
         for (Employee next: e.nexts) {
-            Info nextInfo = process(next);
-            no += Math.max(nextInfo.no, nextInfo.yes);
-            yes += nextInfo.no;
+            Info info = process(next);
+            yes += info.no;
+            no += Math.max(info.yes, info.no);
         }
 
-        return new Info(no, yes);
+        return new Info(yes, no);
     }
 
-    private static class Info {
-        public int no;
-        public int yes;
-
-        public Info(int n, int y) {
-            no = n;
-            yes = y;
-        }
-    }
     /*
         for test
      */
