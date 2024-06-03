@@ -15,65 +15,58 @@ public class Code02_IsBST {
         }
     }
 
-    public static class Info {
-        public int max;
-        public int min;
-        public boolean is_bst;
-
-        public Info(boolean bst, int max, int min) {
-            is_bst = bst;
-            this.max = max;
-            this.min = min;
-        }
-    }
 
     public static boolean isBST(Node root) {
         if (root == null) {
             return true;
         }
 
-        return process(root).is_bst;
+        return process(root).isBST;
     }
 
-    public static Info process(Node node) {
+    private static class Info {
+        public int max;
+        public int min;
+        public boolean isBST;
+
+        public Info(int max, int min, boolean isBST) {
+            this.max = max;
+            this.min = min;
+            this.isBST = isBST;
+        }
+    }
+
+    private static Info process(Node node) {
         if (node == null) {
             return null;
         }
 
-        Info left_info = process(node.left);
-        Info right_info = process(node.right);
-
+        Info leftInfo = process(node.left);
+        Info rightInfo = process(node.right);
         int max = node.value;
-        if (left_info != null) {
-            max = Math.max(max, left_info.max);
-        }
-        if (right_info != null) {
-            max = Math.max(max, right_info.max);
-        }
-
         int min = node.value;
-        if (left_info != null) {
-            min = Math.min(min, left_info.min);
-        }
-        if (right_info != null) {
-            min = Math.min(min, right_info.min);
-        }
-
-        boolean is_bst = true;
-        if (left_info != null && !left_info.is_bst) {
-            is_bst = false;
-        }
-        if (right_info != null && !right_info.is_bst) {
-            is_bst = false;
-        }
-        if (left_info != null && left_info.max >= node.value) {
-            is_bst = false;
-        }
-        if (right_info != null && right_info.min <= node.value) {
-            is_bst = false;
+        boolean isBST = true;
+    
+        if (leftInfo != null) {
+            max = Math.max(leftInfo.max, max);
+            min = Math.min(leftInfo.min, min);
         }
 
-        return new Info(is_bst, max, min);
+        if (rightInfo != null) {
+            max = Math.max(rightInfo.max, max);
+            min = Math.min(rightInfo.min, min);
+        }
+
+        if (leftInfo != null && (!leftInfo.isBST || node.value <= leftInfo.max)) {
+            isBST = false;
+        }
+
+        if (rightInfo != null && (!rightInfo.isBST || node.value >= rightInfo.min)) {
+            isBST = false;
+        }
+        
+
+        return new Info(max, min, isBST);
     }
 
     /*
@@ -84,10 +77,10 @@ public class Code02_IsBST {
             return true;
         }
 
-        List<Node> in_list = new LinkedList<Node>();
-        inorder(root, in_list);
-        for (int i = 1; i < in_list.size(); i++) {
-            if (in_list.get(i).value <= in_list.get(i-1).value) {
+        List<Node> inList = new LinkedList<Node>();
+        inorder(root, inList);
+        for (int i = 1; i < inList.size(); i++) {
+            if (inList.get(i).value <= inList.get(i-1).value) {
                 return false;
             }
         }
@@ -104,34 +97,34 @@ public class Code02_IsBST {
         inorder(root.right, ans);
     }
 
-    public static Node generateRandomBT(int max_level, int max_val) {
-        return generate(0, max_level, max_val);
+    public static Node generateRandomBT(int maxLevel, int maxVal) {
+        return generate(0, maxLevel, maxVal);
     }
 
-    private static Node generate(int cur_level, int max_level, int max_val) {
-        if (cur_level > max_level || Math.random() > 0.5) {
+    private static Node generate(int curLevel, int maxLevel, int maxVal) {
+        if (curLevel > maxLevel || Math.random() > 0.5) {
             return null;
         }
 
-        Node node = new Node(randomValue(max_val));
-        node.left = generate(cur_level + 1, max_level, max_val);
-        node.right = generate( cur_level + 1, max_level, max_val);
+        Node node = new Node(randomValue(maxVal));
+        node.left = generate(curLevel + 1, maxLevel, maxVal);
+        node.right = generate( curLevel + 1, maxLevel, maxVal);
         return node;
     }
 
-    private static int randomValue(int max_val) {
-        return (int)(Math.random() * (max_val + 1));
+    private static int randomValue(int maxVal) {
+        return (int)(Math.random() * (maxVal + 1));
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 100000;
-        int max_level = 20;
-        int max_val = 30;
+        int testTimes = 100000;
+        int maxLevel = 20;
+        int maxVal = 30;
 
-        for (int i = 0; i < test_times; i++) {
-            Node node = generateRandomBT(max_level, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            Node node = generateRandomBT(maxLevel, maxVal);
             if (isBST(node) != test(node)) {
                 success = false;
                 break;

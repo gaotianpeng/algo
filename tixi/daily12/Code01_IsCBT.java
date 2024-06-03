@@ -25,7 +25,7 @@ public class Code01_IsCBT {
 
         return process(root).isCBT;
     }
-    
+
     private static class Info {
         public boolean isFull;
         public boolean isCBT;
@@ -46,31 +46,28 @@ public class Code01_IsCBT {
         Info leftInfo = process(node.left);
         Info rightInfo = process(node.right);
         int height = Math.max(leftInfo.height, rightInfo.height) + 1;
-        boolean isFull = leftInfo.isFull && rightInfo.isFull &&
-                leftInfo.height == rightInfo.height;
+        boolean isFull = leftInfo.isFull && rightInfo.isFull && leftInfo.height == rightInfo.height;
         boolean isCBT = false;
+
         if (isFull) {
             isCBT = true;
         } else {
-            if (leftInfo.isCBT && rightInfo.isCBT) {
-                if (leftInfo.isFull && rightInfo.isCBT &&
-                        leftInfo.height == rightInfo.height) {
-                    isCBT = true;
-                }
-                if (leftInfo.isFull && rightInfo.isFull &&
-                        leftInfo.height == rightInfo.height + 1) {
-                    isCBT = true;
-                }
+            if (leftInfo.isFull && rightInfo.isFull && leftInfo.height == rightInfo.height + 1) {
+                isCBT = true;
+            }
 
-                if (leftInfo.isCBT && rightInfo.isFull &&
-                        leftInfo.height == rightInfo.height + 1) {
-                    isCBT = true;
-                }
+            if (leftInfo.isFull && rightInfo.isCBT && leftInfo.height == rightInfo.height) {
+                isCBT = true;
+            }
+
+            if (leftInfo.isCBT && rightInfo.isFull && leftInfo.height == rightInfo.height + 1) {
+                isCBT = true;
             }
         }
 
         return new Info(isFull, isCBT, height);
     }
+    
 
     /*
         for test
