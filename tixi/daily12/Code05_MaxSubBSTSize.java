@@ -14,7 +14,7 @@ public class Code05_MaxSubBSTSize {
         }
     }
 
-    public static int maxSubBSTSize1(Node head) {
+    public static int maxSubBSTSize(Node head) {
         if (head == null) {
             return 0;
         }
@@ -144,7 +144,7 @@ public class Code05_MaxSubBSTSize {
         boolean success = true;
         for (int i = 0; i < testTimes; i++) {
             Node head = generateRandomBST(maxLevel, maxVal);
-            if (maxSubBSTSize1(head) != test(head)) {
+            if (maxSubBSTSize(head) != test(head)) {
                 success = false;
                 break;
             }
