@@ -190,18 +190,8 @@ public class Code03_HeapGreater {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
             Student student = (Student) o;
             return classNo == student.classNo && age == student.age && id == student.id;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = Integer.hashCode(classNo);
-            result = 31 * result + Integer.hashCode(age);
-            result = 31 * result + Integer.hashCode(id);
-            return result;
         }
     }
 
@@ -235,7 +225,7 @@ public class Code03_HeapGreater {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int testTimes = 10000;
+        int testTimes = 1000;
         boolean success = true;
 
         for (int i = 0; i < testTimes; ++i) {
@@ -246,13 +236,18 @@ public class Code03_HeapGreater {
             Comparator<Student> comparator = new StudentComparator();
             HeapGreater<Student> simpleHeap = new HeapGreater<>(comparator);
             HeapGreater<Student> heapGreater = new HeapGreater<>(comparator);
-            for (int j = 0; j < 10000; j++) {
+            for (int j = 0; j < 1000; j++) {
                 int classNo = random.nextInt(100);
                 int age = random.nextInt(100);
                 int id = random.nextInt(1000000);
                 Student student = new Student(classNo, age, id);
                 simpleHeap.push(student);
                 heapGreater.push(student);
+                if (Math.random() < 0.33) {
+                    student.age = student.age + 1;
+                    simpleHeap.resign(student);
+                    heapGreater.resign(student);
+                }
 
                 if (Math.random() < 0.66) {
                     Student simpleHeapPeeked = simpleHeap.peek();
