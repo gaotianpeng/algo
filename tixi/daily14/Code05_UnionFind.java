@@ -23,16 +23,16 @@ public class Code05_UnionFind {
     public static class UnionFind<V> {
         private HashMap<V, Node<V>> nodes;
         private HashMap<Node<V>, Node<V>> parents;
-        private HashMap<Node<V>, Integer> size_map;
+        private HashMap<Node<V>, Integer> sizeMap;
 
         public UnionFind(List<V> values) {
             nodes = new HashMap<>();
             parents = new HashMap<>();
-            size_map = new HashMap<>();
+            sizeMap = new HashMap<>();
             for (V cur: values) {
                 Node<V> node = new Node<>(cur);
                 nodes.put(cur, node);
-                size_map.put(node, 1);
+                sizeMap.put(node, 1);
                 parents.put(node, node);
             }
         }
@@ -42,21 +42,21 @@ public class Code05_UnionFind {
         }
 
         public void union(V x, V y) {
-            Node<V> x_head = FindFather(nodes.get(x));
-            Node<V> y_head = FindFather(nodes.get(y));
-            if (x_head != y_head) {
-                int set_x_size = size_map.get(x_head);
-                int set_y_size = size_map.get(y_head);
-                Node<V> big = set_y_size >= set_y_size ? x_head : y_head;
-                Node<V> small = big == x_head ? y_head : x_head;
-                size_map.put(big, set_x_size + set_y_size);
+            Node<V> xHead = FindFather(nodes.get(x));
+            Node<V> yHead = FindFather(nodes.get(y));
+            if (xHead != yHead) {
+                int setXSize = sizeMap.get(xHead);
+                int setYSize = sizeMap.get(yHead);
+                Node<V> big = setYSize >= setYSize ? xHead : yHead;
+                Node<V> small = big == xHead ? yHead : xHead;
+                sizeMap.put(big, setXSize + setYSize);
                 parents.put(small, big);
-                size_map.remove(small);
+                sizeMap.remove(small);
             }
         }
 
         public int sets() {
-            return size_map.size();
+            return sizeMap.size();
         }
 
         public List<V> getSet(V v) {
@@ -92,59 +92,59 @@ public class Code05_UnionFind {
         }
 
         public boolean isSameSet(V x, V y) {
-            List<V> list_x = null;
-            List<V> list_y = null;
+            List<V> listX = null;
+            List<V> listY = null;
             for (int i = 0; i < sets.size(); ++i) {
-                HashSet<V> hash_set = new HashSet<>();
+                HashSet<V> hashSet = new HashSet<>();
                 for (int j = 0; j < sets.get(i).size(); ++j) {
-                    hash_set.add(sets.get(i).get(j));
+                    hashSet.add(sets.get(i).get(j));
                 }
-                if (hash_set.contains(x)) {
-                    list_x = sets.get(i);
+                if (hashSet.contains(x)) {
+                    listX = sets.get(i);
                 }
 
-                if (hash_set.contains(y)) {
-                    list_y = sets.get(i);
+                if (hashSet.contains(y)) {
+                    listY = sets.get(i);
                 }
             }
 
-            if (list_x == null || list_y == null) {
+            if (listX == null || listY == null) {
                 return false;
             }
 
-            return list_x == list_y;
+            return listX == listY;
         }
 
         public void union(V x, V y) {
             if (isSameSet(x, y)) {
                 return;
             }
-            List<V> list_x = null;
-            List<V> list_y = null;
+            List<V> listX = null;
+            List<V> listY = null;
 
             for (int i = 0; i < sets.size(); ++i) {
-                HashSet<V> hash_set = new HashSet<>();
+                HashSet<V> hashSet = new HashSet<>();
                 for (int j = 0; j < sets.get(i).size(); ++j) {
-                    hash_set.add(sets.get(i).get(j));
+                    hashSet.add(sets.get(i).get(j));
                 }
-                if (hash_set.contains(x)) {
-                    list_x = sets.get(i);
+                if (hashSet.contains(x)) {
+                    listX = sets.get(i);
                 }
 
-                if (hash_set.contains(y)) {
-                    list_y = sets.get(i);
+                if (hashSet.contains(y)) {
+                    listY = sets.get(i);
                 }
             }
 
-            if (list_x == null || list_y == null) {
+            if (listX == null || listY == null) {
                 return;
             }
 
-            for (int i = 0; i < list_y.size(); ++i) {
-                list_x.add(list_y.get(i));
+            for (int i = 0; i < listY.size(); ++i) {
+                listX.add(listY.get(i));
             }
 
-            sets.remove(list_y);
+            sets.remove(listY);
         }
 
         public int sets() {
@@ -174,16 +174,16 @@ public class Code05_UnionFind {
         }
     }
 
-    public static List<Integer> generateRandomList(int min_val, int max_value, int max_size) {
-        int size = (int)(Math.random() * (max_size + 1));
+    public static List<Integer> generateRandomList(int minVal, int maxValue, int maxSize) {
+        int size = (int)(Math.random() * (maxSize + 1));
         List<Integer> ans = new LinkedList<>();
 
-        size = Math.min(max_value - min_val, max_size);
+        size = Math.min(maxValue - minVal, maxSize);
         HashSet<Integer> set = new HashSet<>();
         for (int i = 0; i < size; i++) {
-            int val = min_val + (int)(Math.random()*(max_value - min_val));
+            int val = minVal + (int)(Math.random()*(maxValue - minVal));
             while (set.contains(val)) {
-                val = min_val + (int)(Math.random()*(max_value - min_val));
+                val = minVal + (int)(Math.random()*(maxValue - minVal));
             }
             set.add(val);
             ans.add(val);
@@ -212,12 +212,12 @@ public class Code05_UnionFind {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 50000;
-        int max_value = 100;
-        int min_val = 10;
-        int max_size = 20;
-        for (int i = 0; i < test_times; i++) {
-            List<Integer> list = generateRandomList(min_val, max_value, max_size);
+        int testTimes = 50000;
+        int maxValue = 100;
+        int minVal = 10;
+        int maxSize = 20;
+        for (int i = 0; i < testTimes; i++) {
+            List<Integer> list = generateRandomList(minVal, maxValue, maxSize);
             UnionFind<Integer> union1 = new UnionFind<>(list);
             UnionFindTest<Integer> union2 = new UnionFindTest<>(list);
             for (int j = 0; j < 100; j++) {
