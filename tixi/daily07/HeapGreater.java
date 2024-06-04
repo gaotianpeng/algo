@@ -7,76 +7,76 @@ import java.util.*;
 
 // 小根堆
 public class HeapGreater<T> {
-    private int heap_size_;
-    private ArrayList<T> heap_;
-    private HashMap<T, Integer> index_map_;
-    private Comparator<? super T> comp_;
+    private int heapSize;
+    private ArrayList<T> heap;
+    private HashMap<T, Integer> indexMap;
+    private Comparator<? super T> comp;
 
     public HeapGreater(Comparator<T> c) {
-        heap_size_ = 0;
-        heap_ = new ArrayList<>();
-        index_map_ = new HashMap<>();
-        comp_ = c;
+        heapSize = 0;
+        heap = new ArrayList<>();
+        indexMap = new HashMap<>();
+        comp = c;
     }
 
     public boolean isEmpty() {
-        return heap_size_ == 0;
+        return heapSize == 0;
     }
 
     public int size() {
-        return heap_size_;
+        return heapSize;
     }
 
     public boolean contains(T obj) {
-        return index_map_.containsKey(obj);
+        return indexMap.containsKey(obj);
     }
 
     public T peek() {
-        return heap_.get(0);
+        return heap.get(0);
     }
 
     public void push(T obj) {
-        heap_.add(obj);
-        index_map_.put(obj, heap_size_);
-        heapInsert(heap_size_++);
+        heap.add(obj);
+        indexMap.put(obj, heapSize);
+        heapInsert(heapSize++);
     }
 
     public T pop() {
-        T ans = heap_.get(0);
-        swap(0, heap_size_-1);
-        index_map_.remove(ans);
-        heap_.remove(--heap_size_);
+        T ans = heap.get(0);
+        swap(0, heapSize-1);
+        indexMap.remove(ans);
+        heap.remove(--heapSize);
         heapify(0);
         return ans;
     }
 
     public void remove(T obj) {
-        T replace = heap_.get(heap_size_ - 1);
-        int index = index_map_.get(obj);
-        index_map_.remove(obj);
-        heap_.remove(--heap_size_);
+        T replace = heap.get(heapSize - 1);
+        int index = indexMap.get(obj);
+        indexMap.remove(obj);
+        heap.remove(--heapSize);
         if (obj != replace) {
-            heap_.set(index, replace);
-            index_map_.put(replace, index);
+            heap.set(index, replace);
+            indexMap.put(replace, index);
             resign(replace);
         }
     }
 
     public void resign(T obj) {
-        heapify(index_map_.get(obj));
-        heapInsert(index_map_.get(obj));
+        heapify(indexMap.get(obj));
+        heapInsert(indexMap.get(obj));
     }
 
     public List<T> getAllElements() {
         List<T> ans = new ArrayList<>();
-        for (T cur: heap_) {
+        for (T cur: heap) {
             ans.add(cur);
         }
         return ans;
     }
 
     private void heapInsert(int index) {
-        while (comp_.compare(heap_.get(index), heap_.get((index-1)/2)) < 0) {
+        while (comp.compare(heap.get(index), heap.get((index-1)/2)) < 0) {
             swap(index, (index-1) / 2);
             index = (index-1)/2;
         }
@@ -84,10 +84,10 @@ public class HeapGreater<T> {
 
     private void heapify(int index) {
         int left = 2 * index + 1;
-        while (left < heap_size_) {
-            int best = left + 1 < heap_size_ && comp_.compare(heap_.get(left + 1), heap_.get(left)) < 0
+        while (left < heapSize) {
+            int best = left + 1 < heapSize && comp.compare(heap.get(left + 1), heap.get(left)) < 0
                     ? left + 1 : left;
-            best = comp_.compare(heap_.get(index), heap_.get(best)) < 0? index : best;
+            best = comp.compare(heap.get(index), heap.get(best)) < 0? index : best;
             if (best == index) {
                 break;
             }
@@ -98,12 +98,12 @@ public class HeapGreater<T> {
     }
 
     private void swap(int i, int j) {
-        T o1 = heap_.get(i);
-        T o2 = heap_.get(j);
-        heap_.set(i, o2);
-        heap_.set(j, o1);
-        index_map_.put(o1, j);
-        index_map_.put(o2, i);
+        T o1 = heap.get(i);
+        T o2 = heap.get(j);
+        heap.set(i, o2);
+        heap.set(j, o1);
+        indexMap.put(o1, j);
+        indexMap.put(o2, i);
     }
 
 
