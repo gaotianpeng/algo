@@ -76,6 +76,7 @@ public class Code03_HeapGreater {
             for (T cur: heap) {
                 ans.add(cur);
             }
+            Collections.sort(ans, comp);
             return ans;
         }
 
@@ -89,15 +90,15 @@ public class Code03_HeapGreater {
         private void heapify(int index) {
             int left = 2*index + 1;
             while (left < heapSize) {
-                int largest = left + 1 < heapSize &&
-                        comp.compare(heap.get(left), heap.get(left + 1)) < 0 ? left + 1:left;
-                largest = comp.compare(heap.get(index), heap.get(largest)) < 0 ? index : largest;
-                if (largest == index) {
+                int best = left + 1 < heapSize &&
+                        comp.compare(heap.get(left + 1), heap.get(left)) < 0 ? left + 1:left;
+                best = comp.compare(heap.get(index), heap.get(best)) < 0 ? index : best;
+                if (best == index) {
                     break;
                 }
 
-                swap(index, largest);
-                index = largest;
+                swap(index, best);
+                index = best;
                 left = index * 2 + 1;
             }
         }
@@ -248,7 +249,6 @@ public class Code03_HeapGreater {
         for (int i = 0; i < testTimes; ++i) {
             Random random = new Random();
             if (!success) {
-                System.out.println("test failed -------------0");
                 break;
             }
             Comparator<Student> comparator = new StudentComparator();
@@ -273,16 +273,12 @@ public class Code03_HeapGreater {
 
                     if (!simpleHeapPeeked.equals(heapGreaterPeeked)) {
                         success = false;
-                        List<Student> ans1 = simpleHeap.getAllElements();
-                        List<Student> ans2 = heapGreater.getAllElements();
-                        System.out.println("test failed -------------1");
                         break;
                     }
                     Student simpleHeapPopped = simpleHeap.pop();
                     Student heapGreaterPopped = heapGreater.pop();
                     if (!simpleHeapPopped.equals(heapGreaterPopped)) {
                         success = false;
-                        System.out.println("test failed -------------2");
                         break;
                     }
                 }
@@ -292,7 +288,6 @@ public class Code03_HeapGreater {
                     boolean heapGreaterContains = heapGreater.contains(student);
                     if (simpleHeapContains != heapGreaterContains) {
                         success = false;
-                        System.out.println("test failed -------------3");
                         break;
                     }
 
@@ -308,14 +303,12 @@ public class Code03_HeapGreater {
 
             if (simpleHeap.size() != heapGreater.size()) {
                 success = false;
-                System.out.println("test failed -------------4");
                 break;
             }
 
             List<Student> simpleHeapAllElements = simpleHeap.getAllElements();
             List<Student> heapGreaterAllElements = heapGreater.getAllElements();
             if (!isEqual(simpleHeapAllElements, heapGreaterAllElements)) {
-                System.out.println("test failed -------------5");
                 success = false;
                 break;
             }
