@@ -30,13 +30,6 @@ public class Code03_HeapGreater {
             return heapSize;
         }
 
-        public boolean contains(T obj) {
-            return indexMap.containsKey(obj);
-        }
-
-        public T peek() {
-            return heap.get(0);
-        }
 
         public void push(T obj) {
             heap.add(obj);
@@ -44,9 +37,18 @@ public class Code03_HeapGreater {
             heapInsert(heapSize++);
         }
 
+        public void resign(T obj) {
+            heapify(indexMap.get(obj));
+            heapInsert(indexMap.get(obj));
+        }
+
+        public T peek() {
+            return heap.get(0);
+        }
+
         public T pop() {
             T ans = heap.get(0);
-            swap(0, heapSize -1);
+            swap(0, heapSize - 1);
             indexMap.remove(ans);
             heap.remove(--heapSize);
             heapify(0);
@@ -65,9 +67,8 @@ public class Code03_HeapGreater {
             }
         }
 
-        public void resign(T obj) {
-            heapify(indexMap.get(obj));
-            heapInsert(indexMap.get(obj));
+        public boolean contains(T obj) {
+            return indexMap.containsKey(obj);
         }
 
         public List<T> getAllElements() {
@@ -79,23 +80,24 @@ public class Code03_HeapGreater {
         }
 
         private void heapInsert(int index) {
-            while (comp.compare(heap.get(index), heap.get((index-1)/2)) < 0) {
-                swap(index, (index-1) / 2);
-                index = (index-1)/2;
+            while (comp.compare(heap.get(index), heap.get((index - 1)/2)) < 0) {
+                swap(index, (index - 1)/2);
+                index = (index - 1) / 2;
             }
         }
 
         private void heapify(int index) {
-            int left = 2 * index + 1;
+            int left = 2*index + 1;
             while (left < heapSize) {
-                int best = left + 1 < heapSize && comp.compare(heap.get(left + 1), heap.get(left)) < 0
-                        ? left + 1 : left;
-                best = comp.compare(heap.get(index), heap.get(best)) < 0? index : best;
-                if (best == index) {
+                int largest = left + 1 < heapSize &&
+                        comp.compare(heap.get(left), heap.get(left + 1)) < 0 ? left + 1:left;
+                largest = comp.compare(heap.get(index), heap.get(largest)) < 0 ? index : largest;
+                if (largest == index) {
                     break;
                 }
-                swap(index, best);
-                index = best;
+
+                swap(index, largest);
+                index = largest;
                 left = index * 2 + 1;
             }
         }
@@ -132,6 +134,7 @@ public class Code03_HeapGreater {
         }
 
         public T peek() {
+            Collections.sort(heap, comp);
             return heap.isEmpty() ? null : heap.get(0);
         }
 
@@ -164,6 +167,7 @@ public class Code03_HeapGreater {
         }
 
         public List<T> getAllElements() {
+            Collections.sort(heap, comp);
             return new ArrayList<>(heap);
         }
     }
@@ -199,7 +203,20 @@ public class Code03_HeapGreater {
     public static class StudentComparator implements Comparator<Student> {
         @Override
         public int compare(Student o1, Student o2) {
-            return o1.age - o2.age;
+            // 按 age 排序
+            int ageComparison = Integer.compare(o1.age, o2.age);
+            if (ageComparison != 0) {
+                return ageComparison;
+            }
+
+            // 如果 age 相同，按 classNo 排序
+            int classNoComparison = Integer.compare(o1.classNo, o2.classNo);
+            if (classNoComparison != 0) {
+                return classNoComparison;
+            }
+
+            // 如果 classNo 也相同，按 id 排序
+            return Integer.compare(o1.id, o2.id);
         }
     }
 
@@ -225,16 +242,17 @@ public class Code03_HeapGreater {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int testTimes = 1000;
+        int testTimes = 100000;
         boolean success = true;
 
         for (int i = 0; i < testTimes; ++i) {
             Random random = new Random();
             if (!success) {
+                System.out.println("test failed -------------0");
                 break;
             }
             Comparator<Student> comparator = new StudentComparator();
-            HeapGreater<Student> simpleHeap = new HeapGreater<>(comparator);
+            Heap<Student> simpleHeap = new Heap<>(comparator);
             HeapGreater<Student> heapGreater = new HeapGreater<>(comparator);
             for (int j = 0; j < 1000; j++) {
                 int classNo = random.nextInt(100);
@@ -255,12 +273,16 @@ public class Code03_HeapGreater {
 
                     if (!simpleHeapPeeked.equals(heapGreaterPeeked)) {
                         success = false;
+                        List<Student> ans1 = simpleHeap.getAllElements();
+                        List<Student> ans2 = heapGreater.getAllElements();
+                        System.out.println("test failed -------------1");
                         break;
                     }
                     Student simpleHeapPopped = simpleHeap.pop();
                     Student heapGreaterPopped = heapGreater.pop();
                     if (!simpleHeapPopped.equals(heapGreaterPopped)) {
                         success = false;
+                        System.out.println("test failed -------------2");
                         break;
                     }
                 }
@@ -270,6 +292,7 @@ public class Code03_HeapGreater {
                     boolean heapGreaterContains = heapGreater.contains(student);
                     if (simpleHeapContains != heapGreaterContains) {
                         success = false;
+                        System.out.println("test failed -------------3");
                         break;
                     }
 
@@ -285,12 +308,14 @@ public class Code03_HeapGreater {
 
             if (simpleHeap.size() != heapGreater.size()) {
                 success = false;
+                System.out.println("test failed -------------4");
                 break;
             }
 
             List<Student> simpleHeapAllElements = simpleHeap.getAllElements();
             List<Student> heapGreaterAllElements = heapGreater.getAllElements();
             if (!isEqual(simpleHeapAllElements, heapGreaterAllElements)) {
+                System.out.println("test failed -------------5");
                 success = false;
                 break;
             }
