@@ -68,16 +68,16 @@ public class Code02_NumberOfIslands {
             }
         }
 
-        UnionFind<Dot> union_find = new UnionFind(list);
+        UnionFind<Dot> unionFind = new UnionFind(list);
         for (int i = 1; i < matrix.length; i++) {
             if (matrix[i-1][0] == '1' && matrix[i][0] == '1') {
-                union_find.union(dots[i-1][0], dots[i][0]);
+                unionFind.union(dots[i-1][0], dots[i][0]);
             }
         }
 
         for (int j = 1; j < matrix[0].length; j++) {
             if (matrix[0][j-1] == '1' && matrix[0][j] == '1') {
-                union_find.union(dots[0][j-1], dots[0][j]);
+                unionFind.union(dots[0][j-1], dots[0][j]);
             }
         }
 
@@ -85,17 +85,17 @@ public class Code02_NumberOfIslands {
             for (int j = 1; j < matrix[0].length; j++) {
                 if (matrix[i][j] == '1') {
                     if (matrix[i][j-1] == '1') {
-                        union_find.union(dots[i][j], dots[i][j-1]);
+                        unionFind.union(dots[i][j], dots[i][j-1]);
                     }
 
                     if (matrix[i-1][j] == '1') {
-                        union_find.union(dots[i][j], dots[i-1][j]);
+                        unionFind.union(dots[i][j], dots[i-1][j]);
                     }
                 }
             }
         }
 
-        return union_find.sets();
+        return unionFind.sets();
     }
 
     private static class Dot {
@@ -112,17 +112,17 @@ public class Code02_NumberOfIslands {
     private static class UnionFind<V> {
         private HashMap<V, Node<V>> nodes;
         private HashMap<Node<V>, Node<V>> parents;
-        private HashMap<Node<V>, Integer> set_size;
+        private HashMap<Node<V>, Integer> setSize;
 
         public UnionFind(List<V> values) {
             nodes = new HashMap<>();
             parents = new HashMap<>();
-            set_size = new HashMap<>();
+            setSize = new HashMap<>();
             for (V v: values) {
                 Node<V> node = new Node<>(v);
                 nodes.put(v, node);
                 parents.put(node, node);
-                set_size.put(node, 1);
+                setSize.put(node, 1);
             }
         }
 
@@ -131,13 +131,13 @@ public class Code02_NumberOfIslands {
             Node<V> pb = findFather(nodes.get(b));
 
             if (pa != pb) {
-                int size_a = set_size.get(pa);
-                int size_b = set_size.get(pb);
+                int size_a = setSize.get(pa);
+                int size_b = setSize.get(pb);
                 Node<V> big = size_a > size_b ? pa : pb;
                 Node<V> small = big == pa ? pb : pa;
                 parents.put(small, big);
-                set_size.put(big, size_a + size_b);
-                set_size.remove(small);
+                setSize.put(big, size_a + size_b);
+                setSize.remove(small);
             }
          }
 
@@ -156,13 +156,13 @@ public class Code02_NumberOfIslands {
         }
 
         public int sets() {
-            return set_size.size();
+            return setSize.size();
         }
     }
 
-    private static char[][] generateRandomMatrix(int max_row, int max_col) {
-        int row = (int)(Math.random() * max_row + 1);
-        int col = (int)(Math.random() * max_col + 1);
+    private static char[][] generateRandomMatrix(int maxRow, int maxCol) {
+        int row = (int)(Math.random() * maxRow + 1);
+        int col = (int)(Math.random() * maxCol + 1);
         char[][] ans = new char[row][col];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -189,12 +189,12 @@ public class Code02_NumberOfIslands {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_row = 100;
-        int max_col = 100;
-        int test_times = 10000;
+        int maxRow = 100;
+        int maxCol = 100;
+        int testTimes = 10000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            char[][] matrix1 = generateRandomMatrix(max_row, max_col);
+        for (int i = 0; i < testTimes; i++) {
+            char[][] matrix1 = generateRandomMatrix(maxRow, maxCol);
             char[][] matrix2 = copyMatrix(matrix1);
             if (numIslands(matrix1) != numIslands1(matrix2)) {
                 success = false;
