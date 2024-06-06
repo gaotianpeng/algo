@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Code05_UnionFind {
     public static class Node<V> {
-        V value;
+        public V value;
         public Node(V v) {
             value = v;
         }
@@ -22,18 +22,18 @@ public class Code05_UnionFind {
 
     public static class UnionFind<V> {
         private HashMap<V, Node<V>> nodes;
-        private HashMap<Node<V>, Node<V>> parents;
+        private HashMap<Node<V>, Node<V>> parent;
         private HashMap<Node<V>, Integer> sizeMap;
-
-        public UnionFind(List<V> values) {
+        
+        public UnionFind(List<V> list) {
             nodes = new HashMap<>();
-            parents = new HashMap<>();
+            parent = new HashMap<>();
             sizeMap = new HashMap<>();
-            for (V cur: values) {
-                Node<V> node = new Node<>(cur);
-                nodes.put(cur, node);
-                sizeMap.put(node, 1);
-                parents.put(node, node);
+            for (V v: list) {
+                Node<V> node = new Node<>(v);
+                nodes.put(v, node);
+                parent.put(node, node);
+                sizeMap.put(node,1);
             }
         }
 
@@ -44,15 +44,17 @@ public class Code05_UnionFind {
         public void union(V x, V y) {
             Node<V> xHead = findFather(nodes.get(x));
             Node<V> yHead = findFather(nodes.get(y));
-            if (xHead != yHead) {
-                int setXSize = sizeMap.get(xHead);
-                int setYSize = sizeMap.get(yHead);
-                Node<V> big = setYSize >= setYSize ? xHead : yHead;
-                Node<V> small = big == xHead ? yHead : xHead;
-                sizeMap.put(big, setXSize + setYSize);
-                parents.put(small, big);
-                sizeMap.remove(small);
+            if (xHead == yHead) {
+                return;
             }
+        
+            int setXSize = sizeMap.get(xHead);
+            int setYSize = sizeMap.get(yHead);
+            Node<V> big = setXSize > setYSize ? xHead:yHead;
+            Node<V> small = big == xHead ? yHead: xHead;
+            parent.put(small, big);
+            sizeMap.put(big, setXSize + setYSize);
+            sizeMap.remove(small);
         }
 
         public int sets() {
@@ -61,15 +63,14 @@ public class Code05_UnionFind {
 
         private Node<V> findFather(Node<V> cur) {
             Stack<Node<V>> path = new Stack<>();
-            while (cur != parents.get(cur)) {
+            while (cur != parent.get(cur)) {
                 path.push(cur);
-                cur = parents.get(cur);
+                cur = parent.get(cur);
             }
 
             while (!path.isEmpty()) {
-                parents.put(path.pop(), cur);
+                parent.put(path.pop(), cur);
             }
-
             return cur;
         }
     }
