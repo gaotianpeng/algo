@@ -1,4 +1,7 @@
 package tixi.daily15;
+
+import java.util.Random;
+
 /*
 
     https://leetcode.cn/problems/number-of-provinces/submissions/
@@ -9,7 +12,7 @@ package tixi.daily15;
         而 isConnected[i][j] = 0 表示二者不直接相连。返回矩阵中 省份 的数量
  */
 public class Code01_FindCircles {
-    public int findCircleNum(int[][] isConnected) {
+    public static int findCircleNum(int[][] isConnected) {
         if (isConnected == null) {
             return 0;
         }
@@ -76,5 +79,93 @@ public class Code01_FindCircles {
 
             return i;
         }
+    }
+
+    // for test
+    public static int test(int[][] isConnected) {
+        if (isConnected == null) {
+            return 0;
+        }
+
+        int n = isConnected.length;
+        UnionFindBruteForce union_find = new UnionFindBruteForce(n);
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (isConnected[i][j] == 1) {
+                    union_find.union(i, j);
+                }
+            }
+        }
+        return union_find.sets();
+    }
+
+    public static class UnionFindBruteForce {
+        private int[] parent;
+        private int sets;
+
+        public UnionFindBruteForce(int n) {
+            parent = new int[n];
+            sets = n;
+
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;
+            }
+        }
+
+        public void union(int i, int j) {
+            int root_i = find(i);
+            int root_j = find(j);
+            if (root_i != root_j) {
+                for (int k = 0; k < parent.length; k++) {
+                    if (parent[k] == root_j) {
+                        parent[k] = root_i;
+                    }
+                }
+                sets--;
+            }
+        }
+
+        public int sets() {
+            return sets;
+        }
+
+        private int find(int i) {
+            return parent[i];
+        }
+    }
+
+    // 生成随机的二维数组作为 isConnected 参数
+    private static int[][] generateRandomGraph(int n, Random random) {
+        int[][] graph = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    graph[i][j] = 1; // 对角线上为1，表示自己和自己相连
+                } else {
+                    graph[i][j] = random.nextInt(2); // 其他位置随机设置为0或1
+                }
+            }
+        }
+        return graph;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        boolean success = true;
+        int testTime = 100000;
+        int maxN = 100;
+
+        for (int i = 0; i < testTime; ++i) {
+            int n = (int)(Math.random()*(maxN + 1));
+            Random random = new Random();
+            int[][] isConnected = generateRandomGraph(n, random);
+            if (findCircleNum(isConnected) != test(isConnected)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success? "test success": "test failed");
+        System.out.println("test end");
     }
 }
