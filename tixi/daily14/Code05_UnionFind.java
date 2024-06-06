@@ -38,12 +38,12 @@ public class Code05_UnionFind {
         }
 
         public boolean isSameSet(V x, V y) {
-            return FindFather(nodes.get(x)) == FindFather(nodes.get(y));
+            return findFather(nodes.get(x)) == findFather(nodes.get(y));
         }
 
         public void union(V x, V y) {
-            Node<V> xHead = FindFather(nodes.get(x));
-            Node<V> yHead = FindFather(nodes.get(y));
+            Node<V> xHead = findFather(nodes.get(x));
+            Node<V> yHead = findFather(nodes.get(y));
             if (xHead != yHead) {
                 int setXSize = sizeMap.get(xHead);
                 int setYSize = sizeMap.get(yHead);
@@ -59,12 +59,7 @@ public class Code05_UnionFind {
             return sizeMap.size();
         }
 
-        public List<V> getSet(V v) {
-            List<V> ans = new LinkedList<>();
-            return ans;
-        }
-
-        private Node<V> FindFather(Node<V> cur) {
+        private Node<V> findFather(Node<V> cur) {
             Stack<Node<V>> path = new Stack<>();
             while (cur != parents.get(cur)) {
                 path.push(cur);
