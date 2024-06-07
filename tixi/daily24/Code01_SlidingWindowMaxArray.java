@@ -103,21 +103,23 @@ public class Code01_SlidingWindowMaxArray {
     }
 
     public static void main(String[] args) {
-        System.out.println("test starting...");
-        int test_times = 100000;
-        int max_num = 100;
-        int max_val = 50;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr = generateRandomArray(max_num, max_val);
+        System.out.println("test start...");
+        boolean success = true;
+        int testTimes = 100000;
+        int maxNum = 100;
+        int maxVal = 50;
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr = generateRandomArray(maxNum, maxVal);
             int w = (int) (Math.random() * (arr.length + 1));
             int[] ans1 = maxSlidingWindow(arr, w);
             int[] ans2 = test(arr, w);
             if (!isEqual(ans1, ans2)) {
-                System.out.println("test failed");
+                success = false;
                 break;
             }
         }
 
+        System.out.println(success ? "test success": "test failed");
         System.out.println("test end");
     }
 }
