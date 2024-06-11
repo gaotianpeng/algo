@@ -52,28 +52,30 @@ public class Code_0128_LongestConsecutiveSequence {
     }
 
     public static int longestConsecutive1(int[] nums) {
-        Set<Integer> numSet = new HashSet<Integer>();
-        for (int num : nums) {
-            numSet.add(num);
+//        if (nums == null || nums.length == 0) {
+//            return 0;
+//        }
+
+        HashSet<Integer> allNum = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            allNum.add(nums[i]);
         }
 
-        int longestStreak = 0;
-
-        for (int num : numSet) {
-            if (!numSet.contains(num - 1)) {
-                int currentNum = num;
-                int currentStreak = 1;
-
-                while (numSet.contains(currentNum + 1)) {
-                    currentNum += 1;
-                    currentStreak += 1;
+        int ans = 0;
+        for (int num: nums) {
+            if (!allNum.contains(num - 1)) {
+                int curNum = num;
+                int curStreak = 1;
+                while (allNum.contains(curNum + 1)) {
+                    ++curNum;
+                    ++curStreak;
                 }
 
-                longestStreak = Math.max(longestStreak, currentStreak);
+                ans = Math.max(ans, curStreak);
             }
         }
 
-        return longestStreak;
+        return ans;
     }
 
     public static void main(String[] args) {
