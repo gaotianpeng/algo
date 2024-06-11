@@ -8,6 +8,7 @@ package tixi.daily18;
     请返回最后获胜者的分数
  */
 public class Code02_CardsInLine {
+    // 返回获胜者的分数
     public static int win1(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
@@ -18,6 +19,7 @@ public class Code02_CardsInLine {
         return Math.max(first, second);
     }
 
+    // arr[L...R]，先手获得最好的分数返回
     private static int f1(int[] arr, int left, int right) {
         if (left == right) {
             return arr[left];
@@ -27,6 +29,7 @@ public class Code02_CardsInLine {
         return Math.max(p1, p2);
     }
 
+    // arr[L...R], 后手获得最好的分数返回
     private static int g1(int[] arr, int left, int right) {
         if (left == right) {
             return 0;
@@ -139,12 +142,12 @@ public class Code02_CardsInLine {
 
     public static void main(String[] args) {
         System.out.println("test start....");
-        int test_times = 100000;
-        int max_len = 6;
-        int max_val = 100;
+        int testTimes = 100000;
+        int maxLen = 6;
+        int maxVal = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateRandomArr(max_val, max_len);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArr(maxVal, maxLen);
             if (win1(arr) != win2(arr)) {
                 printArr(arr);
                 success = false;

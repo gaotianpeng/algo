@@ -1,5 +1,6 @@
 package tixi.daily19;
 import java.util.HashMap;
+import java.util.Random;
 
 /*
     leetcode 691: 贴纸拼图
@@ -11,10 +12,11 @@ import java.util.HashMap;
         所以返回2
  */
 public class Code03_StickersToSpellWord {
-    public int minStickers(String[] stickers, String target) {
+    public static int minStickers(String[] stickers, String target) {
         if (stickers == null || stickers.length == 0 || target == null || target.length() == 0) {
-            return -1;
+            return 0;
         }
+
 
         int ans = process(stickers, target);
         return ans == Integer.MAX_VALUE ? -1: ans;
@@ -26,15 +28,16 @@ public class Code03_StickersToSpellWord {
         }
 
         int min = Integer.MAX_VALUE;
-        for (String str: stickers) {
-            String rest = minus(target, str);
+        for (int i = 0; i < stickers.length; i++) {
+            String rest = minus(target, stickers[i]);
             if (rest.length() != target.length()) {
                 min = Math.min(min, process(stickers, rest));
             }
-        }
+        }  
 
-        return min + (min == Integer.MAX_VALUE ? 0 : 1);
+        return min + (min == Integer.MAX_VALUE ? 0: 1);
     }
+
     private static String minus(String s1, String s2) {
         char[] str1 = s1.toCharArray();
         char[] str2 = s2.toCharArray();
@@ -104,5 +107,48 @@ public class Code03_StickersToSpellWord {
         int ans = min + (min == Integer.MAX_VALUE ? 0 : 1);
         dp.put(t, ans);
         return ans;
+    }
+
+    // for test
+    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    private static final Random RANDOM = new Random();
+
+    public static String generateRandomString(int maxLength) {
+        // 生成随机长度，假设长度在1到maxLength之间
+        int length = RANDOM.nextInt(maxLength) + 1;
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = RANDOM.nextInt(ALPHABET.length());
+            sb.append(ALPHABET.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public static String[] generateRandomStringArray(int maxStrLen, int maxArrLen) {
+        int arrayLength = RANDOM.nextInt(maxArrLen) + 1;
+        String[] randomStrings = new String[arrayLength];
+        for (int i = 0; i < arrayLength; i++) {
+            randomStrings[i] = generateRandomString(maxStrLen);
+        }
+        return randomStrings;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int testTimes = 10000;
+        boolean success = true;
+        int maxStrLen = 10;
+        int maxArrLen = 10;
+        for (int i = 0; i < testTimes; ++i) {
+            String target = generateRandomString(maxStrLen);
+            String[] stickers = generateRandomStringArray(maxStrLen, maxArrLen);
+            if (minStickers(stickers, target) != minStickers2(stickers, target)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success? "success" : "failed");
+        System.out.println("test end");
     }
 }

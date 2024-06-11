@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
-    打印一个字符串的全部排列，要求不要出现重复的排列
+    打印一个字符串的全部排列
  */
-public class Code03_PrintAllPermutations {
+public class Code03_PrintAllPermutationsRepeat {
     public static List<String> permutation(String s) {
         List<String> ans = new ArrayList<>();
         if (s == null || s.length() == 0) {
@@ -123,12 +123,18 @@ public class Code03_PrintAllPermutations {
     }
 
     public static void main(String[] args) {
+        String s = "acc";
+		List<String> ans = permutation(s);
+		for (String str : ans) {
+			System.out.println(str);
+		}
+
         System.out.println("test start....");
-        int test_times = 100000;
-        int max_len = 6;
+        int testTimes = 100000;
+        int maxLen = 6;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            String str = generateRandomString(max_len);
+        for (int i = 0; i < testTimes; i++) {
+            String str = generateRandomString(maxLen);
             List<String> ans1 = permutation(str);
             List<String> ans2 = permutation2(str);
             if (!isEqual(ans1, ans2)) {

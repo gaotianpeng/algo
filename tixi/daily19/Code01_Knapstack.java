@@ -124,15 +124,15 @@ public class Code01_Knapstack {
 
     public static void main(String[] args) {
         System.out.println("test start....");
-        int test_times = 1000000;
-        int max_len = 20;
-        int max_val = 30;
-        int max_bag = 50;
+        int testTimes = 1000000;
+        int maxLen = 20;
+        int maxVal = 30;
+        int maxBag = 50;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] weight = generateRandomArr(max_val, max_len);
-            int[] value = generateRandomArr(max_val, max_len);
-            int bag = (int)(Math.random()*(max_bag + 1));
+        for (int i = 0; i < testTimes; i++) {
+            int[] weight = generateRandomArr(maxVal, maxLen);
+            int[] value = generateRandomArr(maxVal, maxLen);
+            int bag = (int)(Math.random()*(maxBag + 1));
             if (maxValue(weight, value, bag) != maxValue1(weight, value, bag)) {
                 success = false;
                 printArr(weight);

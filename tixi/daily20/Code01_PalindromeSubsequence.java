@@ -1,4 +1,7 @@
 package tixi.daily20;
+
+import java.util.Random;
+
 /*
     leetcode 516: 最长回文子序列
         给你一个字符串 s ，找出其中最长的回文子序列，并返回该序列的长度。
@@ -32,11 +35,10 @@ public class Code01_PalindromeSubsequence {
         int p1 = process(str, left + 1, right - 1);
         int p2 = process(str, left, right - 1);
         int p3 = process(str, left + 1, right);
-        int p4 = str[left] != str[right] ? 0 : (2 + process(str, left+1, right - 1));
+        int p4 = str[left] != str[right] ? 0 : (2 + process(str, left + 1, right - 1));
 
-        return Math.max(Math.max(p1, p2), Math.max(p1, p2));
+        return Math.max(Math.max(p1, p2), Math.max(p3, p4));
     }
-
     public static int longestPalindromeSubseq2(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -60,4 +62,35 @@ public class Code01_PalindromeSubsequence {
         return dp[0][N - 1];
     }
 
+    // for test
+    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    private static final Random RANDOM = new Random();
+
+    public static String generateRandomString(int maxLength) {
+        // 生成随机长度，假设长度在1到maxLength之间
+        int length = RANDOM.nextInt(maxLength) + 1;
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = RANDOM.nextInt(ALPHABET.length());
+            sb.append(ALPHABET.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int testTimes = 10000;
+        boolean success = true;
+        int maxStrLen = 10;
+        for (int i = 0; i < testTimes; ++i) {
+            String str = generateRandomString(maxStrLen);
+            if (longestPalindromeSubseq(str) != longestPalindromeSubseq2(str)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success? "success" : "failed");
+        System.out.println("test end");
+    }
 }

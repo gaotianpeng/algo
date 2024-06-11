@@ -27,8 +27,10 @@ public class Code02_ConvertToLetterString {
             return 0;
         }
 
+        // i 位置单转
         int p1 = process(str, i+1);
         int p2 = 0;
+        // i, i+1 两个位置转
         if (i + 1 < str.length && (str[i] - '0')*10 + str[i+1] - '0' < 27) {
             p2 = process(str, i + 2);
         }
@@ -77,11 +79,11 @@ public class Code02_ConvertToLetterString {
 
     public static void main(String[] args) {
         System.out.println("test start....");
-        int test_times = 500000;
-        int max_len = 20;
+        int testTimes = 500000;
+        int maxLen = 20;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            String str = randomString(max_len);
+        for (int i = 0; i < testTimes; i++) {
+            String str = randomString(maxLen);
             if (number(str) != number2(str)) {
                 success = false;
                 break;

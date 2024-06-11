@@ -118,10 +118,10 @@ public class Code05_ReverseStackUsingRecursive {
         System.out.println("test start...");
         int test_times = 10000;
         boolean success = true;
-        int max_size = 20;
-        int max_val = 30;
+        int maxSize = 20;
+        int maxVal = 30;
         for (int i = 0; i < test_times; i++) {
-            Stack<Integer> stack1 = generateRandomStack(max_size, max_val);
+            Stack<Integer> stack1 = generateRandomStack(maxSize, maxVal);
             Stack<Integer> stack2 = copyStack(stack1);
             reverse(stack1);
             test(stack2);

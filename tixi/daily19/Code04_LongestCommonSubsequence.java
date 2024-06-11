@@ -1,4 +1,7 @@
 package tixi.daily19;
+
+import java.util.Random;
+
 /*
     leetcode 1143 最长公共子序列
         给定两个字符串text1 和text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
@@ -101,5 +104,38 @@ public class Code04_LongestCommonSubsequence {
             }
         }
         return dp[N - 1][M - 1];
+    }
+
+    // for test
+    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    private static final Random RANDOM = new Random();
+
+    public static String generateRandomString(int maxLength) {
+        // 生成随机长度，假设长度在1到maxLength之间
+        int length = RANDOM.nextInt(maxLength) + 1;
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = RANDOM.nextInt(ALPHABET.length());
+            sb.append(ALPHABET.charAt(index));
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int testTimes = 100000;
+        boolean success = true;
+        int maxLen = 10;
+        for (int i = 0; i < testTimes; ++i) {
+            String str1 = generateRandomString(maxLen);
+            String str2 = generateRandomString(maxLen);
+            if (longestCommonSubsequence1(str1, str2) != longestCommonSubsequence2(str1, str2)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success? "success" : "failed");
+        System.out.println("test end");
     }
 }

@@ -15,10 +15,15 @@ public class Code01_RobotWalk {
             return -1;
         }
 
-        return process(start, k, aim , n);
+        return process(start, k, aim, n);
     }
 
-    public static int process(int cur, int rest, int aim, int n) {
+	// 机器人当前来到的位置是cur，
+	// 机器人还有rest步需要去走，
+	// 最终的目标是aim，
+	// 有哪些位置？1~N
+	// 返回：机器人从cur出发，走过rest步之后，最终停在aim的方法数，是多少？
+    private static int process(int cur, int rest, int aim, int n) {
         if (rest == 0) {
             return cur == aim ? 1 : 0;
         }
@@ -28,12 +33,13 @@ public class Code01_RobotWalk {
         }
 
         if (cur == n) {
-            return process( n - 1, rest - 1, aim , n);
+            return process(cur - 1, rest - 1, aim, n);
         }
 
-        return process(cur - 1, rest - 1, aim, n)
-                + process(cur + 1, rest - 1, aim, n);
+        return process(cur + 1, rest - 1, aim, n)
+            + process(cur - 1, rest - 1, aim, n);
     }
+
 
     public static int ways2(int n, int start, int aim, int k) {
         if (n < 2 || start < 1 || start > n || aim < 1 || aim > n || k < 1) {
@@ -94,15 +100,15 @@ public class Code01_RobotWalk {
      */
     public static void main(String[] args) {
         System.out.println("test start....");
-        int test_times = 100000;
-        int max_n = 10;
-        int max_val = 20;
+        int testTimes = 100000;
+        int maxN = 10;
+        int maxVal = 20;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int n = (int)(Math.random() * (max_n + 1));
-            int aim = (int)(Math.random() * (max_n + 1));
-            int k = (int)(Math.random() * (max_val + 1));
-            int start = (int)(Math.random() * (max_val + 1));
+        for (int i = 0; i < testTimes; i++) {
+            int n = (int)(Math.random() * (maxN + 1));
+            int aim = (int)(Math.random() * (maxN + 1));
+            int k = (int)(Math.random() * (maxVal + 1));
+            int start = (int)(Math.random() * (maxVal + 1));
             if (ways1(n, start, aim, k) != ways2(n, start, aim, k)) {
                 success = false;
                 break;
