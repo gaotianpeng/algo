@@ -102,22 +102,25 @@ public class Code03_GasStation {
     }
 
     public static void main(String[] args) {
-        System.out.println("test starting...");
-        int test_times = 100000;
-        int max_num = 100;
-        int max_val = 50;
-        for (int i = 0; i < test_times; ++i) {
-            int n =  (int) ((max_num + 1) * Math.random());
-            int[] gas = generateRandomArray(n, max_val);
-            int[] cost = generateRandomArray(n, max_val);
-            int sum = (int) (Math.random() * (max_val + 1));
+        System.out.println("test start...");
+        boolean success = true;
+        int testTimes = 100000;
+        int maxNum = 100;
+        int maxVal = 50;
+        for (int i = 0; i < testTimes; ++i) {
+            int n =  (int) ((maxNum + 1) * Math.random());
+            int[] gas = generateRandomArray(n, maxVal);
+            int[] cost = generateRandomArray(n, maxVal);
+            int sum = (int) (Math.random() * (maxVal + 1));
             int ans1 = canCompleteCircuit(gas, cost);
             int ans2 = test(gas, cost);
             if (ans1 != ans2) {
-                System.out.println("test failed");
+                success = false;
                 break;
             }
         }
+
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end");
     }
 }
