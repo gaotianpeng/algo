@@ -13,29 +13,19 @@ public class Code01_SlidingWindowMaxArray {
             返回：[5,5,5,4,6,7]
      */
     public static int[] maxSlidingWindow(int[] arr, int w) {
-        if (arr == null || w < 1 || arr.length < w) {
+        if (arr == null || arr.length < w || w < 1) {
             return null;
         }
 
-        int n = arr.length;
-        int[] ans = new int[n - w + 1];
+        int N = arr.length;
+        int[] ans = new int[N - w + 1];
         int index = 0;
         LinkedList<Integer> qmax = new LinkedList<>();
-        for (int right = 0; right < n; ++right) {
+        for (int right = 0; right < N; ++right) {
             while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[right]) {
-                qmax.pollLast();
-            }
-            qmax.addLast(right);
-
-            if (qmax.peekFirst() == right - w) {
-                qmax.pollFirst();
-            }
-            if (right >= w - 1) {
-                ans[index++] = arr[qmax.peekFirst()];
+                
             }
         }
-
-        return ans;
     }
 
 

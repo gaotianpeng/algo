@@ -64,7 +64,6 @@ public class Code03_CoinsWayNoLimit {
         return dp[0][aim];
     }
 
-    // 为了测试
     public static int[] randomArray(int maxLen, int maxValue) {
         int N = (int) (Math.random() * maxLen);
         int[] arr = new int[N];
@@ -78,7 +77,6 @@ public class Code03_CoinsWayNoLimit {
         return arr;
     }
 
-    // 为了测试
     public static void printArray(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + " ");
@@ -86,12 +84,12 @@ public class Code03_CoinsWayNoLimit {
         System.out.println();
     }
 
-    // 为了测试
     public static void main(String[] args) {
+        System.out.println("test start");
+        boolean success = true;
         int maxLen = 10;
         int maxValue = 30;
         int testTime = 1000000;
-        System.out.println("test start");
         for (int i = 0; i < testTime; i++) {
             int[] arr = randomArray(maxLen, maxValue);
             int aim = (int) (Math.random() * maxValue);
@@ -99,7 +97,7 @@ public class Code03_CoinsWayNoLimit {
             int ans2 = dp1(arr, aim);
             int ans3 = dp2(arr, aim);
             if (ans1 != ans2 || ans1 != ans3) {
-                System.out.println("Oops!");
+                success = false;
                 printArray(arr);
                 System.out.println(aim);
                 System.out.println(ans1);
@@ -108,7 +106,7 @@ public class Code03_CoinsWayNoLimit {
                 break;
             }
         }
+        System.out.println(success ? "success" :"failed");
         System.out.println("test end");
     }
-
 }

@@ -2,6 +2,7 @@ package tixi.daily21;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Random;
 /*
     arr是货币数组，其中的值都是正数。再给定一个正数aim。
     每个值都认为是一张货币，
@@ -62,6 +63,109 @@ public class Code04_CoinsWaySameValuePaper {
             ways += process(coins, zhangs, index + 1, rest - (zhang * coins[index]));
         }
         return ways;
+    }
+
+    public static int dp1(int[] arr, int aim) {
+        if (arr == null || arr.length == 0 || aim < 0) {
+            return 0;
+        }
+        Info info = getInfo(arr);
+        int[] coins = info.coins;
+        int[] zhangs = info.zhangs;
+        int N = coins.length;
+        int[][] dp = new int[N + 1][aim + 1];
+        dp[N][0] = 1;
+        for (int index = N - 1; index >= 0; index--) {
+            for (int rest = 0; rest <= aim; rest++) {
+                int ways = 0;
+                for (int zhang = 0; zhang * coins[index] <= rest && zhang <= zhangs[index]; zhang++) {
+                    ways += dp[index + 1][rest - (zhang * coins[index])];
+                }
+                dp[index][rest] = ways;
+            }
+        }
+        return dp[0][aim];
+    }
+
+    public static int dp2(int[] arr, int aim) {
+        if (arr == null || arr.length == 0 || aim < 0) {
+            return 0;
+        }
+        Info info = getInfo(arr);
+        int[] coins = info.coins;
+        int[] zhangs = info.zhangs;
+        int N = coins.length;
+        int[][] dp = new int[N + 1][aim + 1];
+        dp[N][0] = 1;
+        for (int index = N - 1; index >= 0; index--) {
+            for (int rest = 0; rest <= aim; rest++) {
+                dp[index][rest] = dp[index + 1][rest];
+                if (rest - coins[index] >= 0) {
+                    dp[index][rest] += dp[index][rest - coins[index]];
+                }
+                if (rest - coins[index] * (zhangs[index] + 1) >= 0) {
+                    dp[index][rest] -= dp[index + 1][rest - coins[index] * (zhangs[index] + 1)];
+                }
+            }
+        }
+        return dp[0][aim];
+    }
+
+    public static int generateRandomInt(int minVal, int maxVal) {
+        if (minVal > maxVal) {
+            throw new IllegalArgumentException("minVal should be less than or equal to maxVal");
+        }
+        Random random = new Random();
+        return random.nextInt((maxVal - minVal) + 1) + minVal;
+    }
+
+    public static int[] generateRandomArray(int minVal, int maxVal, int maxLen) {
+        if (maxLen < 1) {
+            throw new IllegalArgumentException("maxLen should be a positive integer");
+        }
+        Random random = new Random();
+        int actualLen = random.nextInt(maxLen) + 1; // 生成1到maxLen之间的随机长度
+        int[] randomArray = new int[actualLen];
+        for (int i = 0; i < actualLen; i++) {
+            randomArray[i] = generateRandomInt(minVal, maxVal);
+        }
+        return randomArray;
+    }
+
+    public static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int testTimes = 100000;
+        boolean success = true;
+        int maxVal = 50;
+        int minVal = 1;
+        int maxAim = 100;
+        int maxLen = 20;
+        for (int i = 0; i < testTimes; ++i) {
+            int aim = generateRandomInt(0, maxAim);
+            int[] arr = generateRandomArray(minVal, maxVal, maxLen);
+            int ans1 = coinsWay(arr, aim);
+            int ans2 = dp1(arr, aim);
+            int ans3 = dp2(arr, aim);
+            if (ans1 != ans2 || ans1 != ans3) {
+                success = false;
+                printArray(arr);
+                System.out.println(aim);
+                System.out.println(ans1);
+                System.out.println(ans2);
+                System.out.println(ans3);
+                break;
+            }
+        }
+
+        System.out.println(success ? "success": "failed");
+        System.out.println("test end");
     }
 
 }

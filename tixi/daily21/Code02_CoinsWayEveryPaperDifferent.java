@@ -10,23 +10,31 @@ package tixi.daily21;
  */
 public class Code02_CoinsWayEveryPaperDifferent {
     public static int coinWays(int[] arr, int aim) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
         return process(arr, 0, aim);
     }
 
-    public static int process(int[] arr, int index, int rest) {
+    private static int process(int[] arr, int index, int rest) {
         if (rest < 0) {
             return 0;
         }
 
         if (index == arr.length) {
             return rest == 0 ? 1 : 0;
-        } else {
-            return process(arr, index + 1, rest)
-                + process(arr, index + 1, rest - arr[index]);
         }
+
+        return process(arr, index + 1, rest) +
+                process(arr, index + 1, rest - arr[index]);
     }
 
     public static int dp(int[] arr, int aim) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
         if (aim == 0) {
             return 1;
         }
@@ -41,7 +49,7 @@ public class Code02_CoinsWayEveryPaperDifferent {
         return dp[0][aim];
     }
 
-    // 为了测试
+    // for test
     public static int[] randomArray(int maxLen, int maxValue) {
         int N = (int) (Math.random() * maxLen);
         int[] arr = new int[N];
@@ -51,7 +59,6 @@ public class Code02_CoinsWayEveryPaperDifferent {
         return arr;
     }
 
-    // 为了测试
     public static void printArray(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + " ");
@@ -59,19 +66,20 @@ public class Code02_CoinsWayEveryPaperDifferent {
         System.out.println();
     }
 
-    // 为了测试
+
     public static void main(String[] args) {
+        System.out.println("test start...");
+        boolean success = true;
         int maxLen = 20;
         int maxValue = 30;
         int testTime = 1000000;
-        System.out.println("测试开始");
         for (int i = 0; i < testTime; i++) {
             int[] arr = randomArray(maxLen, maxValue);
             int aim = (int) (Math.random() * maxValue);
             int ans1 = coinWays(arr, aim);
             int ans2 = dp(arr, aim);
             if (ans1 != ans2) {
-                System.out.println("Oops!");
+                success = false;
                 printArray(arr);
                 System.out.println(aim);
                 System.out.println(ans1);
@@ -79,6 +87,8 @@ public class Code02_CoinsWayEveryPaperDifferent {
                 break;
             }
         }
-        System.out.println("测试结束");
+
+        System.out.println(success ? "success" :"failed");
+        System.out.println("test end");
     }
 }
