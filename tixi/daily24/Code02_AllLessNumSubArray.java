@@ -19,34 +19,36 @@ public class Code02_AllLessNumSubArray {
         }
 
         int ans = 0;
-        int right = 0;
-        int n = arr.length;
-        LinkedList<Integer> qmax = new LinkedList<>();
+        int N = arr.length;
         LinkedList<Integer> qmin = new LinkedList<>();
-        for (int left = 0; left < n; ++left) {
-            while (right < n) {
-                while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[right]) {
+        LinkedList<Integer> qmax = new LinkedList<>();
+        int R = 0;
+        for (int L = 0; L < N; ++L) {
+            while (R < N) {
+                while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[R]) {
                     qmax.pollLast();
                 }
-                qmax.addLast(right);
+                qmax.addLast(R);
 
-                while (!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[right]) {
+                while (!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[R]) {
                     qmin.pollLast();
                 }
-                qmin.addLast(right);
+                qmin.addLast(R);
 
                 if (arr[qmax.peekFirst()] - arr[qmin.peekFirst()] > sum) {
                     break;
                 } else {
-                    ++right;
+                    ++R;
                 }
             }
 
-            ans += right - left;
-            if (qmax.peekFirst() == left) {
+            ans += R - L;
+
+            if (qmax.peekFirst() == L) {
                 qmax.pollFirst();
             }
-            if (qmin.peekFirst() == left) {
+
+            if (qmin.peekFirst() == L) {
                 qmin.pollFirst();
             }
         }
@@ -98,21 +100,23 @@ public class Code02_AllLessNumSubArray {
     }
 
     public static void main(String[] args) {
-        System.out.println("test starting...");
-        int test_times = 100000;
-        int max_num = 100;
-        int max_val = 50;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr = generateRandomArray(max_num, max_val);
-            int sum = (int) (Math.random() * (max_val + 1));
+        System.out.println("test start...");
+        boolean success = true;
+        int testTimes = 100000;
+        int maxNum = 100;
+        int maxVal = 50;
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr = generateRandomArray(maxNum, maxVal);
+            int sum = (int) (Math.random() * (maxVal + 1));
             int ans1 = num(arr, sum);
             int ans2 = test(arr, sum);
             if (ans1 != ans2) {
-                System.out.println("test failed");
+                success = false;
                 break;
             }
         }
 
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end");
     }
 }
