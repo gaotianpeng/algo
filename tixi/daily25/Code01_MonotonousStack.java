@@ -148,11 +148,11 @@ public class Code01_MonotonousStack {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_size = 50;
+        int testTimes = 100000;
+        int maxSize = 50;
         int max_val = 100;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr = getRandomArrayNoRepeat(max_size, max_val);
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr = getRandomArrayNoRepeat(maxSize, max_val);
             int[][] ans1 = getNearLessNoRepeat(arr);
             int[][] ans2 = test(arr);
             if (!isEqual(ans1, ans2)) {
@@ -160,7 +160,7 @@ public class Code01_MonotonousStack {
                 break;
             }
 
-            int[] arr1 = getRandomArray(max_size, max_val);
+            int[] arr1 = getRandomArray(maxSize, max_val);
             int[][] ans3 = getNearLesss(arr1);
             int[][] ans4 = test(arr1);
             if (!isEqual(ans3, ans3)) {

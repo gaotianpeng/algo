@@ -67,6 +67,7 @@ public class Code01_KMP {
 
     public static void main(String[] args) {
         System.out.println("test start...");
+        
         int possibilities = 5;
         int strSize = 20;
         int matchSize = 5;

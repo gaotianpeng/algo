@@ -9,55 +9,61 @@ public class Code03_GasStation {
         你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1个加油站需要消耗汽油cost[i]升。你从其中的一个加油站出发，开始时油箱为空。
         给定两个整数数组 gas 和 cost ，如果你可以绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在解，则 保证 它是 唯一 的
      */
+    // 这个方法的时间复杂度O(N)，额外空间复杂度O(N)
     public static int canCompleteCircuit(int[] gas, int[] cost) {
-        boolean[] good = goodArray(gas, cost);
-        for (int i = 0; i < good.length; ++i) {
-            if (good[i]) {
+        boolean[] goodStations = findGoodStations(gas, cost);
+        for (int i = 0; i < gas.length; i++) {
+            if (goodStations[i]) {
                 return i;
             }
         }
-
         return -1;
     }
 
-    public static boolean[] goodArray(int[] gas, int[] cost) {
+    public static boolean[] findGoodStations(int[] gas, int[] cost) {
         int n = gas.length;
-        int m = n << 1;
-        int[] arr = new int[m];
-
+        int doubledLength = n * 2;
+        int[] netGas = new int[doubledLength];
+        
+        // 计算净汽油数组
         for (int i = 0; i < n; i++) {
-            arr[i] = gas[i] - cost[i];
-            arr[i+n] = gas[i] - cost[i];
+            netGas[i] = gas[i] - cost[i];
+            netGas[i + n] = gas[i] - cost[i];
         }
-        for (int i = 1; i < arr.length; ++i) {
-            arr[i] += arr[i-1];
+        
+        // 前缀和数组
+        for (int i = 1; i < doubledLength; i++) {
+            netGas[i] += netGas[i - 1];
         }
-
-        LinkedList<Integer> qmin = new LinkedList<>();
-        for (int i = 0; i < n; ++i) {
-            while(!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[i]) {
-                qmin.pollLast();
+        
+        LinkedList<Integer> minDeque = new LinkedList<>();
+        
+        // 初始化滑动窗口的最小值队列
+        for (int i = 0; i < n; i++) {
+            while (!minDeque.isEmpty() && netGas[minDeque.peekLast()] >= netGas[i]) {
+                minDeque.pollLast();
             }
-            qmin.addLast(i);
+            minDeque.addLast(i);
         }
-
-        boolean[] ans = new boolean[n];
-        for (int offsest = 0, i = 0, j = n; j < m; offsest = arr[i++], j++) {
-            if (arr[qmin.peekFirst()] - offsest >= 0) {
-                ans[i] = true;
+        
+        boolean[] result = new boolean[n];
+        
+        // 判断每个起点是否可以走完一圈
+        for (int offset = 0, start = 0, end = n; end < doubledLength; offset = netGas[start++], end++) {
+            if (netGas[minDeque.peekFirst()] - offset >= 0) {
+                result[start] = true;
             }
-            if (qmin.peekFirst() == i) {
-                qmin.pollFirst();
+            if (minDeque.peekFirst() == start) {
+                minDeque.pollFirst();
             }
-            while (!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[j]) {
-                qmin.pollLast();
+            while (!minDeque.isEmpty() && netGas[minDeque.peekLast()] >= netGas[end]) {
+                minDeque.pollLast();
             }
-            qmin.addLast(j);
+            minDeque.addLast(end);
         }
-
-        return ans;
+        
+        return result;
     }
-
     public static int test(int[] gas, int[] cost) {
         // 无法过滤参数
         int n = gas.length;
@@ -105,13 +111,12 @@ public class Code03_GasStation {
         System.out.println("test start...");
         boolean success = true;
         int testTimes = 100000;
-        int maxNum = 100;
+        int maxLen = 100;
         int maxVal = 50;
         for (int i = 0; i < testTimes; ++i) {
-            int n =  (int) ((maxNum + 1) * Math.random());
+            int n =  (int) ((maxLen + 1) * Math.random());
             int[] gas = generateRandomArray(n, maxVal);
             int[] cost = generateRandomArray(n, maxVal);
-            int sum = (int) (Math.random() * (maxVal + 1));
             int ans1 = canCompleteCircuit(gas, cost);
             int ans2 = test(gas, cost);
             if (ans1 != ans2) {
