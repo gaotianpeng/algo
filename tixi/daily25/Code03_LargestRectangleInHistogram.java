@@ -15,25 +15,25 @@ public class Code03_LargestRectangleInHistogram {
         }
         Stack<Integer> stack = new Stack<>();
         int n = height.length;
-        int max_area = 0;
+        int maxArea = 0;
         for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && height[stack.peek()] >= height[i]) {
                 int j = stack.pop();
-                int left_less_index = stack.isEmpty() ? -1 : stack.peek();
-                int cur_area = (i - left_less_index- 1) * height[j];
-                max_area = Math.max(cur_area, max_area);
+                int leftLessIndex = stack.isEmpty() ? -1 : stack.peek();
+                int curArea = (i - leftLessIndex- 1) * height[j];
+                maxArea = Math.max(curArea, maxArea);
             }
             stack.push(i);
         }
 
         while (!stack.isEmpty()) {
             int j = stack.pop();
-            int left_less_index = stack.isEmpty() ? -1 : stack.peek();
-            int cur_area = (height.length - left_less_index - 1) * height[j];
-            max_area = Math.max(max_area, cur_area);
+            int leftLessIndex = stack.isEmpty() ? -1 : stack.peek();
+            int cur_area = (height.length - leftLessIndex - 1) * height[j];
+            maxArea = Math.max(maxArea, cur_area);
         }
 
-        return max_area;
+        return maxArea;
     }
 
     public static int largestRectangleArea1(int[] heights) {
@@ -41,28 +41,28 @@ public class Code03_LargestRectangleInHistogram {
             return 0;
         }
 
-        int max_area = 0;
+        int maxArea = 0;
         int n = heights.length;
         int[] stack = new int[n];
-        int stack_size = 0;
+        int stackSize = 0;
         for (int i = 0; i < n; ++i) {
-            while ( stack_size != 0 && heights[stack[stack_size - 1]] >= heights[i]) {
-                int j = stack[--stack_size];
-                int left_less_index = stack_size == 0 ? -1 : stack[stack_size - 1];
-                int cur_area = (i - left_less_index - 1) * heights[j];
-                max_area = Math.max(cur_area, max_area);
+            while ( stackSize != 0 && heights[stack[stackSize - 1]] >= heights[i]) {
+                int j = stack[--stackSize];
+                int leftLessIndex = stackSize == 0 ? -1 : stack[stackSize - 1];
+                int curArea = (i - leftLessIndex - 1) * heights[j];
+                maxArea = Math.max(curArea, maxArea);
             }
-            stack[stack_size++] = i;
+            stack[stackSize++] = i;
         }
 
-        while (stack_size != 0) {
-            int j = stack[--stack_size];
-            int left_less_index = stack_size == 0 ? -1 : stack[stack_size - 1];
-            int cur_area = (n - left_less_index - 1) * heights[j];
-            max_area = Math.max(max_area, cur_area);
+        while (stackSize != 0) {
+            int j = stack[--stackSize];
+            int leftLessIndex = stackSize == 0 ? -1 : stack[stackSize - 1];
+            int curArea = (n - leftLessIndex - 1) * heights[j];
+            maxArea = Math.max(maxArea, curArea);
         }
 
-        return max_area;
+        return maxArea;
     }
 
     public static int test(int[] heights) {
@@ -71,7 +71,7 @@ public class Code03_LargestRectangleInHistogram {
         }
 
         int n = heights.length;
-        int max_area = 0;
+        int maxArea = 0;
         for (int i = 0; i < n; ++i) {
             int left = i;
             int right = i;
@@ -81,10 +81,10 @@ public class Code03_LargestRectangleInHistogram {
             while (right < n && heights[right] >= heights[i]) {
                 ++right;
             }
-            max_area = Math.max(max_area, heights[i] * (right - left - 1));
+            maxArea = Math.max(maxArea, heights[i] * (right - left - 1));
         }
 
-        return max_area;
+        return maxArea;
     }
 
     public static int[] getRandomArray(int max_size, int max_val) {
@@ -99,11 +99,11 @@ public class Code03_LargestRectangleInHistogram {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_val = 20;
-        int max_n = 30;
-        int test_times = 500000;
-        for (int i = 0; i < test_times; ++i) {
-            int[] heights = getRandomArray(max_n, max_val);
+        int maxVal = 20;
+        int maxLen = 30;
+        int testTimes = 500000;
+        for (int i = 0; i < testTimes; ++i) {
+            int[] heights = getRandomArray(maxLen, maxVal);
             if (test(heights) != largestRectangleArea(heights)) {
                 System.out.println("test1 failed");
                 break;

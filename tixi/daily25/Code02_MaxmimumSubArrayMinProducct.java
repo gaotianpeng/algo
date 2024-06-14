@@ -25,10 +25,10 @@ public class Code02_MaxmimumSubArrayMinProducct {
         int n = arr.length;
         int ans = Integer.MIN_VALUE;
 
-        int[] pre_sum = new int[n];
-        pre_sum[0] = arr[0];
+        int[] preSum = new int[n];
+        preSum[0] = arr[0];
         for (int i = 1; i < n; ++i) {
-            pre_sum[i] = pre_sum[i-1] + arr[i];
+            preSum[i] = preSum[i-1] + arr[i];
         }
 
         Stack<Integer> stack = new Stack<>();
@@ -36,14 +36,14 @@ public class Code02_MaxmimumSubArrayMinProducct {
             while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
                 int cur = stack.pop();
                 ans = Math.max(ans,
-                        arr[cur] * (stack.isEmpty() ? pre_sum[i-1]: pre_sum[i-1] - pre_sum[stack.peek()]));
+                        arr[cur] * (stack.isEmpty() ? preSum[i-1]: preSum[i-1] - preSum[stack.peek()]));
             }
             stack.add(i);
         }
         while (!stack.isEmpty()) {
             int cur = stack.pop();
             ans = Math.max(ans,
-                    arr[cur] * (stack.isEmpty() ? pre_sum[n-1]: pre_sum[n-1] - pre_sum[stack.peek()]));
+                    arr[cur] * (stack.isEmpty() ? preSum[n-1]: preSum[n-1] - preSum[stack.peek()]));
         }
 
         return ans;
@@ -56,30 +56,30 @@ public class Code02_MaxmimumSubArrayMinProducct {
 
         int n = arr.length;
         int ans = Integer.MIN_VALUE;
-        int[] pre_sum = new int[n];
-        pre_sum[0] = arr[0];
+        int[] preSum = new int[n];
+        preSum[0] = arr[0];
         for (int i = 1; i < n; ++i) {
-            pre_sum[i] = pre_sum[i-1] + arr[i];
+            preSum[i] = preSum[i-1] + arr[i];
         }
 
         for (int cur = 0; cur < n; ++cur) {
-            int cur_left_limit = cur;
-            int cur_right_limit = cur;
+            int curLeftLimit = cur;
+            int curRightLimit = cur;
             for (int j = cur; j >= 0; j--) {
                 if (arr[j] < arr[cur]) {
                     break;
                 }
-                cur_left_limit = j;
+                curLeftLimit = j;
             }
 
             for (int j = cur; j < n; j++) {
                 if (arr[j] < arr[cur]) {
                     break;
                 }
-                cur_right_limit = j;
+                curRightLimit = j;
             }
 
-            ans = Math.max((pre_sum[cur_right_limit] - pre_sum[cur_left_limit] + arr[cur_left_limit]) * arr[cur], ans);
+            ans = Math.max((preSum[curRightLimit] - preSum[curLeftLimit] + arr[curLeftLimit]) * arr[cur], ans);
         }
 
         return ans;
@@ -118,8 +118,8 @@ public class Code02_MaxmimumSubArrayMinProducct {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        for (int i = 0; i < test_times; ++i) {
+        int testTimes = 100000;
+        for (int i = 0; i < testTimes; ++i) {
             int[] arr = gerenareRondomArray();
             if (test(arr) != maxSumMinProduct(arr)) {
                 System.out.println("test failed");

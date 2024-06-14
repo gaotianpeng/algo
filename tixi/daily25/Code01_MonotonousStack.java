@@ -38,31 +38,31 @@ public class Code01_MonotonousStack {
     public static int[][] getNearLesss(int[] arr) {
         int n = arr.length;
         int[][] ans = new int[n][2];
-
         Stack<List<Integer>> stack = new Stack<>();
         for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek().get(0)] > arr[i]) {
                 List<Integer> cur = stack.pop();
-                int curLeftIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+                int leftLessIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
                 for (Integer idx : cur) {
-                    ans[idx][0] = curLeftIndex;
+                    ans[idx][0] = leftLessIndex;
                     ans[idx][1] = i;
                 }
             }
+
             if (!stack.isEmpty() && arr[stack.peek().get(0)] == arr[i]) {
                 stack.peek().add(Integer.valueOf(i));
             } else {
                 List<Integer> list = new ArrayList<>();
                 list.add(i);
-                stack.add(list);
+                stack.push(list);
             }
         }
 
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             List<Integer> cur = stack.pop();
-            int curLeftIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+            int leftLessIndex = stack.isEmpty() ?  -1:stack.peek().get(stack.peek().size() - 1);
             for (Integer idx: cur) {
-                ans[idx][0] = curLeftIndex;
+                ans[idx][0] = leftLessIndex;
                 ans[idx][1] = -1;
             }
         }
