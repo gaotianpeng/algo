@@ -1,6 +1,5 @@
 package tixi.daily25;
 
-import java.sql.Array;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
@@ -44,9 +43,9 @@ public class Code01_MonotonousStack {
         for (int i = 0; i < n; ++i) {
             while (!stack.isEmpty() && arr[stack.peek().get(0)] > arr[i]) {
                 List<Integer> cur = stack.pop();
-                int cur_left_index = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+                int curLeftIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
                 for (Integer idx : cur) {
-                    ans[idx][0] = cur_left_index;
+                    ans[idx][0] = curLeftIndex;
                     ans[idx][1] = i;
                 }
             }
@@ -61,15 +60,16 @@ public class Code01_MonotonousStack {
 
         while(!stack.isEmpty()) {
             List<Integer> cur = stack.pop();
-            int cur_left_index = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+            int curLeftIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
             for (Integer idx: cur) {
-                ans[idx][0] = cur_left_index;
+                ans[idx][0] = curLeftIndex;
                 ans[idx][1] = -1;
             }
         }
 
         return ans;
     }
+
     public static boolean isEqual(int[][] res1, int[][] res2) {
         if (res1.length != res2.length) {
             return false;
@@ -92,12 +92,12 @@ public class Code01_MonotonousStack {
         return arr;
     }
 
-    public static int[] getRandomArrayNoRepeat(int max_size, int max_val) {
-        int n = (int)(Math.random() * max_size);
+    public static int[] getRandomArrayNoRepeat(int maxSize, int maxVal) {
+        int n = (int)(Math.random() * maxSize);
         HashSet<Integer> set = new HashSet<>();
         int cnt = n;
         while (cnt > 0) {
-            int val = (int)(Math.random() * max_val);
+            int val = (int)(Math.random() * maxVal);
             if (set.contains(val)) {
                 continue;
             } else {
@@ -119,12 +119,12 @@ public class Code01_MonotonousStack {
         int[][] ans = new int[n][2];
         for (int i = 0; i < n; ++i) {
             int cur = i-1;
-            int left_less_index = -1;
-            int right_less_index = -1;
+            int leftLessIndex = -1;
+            int rightLessIndex = -1;
 
             while (cur >= 0) {
                 if (arr[cur] < arr[i]) {
-                    left_less_index = cur;
+                    leftLessIndex = cur;
                     break;
                 }
                 --cur;
@@ -133,14 +133,14 @@ public class Code01_MonotonousStack {
             cur = i + 1;
             while (cur < n) {
                 if (arr[cur] < arr[i]) {
-                    right_less_index = cur;
+                    rightLessIndex = cur;
                     break;
                 }
                 ++cur;
             }
 
-            ans[i][0] = left_less_index;
-            ans[i][1] = right_less_index;
+            ans[i][0] = leftLessIndex;
+            ans[i][1] = rightLessIndex;
         }
 
         return ans;
@@ -149,10 +149,10 @@ public class Code01_MonotonousStack {
     public static void main(String[] args) {
         System.out.println("test start...");
         int testTimes = 100000;
-        int maxSize = 50;
-        int max_val = 100;
+        int maxLen = 50;
+        int maxVal = 100;
         for (int i = 0; i < testTimes; ++i) {
-            int[] arr = getRandomArrayNoRepeat(maxSize, max_val);
+            int[] arr = getRandomArrayNoRepeat(maxLen, maxVal);
             int[][] ans1 = getNearLessNoRepeat(arr);
             int[][] ans2 = test(arr);
             if (!isEqual(ans1, ans2)) {
@@ -160,11 +160,12 @@ public class Code01_MonotonousStack {
                 break;
             }
 
-            int[] arr1 = getRandomArray(maxSize, max_val);
+            int[] arr1 = getRandomArray(maxLen, maxVal);
             int[][] ans3 = getNearLesss(arr1);
             int[][] ans4 = test(arr1);
-            if (!isEqual(ans3, ans3)) {
+            if (!isEqual(ans3, ans4)) {
                 System.out.println("have repeat test failed");
+                break;
             }
         }
 
