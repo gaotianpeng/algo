@@ -34,6 +34,7 @@ public class Code01_KMP {
         return y == str2.length ? x - y: -1;
     }
 
+    // acdbstacdtxeacdbstacdbk
     public static int[] getNextArray(char[] str2) {
         if (str2.length == 1) {
             return new int[] { -1};
@@ -42,11 +43,11 @@ public class Code01_KMP {
         int[] next = new int[str2.length];
         next[0] = -1;
         next[1] = 0;
-        int cn = 0;
-        int i = 2;
+        int cn = 0; // cn和i-1位置比是否相等，相等next[i] = cn + 1
+        int i = 2; // 目前在哪个位置求next数组的值
         while (i < str2.length) {
             if (str2[i-1] == str2[cn]) {
-                next[i++] = ++cn;
+                next[i++] = ++cn; // ++cn代表i位置next[i]，供i+1使用
             } else if (cn > 0) {
                 cn = next[cn];
             } else {
