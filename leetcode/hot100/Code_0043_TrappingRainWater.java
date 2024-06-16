@@ -86,7 +86,6 @@ public class Code_0043_TrappingRainWater {
         return randomArray;
     }
 
-
     public static void main(String[] args) {
         System.out.println("test start...");
         int testTimes = 100000;
