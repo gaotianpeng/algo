@@ -202,16 +202,12 @@ public class Code01_BFS {
         for (int i = 0; i < testTimes; ++i) {
             int[][] matrix = randomMatrixGenerator(maxM, maxN, minVal, maxVal);
             Graph graph = graphGenerator(matrix);
-            Iterator<Edge> iterator = graph.edges.iterator();
-            if (iterator.hasNext()) {
-                Edge anyEdge = iterator.next();
-                HashMap<Integer, Integer> ans1 = bfs(anyEdge.from);
-                HashMap<Integer, Integer> ans2 = dfs(anyEdge.from);
-                if (!isEqual(ans1, ans2)) {
-                    success = false;
-                    break;
-                }
-             }
+            HashMap<Integer, Integer> ans1 = bfs(graph.nodes.get(0));
+            HashMap<Integer, Integer> ans2 = dfs(graph.nodes.get(0));
+            if (!isEqual(ans1, ans2)) {
+                success = false;
+                break;
+            }
         }
 
         System.out.println(success ? "success" : "failed");
