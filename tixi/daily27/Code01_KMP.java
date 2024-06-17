@@ -68,7 +68,7 @@ public class Code01_KMP {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        
+        boolean success = true;
         int possibilities = 5;
         int strSize = 20;
         int matchSize = 5;
@@ -77,10 +77,11 @@ public class Code01_KMP {
             String str = getRandomString(possibilities, strSize);
             String match = getRandomString(possibilities, matchSize);
             if (getIndexOf(str, match) != str.indexOf(match)) {
-                System.out.println("test failed");
+                success = false;
                 break;
             }
         }
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end");
     }
 }
