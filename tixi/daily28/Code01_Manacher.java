@@ -11,27 +11,27 @@ public class Code01_Manacher {
 
         char[] str = manacherString(s);
         int n = str.length;
-        int[] p_radius_arr = new int[n]; // 回文半径大小数组
-        int p_center = -1;
+        int[] pRadiusArr = new int[n]; // 回文半径大小数组
+        int pCenter = -1;
         int right = -1; // 成功扩至最右的下一个位置
         int ans = Integer.MIN_VALUE;
         for (int i = 0; i < n; ++i) {
             // R第一个违规的位置，i>= R
             // i位置扩出来的答案，i位置扩的区域，至少是多大。
-            p_radius_arr[i] = right > i ? Math.min(right - i, p_radius_arr[2*p_center - i]) : 1;
-            while (i + p_radius_arr[i] < str.length && i - p_radius_arr[i] > -1) {
-                if (str[i+p_radius_arr[i]] == str[i-p_radius_arr[i]]) {
-                    p_radius_arr[i]++;
+            pRadiusArr[i] = right > i ? Math.min(right - i, pRadiusArr[2*pCenter - i]) : 1;
+            while (i + pRadiusArr[i] < str.length && i - pRadiusArr[i] > -1) {
+                if (str[i+pRadiusArr[i]] == str[i-pRadiusArr[i]]) {
+                    pRadiusArr[i]++;
                 } else {
                     break;
                 }
             }
-            if (i + p_radius_arr[i] > right) {
-                right = i + p_radius_arr[i];
-                p_center = i;
+            if (i + pRadiusArr[i] > right) {
+                right = i + pRadiusArr[i];
+                pCenter = i;
             }
 
-            ans = Math.max(ans, p_radius_arr[i]);
+            ans = Math.max(ans, pRadiusArr[i]);
         }
 
         return ans - 1;
@@ -81,10 +81,10 @@ public class Code01_Manacher {
     public static void main(String[] args) {
         System.out.println("test start...");
         int posibilities = 5;
-        int str_size = 30;
-        int test_times = 100000;
-        for (int i = 0; i < test_times; ++i) {
-            String s = getRandomString(posibilities, str_size);
+        int strSize = 30;
+        int testTimes = 100000;
+        for (int i = 0; i < testTimes; ++i) {
+            String s = getRandomString(posibilities, strSize);
             if (test(s) != manacher(s)) {
                 System.out.println("test failed");
                 break;

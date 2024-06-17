@@ -15,6 +15,15 @@ public class Code02_MorrisPreTraversal {
         }
     }
 
+    /*
+        Morris 遍历
+            假设来到当前节点 cur, 开始时，cur 来到头节点位置
+            1）如果 cur 没有左孩子，cur 向右移动(cur = cur.right)
+            2）如果 cur 有左孩子，找到左子树上最右的节点 mostRight
+                a. 如果 mostRight 的右指针指向为空，让其指向 cur，然后cur向左移动(cur = cur.left)
+                b. 如果 mostRight 的右指针指向cur, 让其指向 null，然后 cur 向右移动 (cur = cur.right)
+            3）cur 为空时遍历停止
+     */
     public static List<Integer> morrisPre(Node head) {
         if (head == null) {
             return null;
