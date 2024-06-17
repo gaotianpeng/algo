@@ -60,8 +60,9 @@ public class Code06_TopologySort {
         if (graph == null) {
             return null;
         }
-
+        // key 某个节点, value 剩余的入度
         HashMap<Node, Integer> inMap = new HashMap<>();
+        // 只有剩余入度为0的点，才进入这个队列
         Queue<Node> zeroInQueue = new LinkedList<>();
         for (Node cur: graph.nodes.values()) {
             inMap.put(cur, cur.in);
@@ -83,5 +84,41 @@ public class Code06_TopologySort {
         }
 
         return ans;
+    }
+
+    public static List<Node> test(Graph graph) {
+        if (graph == null) {
+            return null;
+        }
+
+        List<Node> ans = new ArrayList<>();
+        HashSet<Node> remainingNodes = new HashSet<>(graph.nodes.values());
+
+        while (!remainingNodes.isEmpty()) {
+            Node zeroInNode = null;
+            for (Node node : remainingNodes) {
+                if (node.in == 0) {
+                    zeroInNode = node;
+                    break;
+                }
+            }
+
+            if (zeroInNode == null) {
+                throw new RuntimeException("Graph has a cycle, no zero-in node found.");
+            }
+
+            ans.add(zeroInNode);
+            remainingNodes.remove(zeroInNode);
+
+            for (Node next : zeroInNode.nexts) {
+                next.in--;
+            }
+        }
+
+        return ans;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
