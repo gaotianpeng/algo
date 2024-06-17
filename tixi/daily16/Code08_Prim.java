@@ -9,12 +9,52 @@ package tixi.daily16;
         6）当所有点都被选取，最小生成树就得到
  */
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Code08_Prim {
+    public static class Edge {
+        public int weight;
+        public Node from;
+        public Node to;
+
+        public Edge(int weight, Node from, Node to) {
+            this.weight = weight;
+            this.from = from;
+            this.to = to;
+        }
+    }
+
+    public static class Node {
+        public int value;
+        public int in;
+        public int out;
+        public ArrayList<Node> nexts;
+        public ArrayList<Edge> edges;
+
+        public Node(int value) {
+            this.value = value;
+            in = 0;
+            out = 0;
+            nexts = new ArrayList<>();
+            edges = new ArrayList<>();
+        }
+    }
+
+    public static class Graph {
+        public HashMap<Integer, Node> nodes;
+        public HashSet<Edge> edges;
+
+        public Graph() {
+            nodes = new HashMap<>();
+            edges = new HashSet<>();
+        }
+    }
+
     public static class EdgeComparator implements Comparator<Edge> {
         @Override
         public int compare(Edge o1, Edge o2) {
@@ -24,23 +64,23 @@ public class Code08_Prim {
 
     public static Set<Edge> primMST(Graph graph) {
         // 解锁的边进入小根堆
-        PriorityQueue<Edge> priority_queue = new PriorityQueue<>();
+        PriorityQueue<Edge> priorityQueue = new PriorityQueue<>();
         // 哪些点被解锁出来了
-        HashSet<Node> node_set = new HashSet<>();
+        HashSet<Node> nodeSet = new HashSet<>();
         Set<Edge> result = new HashSet<>();
         for (Node node: graph.nodes.values()) {
-            node_set.add(node);
+            nodeSet.add(node);
             for (Edge edge: node.edges) {
-                priority_queue.add(edge);
+                priorityQueue.add(edge);
             }
-            while (!priority_queue.isEmpty()) {
-                Edge edge = priority_queue.poll();
-                Node to_node = edge.to;
-                if (!node_set.contains(to_node)) {
-                    node_set.add(to_node);
+            while (!priorityQueue.isEmpty()) {
+                Edge edge = priorityQueue.poll();
+                Node toNode = edge.to;
+                if (!nodeSet.contains(toNode)) {
+                    nodeSet.add(toNode);
                     result.add(edge);
-                    for (Edge next_edge : to_node.edges) {
-                        priority_queue.add(next_edge);
+                    for (Edge next_edge : toNode.edges) {
+                        priorityQueue.add(next_edge);
                     }
                 }
             }

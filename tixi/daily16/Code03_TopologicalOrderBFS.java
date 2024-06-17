@@ -29,30 +29,30 @@ public class Code03_TopologicalOrderBFS {
             return null;
         }
 
-        HashMap<DirectedGraphNode, Integer> indegree_map = new HashMap<>();
+        HashMap<DirectedGraphNode, Integer> indegreeMap = new HashMap<>();
         for (DirectedGraphNode cur: graph) {
-            indegree_map.put(cur, 0);
+            indegreeMap.put(cur, 0);
         }
         for (DirectedGraphNode cur: graph) {
             for (DirectedGraphNode next: cur.neighbors) {
-                indegree_map.put(next, indegree_map.get(next) + 1);
+                indegreeMap.put(next, indegreeMap.get(next) + 1);
             }
         }
 
-        Queue<DirectedGraphNode> zero_queue = new LinkedList<>();
-        for (DirectedGraphNode cur: indegree_map.keySet()) {
-            if (indegree_map.get(cur) == 0) {
-                zero_queue.add(cur);
+        Queue<DirectedGraphNode> zeroQueue = new LinkedList<>();
+        for (DirectedGraphNode cur: indegreeMap.keySet()) {
+            if (indegreeMap.get(cur) == 0) {
+                zeroQueue.add(cur);
             }
         }
         ArrayList<DirectedGraphNode> ans = new ArrayList<>();
-        while (!zero_queue.isEmpty()) {
-            DirectedGraphNode cur = zero_queue.poll();
+        while (!zeroQueue.isEmpty()) {
+            DirectedGraphNode cur = zeroQueue.poll();
             ans.add(cur);
             for (DirectedGraphNode next: cur.neighbors) {
-                indegree_map.put(next, indegree_map.get(next) - 1);
-                if (indegree_map.get(next) == 0) {
-                    zero_queue.offer(next);
+                indegreeMap.put(next, indegreeMap.get(next) - 1);
+                if (indegreeMap.get(next) == 0) {
+                    zeroQueue.offer(next);
                 }
             }
         }

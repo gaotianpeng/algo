@@ -11,21 +11,59 @@ import java.util.*;
         5）考察完所有边之后，最小生成树的集合也得到了
  */
 public class Code07_Kruskal {
+    public static class Node {
+        public int value;
+        public int in;
+        public int out;
+        public ArrayList<Node> nexts;
+        public ArrayList<Edge> edges;
+
+        public Node(int value) {
+            this.value = value;
+            in = 0;
+            out = 0;
+            nexts = new ArrayList<>();
+            edges = new ArrayList<>();
+        }
+    }
+
+    public static class Graph {
+        public HashMap<Integer, Node> nodes;
+        public HashSet<Edge> edges;
+
+        public Graph() {
+            nodes = new HashMap<>();
+            edges = new HashSet<>();
+        }
+    }
+
+    public static class Edge {
+        public int weight;
+        public Node from;
+        public Node to;
+
+        public Edge(int weight, Node from, Node to) {
+            this.weight = weight;
+            this.from = from;
+            this.to = to;
+        }
+    }
+
     public static class UnionFind {
-        private HashMap<Node, Node> father_map;
-        private HashMap<Node, Integer> size_map;
+        private HashMap<Node, Node> fatherMap;
+        private HashMap<Node, Integer> sizeMap;
 
         public UnionFind() {
-            father_map = new HashMap<>();
-            size_map = new HashMap<>();
+            fatherMap = new HashMap<>();
+            sizeMap = new HashMap<>();
         }
 
         public void makeSets(Collection<Node> nodes) {
-            father_map.clear();
-            size_map.clear();
+            fatherMap.clear();
+            sizeMap.clear();
             for (Node node: nodes) {
-                father_map.put(node, node);
-                size_map.put(node, 1);
+                fatherMap.put(node, node);
+                sizeMap.put(node, 1);
             }
         }
 
@@ -38,31 +76,31 @@ public class Code07_Kruskal {
                 return;
             }
 
-            Node f_a = findFather(a);
-            Node f_b = findFather(b);
-            if (f_a != f_b) {
-                int a_size = size_map.get(f_a);
-                int b_size = size_map.get(f_b);
-                if (a_size <= b_size) {
-                    father_map.put(f_a, f_b);
-                    size_map.put(f_b, a_size + b_size);
-                    size_map.remove(f_a);
+            Node fA = findFather(a);
+            Node fB = findFather(b);
+            if (fA != fB) {
+                int aSize = sizeMap.get(fA);
+                int bSize = sizeMap.get(fB);
+                if (aSize <= bSize) {
+                    fatherMap.put(fA, fB);
+                    sizeMap.put(fB, aSize + bSize);
+                    sizeMap.remove(fA);
                 } else {
-                    father_map.put(f_b, f_a);
-                    size_map.put(f_a, a_size + b_size);
-                    size_map.remove(f_b);
+                    fatherMap.put(fB, fA);
+                    sizeMap.put(fA, aSize + bSize);
+                    sizeMap.remove(fB);
                 }
             }
         }
 
         private Node findFather(Node node) {
             Stack<Node> path = new Stack<>();
-            while (node != father_map.get(node)) {
+            while (node != fatherMap.get(node)) {
                 path.add(node);
-                node = father_map.get(node);
+                node = fatherMap.get(node);
             }
             while (!path.isEmpty()) {
-                father_map.put(path.pop(), node);
+                fatherMap.put(path.pop(), node);
             }
 
             return node;
@@ -77,18 +115,18 @@ public class Code07_Kruskal {
     }
 
     public static Set<Edge> kruskalMST(Graph graph) {
-        UnionFind union_find = new UnionFind();
-        union_find.makeSets(graph.nodes.values());
-        PriorityQueue<Edge> priority_queue = new PriorityQueue<>(new EdgeComparator());
+        UnionFind unionFind = new UnionFind();
+        unionFind.makeSets(graph.nodes.values());
+        PriorityQueue<Edge> priorityQueue = new PriorityQueue<>(new EdgeComparator());
         for (Edge edge: graph.edges) {
-            priority_queue.add(edge);
+            priorityQueue.add(edge);
         }
         Set<Edge> result = new HashSet<>();
-        while (!priority_queue.isEmpty()) {
-            Edge edge = priority_queue.poll();
-            if (!union_find.isSameSet(edge.from, edge.to)) {
+        while (!priorityQueue.isEmpty()) {
+            Edge edge = priorityQueue.poll();
+            if (!unionFind.isSameSet(edge.from, edge.to)) {
                 result.add(edge);
-                union_find.union(edge.from, edge.to);
+                unionFind.union(edge.from, edge.to);
             }
         }
 
