@@ -326,36 +326,35 @@ public class Code01_AVLTreeMap {
         }
     }
 
-
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 100;
+        int testTimes = 100000;
+        int maxVal = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            TreeMap<Integer, Integer> tree_map = new TreeMap<>();
-            AVLTree<Integer, Integer> avl_tree = new AVLTree<>();
+        for (int i = 0; i < testTimes; ++i) {
+            TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+            AVLTree<Integer, Integer> avlTree = new AVLTree<>();
             for (int j = 0; j < 100; ++j) {
                 if (Math.random() < 0.1) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.containsKey(key) != avl_tree.containsKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.containsKey(key) != avlTree.containsKey(key)) {
                         success = false;
                         System.out.println("test failed 1");
                         break;
                     }
                 } else if (Math.random() < 0.2) {
-                    int key = (int)(Math.random() * max_val);
-                    int val = (int)(Math.random() * max_val);
-                    tree_map.put(key, val);
-                    avl_tree.put(key, val);
-                    if (tree_map.size() != avl_tree.size()) {
+                    int key = (int)(Math.random() * maxVal);
+                    int val = (int)(Math.random() * maxVal);
+                    treeMap.put(key, val);
+                    avlTree.put(key, val);
+                    if (treeMap.size() != avlTree.size()) {
                         success = false;
                         System.out.println("test failed 2");
                         break;
                     }
                 } else if (Math.random() < 0.4) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.get(key) == avl_tree.get(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.get(key) == avlTree.get(key)) {
                         continue;
                     } else {
                         success = false;
@@ -363,42 +362,42 @@ public class Code01_AVLTreeMap {
                         break;
                     }
                 } else if (Math.random() < 0.6) {
-                    int key = (int)(Math.random() * max_val);
-                    tree_map.remove(key);
-                    avl_tree.remove(key);
-                    if (tree_map.size() != avl_tree.size()) {
+                    int key = (int)(Math.random() * maxVal);
+                    treeMap.remove(key);
+                    avlTree.remove(key);
+                    if (treeMap.size() != avlTree.size()) {
                         success = false;
                         System.out.println("test failed 4");
                         break;
                     }
                 } else if (Math.random() < 0.7) {
-                    if (tree_map.isEmpty()) {
+                    if (treeMap.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.firstKey() != avl_tree.firstKey()) {
+                    if (treeMap.firstKey() != avlTree.firstKey()) {
                         success = false;
                         System.out.println("test failed 5");
                         break;
                     }
                 } else if (Math.random() < 0.8) {
-                    if (tree_map.isEmpty()) {
+                    if (treeMap.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.lastKey() != avl_tree.lastKey()) {
+                    if (treeMap.lastKey() != avlTree.lastKey()) {
                         success = false;
                         System.out.println("test failed 6");
                         break;
                     }
                 } else if (Math.random() < 0.9) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.ceilingKey(key) != tree_map.ceilingKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.ceilingKey(key) != treeMap.ceilingKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
                     }
                 } else {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.floorKey(key) != tree_map.floorKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.floorKey(key) != treeMap.floorKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
@@ -409,6 +408,8 @@ public class Code01_AVLTreeMap {
                 break;
             }
         }
+
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end...");
     }
 }
