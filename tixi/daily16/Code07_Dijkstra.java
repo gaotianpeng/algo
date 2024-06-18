@@ -1,18 +1,16 @@
 package tixi.daily16;
 
-/*
-    Dijkstra最短路径算法
-        1）Dijkstra算法必须指定一个源点
-        2）生成一个源点到各个点的最小距离表，一开始只有一条记录，即原点到自己的最小距离为0，源点到其他所有点的最小距离都为正无穷大
-        3）从距离表中拿出没拿过记录里的最小记录，通过这个点发出的边，更新源点到各个点的最小距离表，不断重复这一步
-        4）源点到所有的点记录如果都被拿过一遍，过程停止，最小距离表得到了
- */
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Random;
 
-public class Code09_Dijkstra {
+public class Code07_Dijkstra {
     public static class Edge {
         public int weight;
         public Node from;
@@ -51,21 +49,32 @@ public class Code09_Dijkstra {
         }
     }
 
+    /*
+        Dijkstra最短路径算法
+            1）Dijkstra算法必须指定一个源点
+            2）生成一个源点到各个点的最小距离表，一开始只有一条记录，即原点到自己的最小距离为0，源点到其他所有点的最小距离都为正无穷大
+            3）从距离表中拿出没拿过记录里的最小记录，通过这个点发出的边，更新源点到各个点的最小距离表，不断重复这一步
+            4）源点到所有的点记录如果都被拿过一遍，过程停止，最小距离表得到了
+    */
     public static HashMap<Node, Integer> dijkstra(Node from) {
         HashMap<Node, Integer> distanceMap = new HashMap<>();
         distanceMap.put(from, 0);
+        // 打过对号的点
         HashSet<Node> selectedNodes = new HashSet<>();
         Node minNode = getMinDistanceAndUnselectedNode(distanceMap, selectedNodes);
         while (minNode != null) {
+            //  原始点  ->  minNode(跳转点)   最小距离distance
             int distance = distanceMap.get(minNode);
-            for (Edge edge: minNode.edges) {
+            for (Edge edge : minNode.edges) {
                 Node toNode = edge.to;
                 if (!distanceMap.containsKey(toNode)) {
                     distanceMap.put(toNode, distance + edge.weight);
-                } else {
+                } else { // toNode
                     distanceMap.put(edge.to, Math.min(distanceMap.get(toNode), distance + edge.weight));
                 }
             }
+            selectedNodes.add(minNode);
+            minNode = getMinDistanceAndUnselectedNode(distanceMap, selectedNodes);
         }
         return distanceMap;
     }
@@ -194,5 +203,151 @@ public class Code09_Dijkstra {
         }
 
         return result;
+    }
+
+    public static class NodeDistance {
+        public Node node;
+        public int distance;
+
+        public NodeDistance(Node node, int distance) {
+            this.node = node;
+            this.distance = distance;
+        }
+    }
+
+    public static class NodeDistanceComparator implements Comparator<NodeDistance> {
+        @Override
+        public int compare(NodeDistance o1, NodeDistance o2) {
+            return o1.distance - o2.distance;
+        }
+    }
+
+    public static HashMap<Node, Integer> test(Node startNode) {
+        HashMap<Node, Integer> distanceMap = new HashMap<>();
+        distanceMap.put(startNode, 0);
+        PriorityQueue<NodeDistance> priorityQueue = new PriorityQueue<>(new NodeDistanceComparator());
+        priorityQueue.add(new NodeDistance(startNode, 0));
+        HashSet<Node> visitedNodes = new HashSet<>();
+
+        while (!priorityQueue.isEmpty()) {
+            NodeDistance current = priorityQueue.poll();
+            Node currentNode = current.node;
+            int currentDistance = current.distance;
+
+            if (visitedNodes.contains(currentNode)) {
+                continue;
+            }
+            visitedNodes.add(currentNode);
+
+            for (Edge edge : currentNode.edges) {
+                Node toNode = edge.to;
+                if (!visitedNodes.contains(toNode)) {
+                    int newDist = currentDistance + edge.weight;
+                    if (!distanceMap.containsKey(toNode) || newDist < distanceMap.get(toNode)) {
+                        distanceMap.put(toNode, newDist);
+                        priorityQueue.add(new NodeDistance(toNode, newDist));
+                    }
+                }
+            }
+        }
+        return distanceMap;
+    }
+
+    public static Graph graphGenerator(int[][] matrix) {
+        if (matrix == null) {
+            return null;
+        }
+
+        Graph graph = new Graph();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    continue;
+                }
+                int weight = matrix[i][j];
+                int from = i;
+                int to = j;
+                if (!graph.nodes.containsKey(from)) {
+                    graph.nodes.put(from, new Node(from));
+                }
+                if (!graph.nodes.containsKey(to)) {
+                    graph.nodes.put(to, new Node(to));
+                }
+                Node fromNode = graph.nodes.get(from);
+                Node toNode = graph.nodes.get(to);
+                Edge newEdge = new Edge(weight, fromNode, toNode);
+                fromNode.nexts.add(toNode);
+                fromNode.out++;
+                fromNode.in++;
+                toNode.in++;
+                fromNode.edges.add(newEdge);
+                graph.edges.add(newEdge);
+            }
+        }
+        return graph;
+    }
+
+    public static int[][] randomMatrixGenerator(int maxM, int maxN, int minVal, int maxVal) {
+        Random rand = new Random();
+        int rows = rand.nextInt(maxM) + 1; // 随机生成 1 到 maxM 之间的行数
+        int cols = rand.nextInt(maxN) + 1; // 随机生成 1 到 maxN 之间的列数
+
+        int[][] matrix = new int[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = rand.nextInt(maxVal - minVal + 1) + minVal; // 随机填充 minVal 到 maxVal 之间的值
+            }
+        }
+
+        return matrix;
+    }
+
+    public static boolean compareResults(HashMap<Node, Integer> result1, HashMap<Node, Integer> result2) {
+        if (result1.size() != result2.size()) {
+            return false;
+        }
+
+        for (Map.Entry<Node, Integer> entry : result1.entrySet()) {
+            Node node = entry.getKey();
+            Integer distance1 = entry.getValue();
+            Integer distance2 = result2.get(node);
+
+            if (distance2 == null || !distance1.equals(distance2)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start");
+        boolean success = true;
+        int testTimes = 100000;
+        int maxM = 30;
+        int maxN = 30;
+        int minVal = 1;
+        int maxVal = 100;
+
+        for (int i = 0; i < testTimes; ++i) {
+            int[][] matrix = randomMatrixGenerator(maxM, maxN, minVal, maxVal);
+            Graph graph = graphGenerator(matrix);
+            Node start = graph.nodes.values().iterator().next();
+            HashMap<Node, Integer> ans1 = dijkstra(start);
+            HashMap<Node, Integer> ans2 = dijkstra2(start, 100);
+            HashMap<Node, Integer> ans3 = test(start);
+            if (!compareResults(ans1, ans3)) {
+                success = false;
+                break;
+            }
+            if (!compareResults(ans2, ans3)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success ? "success" : "failed");
+        System.out.println("test end");
     }
 }
