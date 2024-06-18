@@ -16,33 +16,27 @@ package tixi.daily31;
 public class Code01_SegmentTree {
     public static class SegmentTree {
         private int MAXN;
-        private int[] arr;
-        private int[] sum;
-        private int[] lazy;
-        private int[] change;
-        private boolean[] update;
+        private int[] arr;  // arr[]为原序列的信息从0开始，但在arr里是从1开始的
+        private int[] sum;  // sum[]模拟线段树维护区间和
+        private int[] lazy;  // lazy[]为累加和懒惰标记
+        private int[] change; // change[]为更新的值
+        private boolean[] update; // update[]为更新慵懒标记
 
         public SegmentTree(int[] origin) {
             MAXN = origin.length + 1;
-            arr = new int[MAXN];
+            arr = new int[MAXN]; // arr[0] 不用 从1开始使用
             for (int i = 0; i < origin.length; ++i) {
                 arr[i + 1] = origin[i];
             }
-            sum = new int[MAXN << 2];
-            lazy = new int[MAXN << 2];
-            change = new int[MAXN << 2];
-            update = new boolean[MAXN << 2];
+            sum = new int[MAXN << 2];  // 用来支持脑补概念中，某一个范围的累加和信息
+            lazy = new int[MAXN << 2]; // 用来支持脑补概念中，某一个范围沒有往下傳遞的纍加任務
+            change = new int[MAXN << 2]; // 用来支持脑补概念中，某一个范围有没有更新操作的任务
+            update = new boolean[MAXN << 2]; // 用来支持脑补概念中，某一个范围更新任务，更新成了什么
         }
 
-        /*
-            初始化阶段, 将 sum 数组填好
-            在 arr[left ~ right] 上build
-            rt, left ~ right 在 sum 中的下标
-         */
         public void build(int left, int right) {
             build(left, right, 1);
         }
-
 
         public void add(int left, int right, int val) {
             add(left, right, val, 1, MAXN - 1, 1);
@@ -79,9 +73,9 @@ public class Code01_SegmentTree {
             pushUp(rt);
         }
 
-        /*
-            将父结点所存储的之前的懒增加、懒更新，从父范围发给左右两个子范围
-         */
+        // 之前的，所有懒增加，和懒更新，从父范围，发给左右两个子范围
+        // 分发策略是什么
+        // nLeft表示左子树元素结点个数，nRight表示右子树结点个数
         private void pushDown(int rt, int nLeft, int nRight) {
             if (update[rt]) {
                 update[rt<<1] = true;
@@ -103,7 +97,7 @@ public class Code01_SegmentTree {
                 lazy[rt] = 0;
             }
         }
-
+        // 计算sum[rt]位置的值
         private void pushUp(int rt) {
             sum[rt] = sum[rt << 1] + sum[rt << 1| 1];
         }
@@ -148,15 +142,18 @@ public class Code01_SegmentTree {
             return ans;
         }
 
-        private void build(int left, int right, int rt) {
-            if (left == right) {
-                sum[rt] = arr[left];
+        // 在初始化阶段，先把sum数组，填好
+        // 在arr[L~R]范围上，去build，1~N，
+        // rt : 这个范围在sum中的下标
+        private void build(int L, int R, int rt) {
+            if (L == R) {
+                sum[rt] = arr[L];
                 return;
             }
 
-            int mid = (left + right) >> 1;
-            build(left, mid, rt<<1);
-            build(mid + 1, right, rt<<1 | 1);
+            int mid = (L + R) >> 1;
+            build(L, mid, rt<<1);
+            build(mid + 1, R, rt<<1 | 1);
             pushUp(rt);
         }
     }
@@ -191,7 +188,6 @@ public class Code01_SegmentTree {
 
             return ans;
         }
-
     }
 
     public static int[] genarateRandomArray(int len, int max) {
