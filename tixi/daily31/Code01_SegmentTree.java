@@ -15,7 +15,7 @@ package tixi.daily31;
  */
 public class Code01_SegmentTree {
     public static class SegmentTree {
-        private int MAX_N;
+        private int MAXN;
         private int[] arr;
         private int[] sum;
         private int[] lazy;
@@ -23,15 +23,15 @@ public class Code01_SegmentTree {
         private boolean[] update;
 
         public SegmentTree(int[] origin) {
-            MAX_N = origin.length + 1;
-            arr = new int[MAX_N];
+            MAXN = origin.length + 1;
+            arr = new int[MAXN];
             for (int i = 0; i < origin.length; ++i) {
                 arr[i + 1] = origin[i];
             }
-            sum = new int[MAX_N << 2];
-            lazy = new int[MAX_N << 2];
-            change = new int[MAX_N << 2];
-            update = new boolean[MAX_N << 2];
+            sum = new int[MAXN << 2];
+            lazy = new int[MAXN << 2];
+            change = new int[MAXN << 2];
+            update = new boolean[MAXN << 2];
         }
 
         /*
@@ -45,15 +45,15 @@ public class Code01_SegmentTree {
 
 
         public void add(int left, int right, int val) {
-            add(left, right, val, 1, MAX_N - 1, 1);
+            add(left, right, val, 1, MAXN - 1, 1);
         }
 
         public void update(int left, int right, int val) {
-            update(left, right, val, 1, MAX_N - 1, 1);
+            update(left, right, val, 1, MAXN - 1, 1);
         }
 
         public long query(int left, int right) {
-            return query(left, right, 1, MAX_N - 1, 1);
+            return query(left, right, 1, MAXN - 1, 1);
         }
 
         /*
@@ -82,7 +82,7 @@ public class Code01_SegmentTree {
         /*
             将父结点所存储的之前的懒增加、懒更新，从父范围发给左右两个子范围
          */
-        private void pushDown(int rt, int n_left, int n_right) {
+        private void pushDown(int rt, int nLeft, int nRight) {
             if (update[rt]) {
                 update[rt<<1] = true;
                 update[rt<<1 | 1] = true;
@@ -90,16 +90,16 @@ public class Code01_SegmentTree {
                 change[rt<<1|1] = change[rt];
                 lazy[rt<<1] = 0;
                 lazy[rt<<1|1] = 0;
-                sum[rt<<1] = change[rt] * n_left;
-                sum[rt<<1|1] = change[rt] * n_right;
+                sum[rt<<1] = change[rt] * nLeft;
+                sum[rt<<1|1] = change[rt] * nRight;
                 update[rt] = false;
             }
 
             if (lazy[rt] != 0) {
                 lazy[rt<<1] += lazy[rt];
-                sum[rt<<1] += lazy[rt] * n_left;
+                sum[rt<<1] += lazy[rt] * nLeft;
                 lazy[rt<<1|1] += lazy[rt];
-                sum[rt<<1|1] += lazy[rt] * n_right;
+                sum[rt<<1|1] += lazy[rt] * nRight;
                 lazy[rt] = 0;
             }
         }
