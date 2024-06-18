@@ -117,22 +117,22 @@ public class Code01_SumOfSubarrayMinimums {
         return (int)ans;
     }
 
-    public static int[] getRandomArray(int max_n, int max_val) {
-        int n = (int)(Math.random() * max_n);
+    public static int[] getRandomArray(int maxN, int maxVal) {
+        int n = (int)(Math.random() * maxN);
         int[] ans = new int[n];
         for (int i = 0; i < n; ++i) {
-            ans[i] = (int)(Math.random() * max_val);
+            ans[i] = (int)(Math.random() * maxVal);
         }
         return ans;
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = Integer.MAX_VALUE;
-        int max_n = 100;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr = getRandomArray(max_n, max_val);
+        int testTimes = 100000;
+        int maxVal = Integer.MAX_VALUE;
+        int maxN = 100;
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr = getRandomArray(maxN, maxVal);
             if (test(arr) != sumSubarrayMins(arr)) {
                 System.out.println("best test failed");
                 break;
