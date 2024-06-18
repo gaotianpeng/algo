@@ -65,9 +65,11 @@ public class Code07_Dijkstra {
         while (minNode != null) {
             //  原始点  ->  minNode(跳转点)   最小距离distance
             int distance = distanceMap.get(minNode);
+
             for (Edge edge : minNode.edges) {
                 Node toNode = edge.to;
                 if (!distanceMap.containsKey(toNode)) {
+                    // 原始点 到跳转点距离 + edge.weight
                     distanceMap.put(toNode, distance + edge.weight);
                 } else { // toNode
                     distanceMap.put(edge.to, Math.min(distanceMap.get(toNode), distance + edge.weight));
@@ -79,6 +81,7 @@ public class Code07_Dijkstra {
         return distanceMap;
     }
 
+    // distanceMap中哪个距离最涉，并且没有打过对号的点
     public static Node getMinDistanceAndUnselectedNode(HashMap<Node, Integer> distanceMap,
                                                        HashSet<Node> touchedNodes) {
         Node minNode = null;
