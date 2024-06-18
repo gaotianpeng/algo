@@ -1,63 +1,63 @@
 package tixi.daily40;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /*
-    给定一个正整数组成的无序数组arr，给定一个正整数值K
+    给定一个整数组成的无序数组arr，值可能正、可能负、可能0
+    给定一个整数值K
     找到arr的所有子数组里，哪个子数组的累加和等于K，并且是长度最大的
     返回其长度
  */
-public class Code01_LongestSumSubArrayLengthInPositiveArray {
-    public static int getMaxLength(int[] arr, int K) {
-        if (arr == null || arr.length == 0 || K <= 0) {
+public class Code02_LongestSumSubArrayLength {
+    public static int maxLength(int[] arr, int K) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        // key: 前缀和
+        // value : 最早出现key所代表的前缀和的位置
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        map.put(0, -1);
+        int len = 0;
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+            if (map.containsKey(sum - K)) {
+                len = Math.max(i - map.get(sum - K), len);
+            }
+            if (!map.containsKey(sum)) {
+                map.put(sum, i);
+            }
+        }
+        return len;
+    }
+
+
+    // for test
+    public static int test(int[] arr, int K) {
+        if (arr == null || arr.length == 0) {
             return 0;
         }
 
+        int N = arr.length;
         int ans = 0;
-        int left = 0;
-        int right = 0;
-        int sum = arr[0];
-        while (right < arr.length) {
-            if (sum == K) {
-                ans = Math.max(ans, right - left + 1);
-                sum -= arr[left++];
-            } else if (sum < K) {
-                ++right;
-                if (right == arr.length) {
-                    break;
+        for (int i = 0; i < N; ++i) {
+            for (int j = i; j < N; ++j) {
+                if (isValid(arr, i, j , K)) {
+                    ans = Math.max(ans, j - i + 1);
                 }
-                sum += arr[right];
-            } else {
-                sum -= arr[left++];
             }
         }
 
         return ans;
     }
 
-
-    // for test
-    public static int test(int[] arr, int K) {
-        if (arr == null || arr.length == 0 || K <= 0) {
-            return 0;
-        }
-
-        int max = 0;
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i; j < arr.length; j++) {
-                if (valid(arr, i, j, K)) {
-                    max = Math.max(max, j - i + 1);
-                }
-            }
-        }
-        return max;
-    }
-
-    public static boolean valid(int[] arr, int L, int R, int K) {
+    public static boolean isValid(int[] arr, int L, int R, int K) {
         int sum = 0;
-        for (int i = L; i <= R; i++) {
-            sum += arr[i];
+        for (; L <= R; ++L) {
+            sum += arr[L];
         }
+
         return sum == K;
     }
 
@@ -81,7 +81,6 @@ public class Code01_LongestSumSubArrayLengthInPositiveArray {
         return array;
     }
 
-    // for test
     public static void printArray(int[] arr) {
         for (int i = 0; i != arr.length; i++) {
             System.out.print(arr[i] + " ");
@@ -98,9 +97,9 @@ public class Code01_LongestSumSubArrayLengthInPositiveArray {
         int maxLen = 50;
         for (int i = 0; i < testTimes; ++i) {
             int len = (int) (Math.random() * maxLen) + 1;
-            int K = (int) (Math.random() * maxValue) + 1;
+            int K = (int) (Math.random() * maxValue) - (int) (Math.random() * maxValue);
             int[] arr = generatePositiveArray(maxLen, maxValue);
-            int ans1 = getMaxLength(arr, K);
+            int ans1 = maxLength(arr, K);
             int ans2 = test(arr, K);
             if (ans1 != ans2) {
                 success = false;
