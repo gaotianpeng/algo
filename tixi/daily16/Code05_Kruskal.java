@@ -135,62 +135,6 @@ public class Code05_Kruskal {
 
 
     // for test
-    public static class UnionFindTest {
-        private Map<Node, Node> parent;
-        private Map<Node, Integer> size;
-
-        public UnionFindTest() {
-            parent = new HashMap<>();
-            size = new HashMap<>();
-        }
-
-        public void makeSets(Collection<Node> nodes) {
-            parent.clear();
-            size.clear();
-            for (Node node : nodes) {
-                parent.put(node, node);
-                size.put(node, 1);
-            }
-        }
-
-        private Node find(Node node) {
-            Stack<Node> path = new Stack<>();
-            while (node != parent.get(node)) {
-                path.push(node);
-                node = parent.get(node);
-            }
-            while (!path.isEmpty()) {
-                parent.put(path.pop(), node);
-            }
-            return node;
-        }
-
-        public boolean isSameSet(Node a, Node b) {
-            return find(a) == find(b);
-        }
-
-        public void union(Node a, Node b) {
-            if (a == null || b == null) {
-                return;
-            }
-            Node aHead = find(a);
-            Node bHead = find(b);
-            if (aHead != bHead) {
-                int aSize = size.get(aHead);
-                int bSize = size.get(bHead);
-                if (aSize >= bSize) {
-                    parent.put(bHead, aHead);
-                    size.put(aHead, aSize + bSize);
-                    size.remove(bHead);
-                } else {
-                    parent.put(aHead, bHead);
-                    size.put(bHead, aSize + bSize);
-                    size.remove(aHead);
-                }
-            }
-        }
-    }
-
     // Function to verify if the generated MST is valid
     public static boolean validateMST(Graph graph, Set<Edge> mstEdges) {
         if (graph == null || mstEdges == null) {
@@ -202,7 +146,7 @@ public class Code05_Kruskal {
             return false;
         }
 
-        UnionFindTest unionFind = new UnionFindTest();
+        UnionFind unionFind = new UnionFind();
         unionFind.makeSets(graph.nodes.values());
         for (Edge edge : mstEdges) {
             if (unionFind.isSameSet(edge.from, edge.to)) {
@@ -212,9 +156,9 @@ public class Code05_Kruskal {
         }
 
         // Verify if all nodes are connected
-        Node representative = unionFind.find(graph.nodes.values().iterator().next());
+        Node representative = unionFind.findFather(graph.nodes.values().iterator().next());
         for (Node node : graph.nodes.values()) {
-            if (unionFind.find(node) != representative) {
+            if (unionFind.findFather(node) != representative) {
                 return false; // Not all nodes are connected
             }
         }
