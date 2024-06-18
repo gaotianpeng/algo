@@ -247,7 +247,7 @@ public class Code01_AVLTreeMap {
         }
 
         /*
-
+            确保树在节点插入或删除后保持平衡
          */
         private AVLNode<K, V> maintain(AVLNode<K, V> cur) {
             if (cur == null) {
