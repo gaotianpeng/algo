@@ -123,7 +123,7 @@ public class Code01_AVLTreeMap {
         }
 
         /*
-                   A       右旋         B
+                   A(cur)  右旋         B
                   /  \               /    \
                 B     T             C      A
                / \                 / \    /  \
@@ -132,16 +132,19 @@ public class Code01_AVLTreeMap {
             S   F
          */
         private AVLNode<K, V> rightRotate(AVLNode<K, V> cur) {
+            // 1) 先用left保存cur.l
             AVLNode<K, V> left = cur.l;
+            // 2) 更新cur的左右子树及高度信息
             cur.l = left.r;
+            cur.h = Math.max(cur.l != null ? cur.l.h : 0, cur.r != null? cur.r.h: 0) + 1;
+            // 3) 更新新的头节点left信息
             left.r = cur;
-            cur.h = Math.max((cur.l != null ? cur.l.h : 0), cur.r != null ? cur.r.h : 0) + 1;
-            left.h = Math.max((left.l != null ? left.l.h : 0), (left.r != null ? left.r.h : 0)) + 1;
+            left.h = Math.max(left.l != null ? left.l.h : 0, left.r != null ? left.r.h : 0) + 1;
             return left;
         }
 
         /*
-                 A          左旋         B
+                 A(cur)     左旋         B
                /   \                   /   \
               T     B                 A     C
                   /   \              / \   /  \
@@ -150,11 +153,14 @@ public class Code01_AVLTreeMap {
                      S   F
          */
         private AVLNode<K, V> leftRotate(AVLNode<K, V> cur) {
+            // 1) 先用right保存cur.r
             AVLNode<K, V> right = cur.r;
+            // 2) 更新cur信息
             cur.r = right.l;
+            cur.h = Math.max(cur.l != null ? cur.l.h: 0, cur.r != null ? cur.r.h: 0) + 1;
+            // 3) 更新right信息
             right.l = cur;
-            cur.h = Math.max((cur.l != null ? cur.l.h : 0), (cur.r != null ? cur.r.h : 0)) + 1;
-            right.h = Math.max((right.l != null ? right.l.h : 0), (right.r != null ? right.r.h : 0)) + 1;
+            right.h = Math.max(right.l != null ? right.l.h: 0, right.r != null ? right.r.h : 0);
             return right;
         }
 
