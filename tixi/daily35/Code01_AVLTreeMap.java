@@ -222,18 +222,24 @@ public class Code01_AVLTreeMap {
         }
 
         private AVLNode<K, V> delete(AVLNode<K, V> cur, K key) {
+            // 要删除的key位于cur节点右子树
             if (key.compareTo(cur.k) > 0) {
                 cur.r = delete(cur.r, key);
+            // 要删除的key位于cur节点左子树
             } else if (key.compareTo(cur.k) < 0) {
                 cur.l = delete(cur.l, key);
+            // 要删除cur节点
             } else {
-                if (cur.l == null && cur.r == null) {
+                if (cur.l == null && cur.r == null) { // cur左右子树均为空
                     cur = null;
-                } else if (cur.l == null && cur.r != null) {
+                } else if (cur.l == null && cur.r != null) { // cur左子树为空，右子树不为空
                     cur = cur.r;
-                } else if (cur.l != null && cur.r == null) {
+                } else if (cur.l != null && cur.r == null) { // cur左子树不为空，右子树为空
                     cur = cur.l;
-                } else {
+                } else { // cur左右子树均不为空
+                    // 可以以cur右子树的最左节点来代替cur的位置
+                    // 也可以以cur左子树的最右节点来代替cur的位置
+                    // 这里以cur右子树的最左节点来代替cur的位置
                     AVLNode<K, V> des = cur.r;
                     while (des.l != null) {
                         des = des.l;
@@ -246,7 +252,7 @@ public class Code01_AVLTreeMap {
             }
 
             if (cur != null) {
-                cur.h = Math.max(cur.l != null ? cur.l.h : 0, cur.r != null ? cur.r.h : 0) + 1;
+                cur.h = Math.max(cur.l != null ? cur.l.h: 0, cur.r != null ? cur.r.h:0) + 1;
             }
 
             return maintain(cur);
