@@ -181,7 +181,7 @@ public class Code01_AVLTreeMap {
             return pre;
         }
 
-        // 用于查找 >=key的最小节点并返回该节点
+        // 用于查找 >=key的最小节点并返回该节点, key <= ans.k
         private AVLNode<K, V> findLastNoSmallIndex(K key) {
             AVLNode<K, V> ans = null;
             AVLNode<K, V> cur = root;
