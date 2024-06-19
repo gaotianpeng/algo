@@ -11,44 +11,6 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Code07_Dijkstra {
-    public static class Edge {
-        public int weight;
-        public Node from;
-        public Node to;
-
-        public Edge(int weight, Node from, Node to) {
-            this.weight = weight;
-            this.from = from;
-            this.to = to;
-        }
-    }
-
-    public static class Node {
-        public int value;
-        public int in;
-        public int out;
-        public ArrayList<Node> nexts;
-        public ArrayList<Edge> edges;
-
-        public Node(int value) {
-            this.value = value;
-            in = 0;
-            out = 0;
-            nexts = new ArrayList<>();
-            edges = new ArrayList<>();
-        }
-    }
-
-    public static class Graph {
-        public HashMap<Integer, Node> nodes;
-        public HashSet<Edge> edges;
-
-        public Graph() {
-            nodes = new HashMap<>();
-            edges = new HashSet<>();
-        }
-    }
-
     /*
         Dijkstra最短路径算法
             1）Dijkstra算法必须指定一个源点
@@ -57,17 +19,20 @@ public class Code07_Dijkstra {
             4）源点到所有的点记录如果都被拿过一遍，过程停止，最小距离表得到了
     */
     public static HashMap<Node, Integer> dijkstra(Node from) {
+        // from 点到图中各个点的最短距离，包含from点本身
         HashMap<Node, Integer> distanceMap = new HashMap<>();
         distanceMap.put(from, 0);
-        // 打过对号的点
+        // 已计算出最短距离的点
         HashSet<Node> selectedNodes = new HashSet<>();
         Node minNode = getMinDistanceAndUnselectedNode(distanceMap, selectedNodes);
         while (minNode != null) {
             //  原始点  ->  minNode(跳转点)   最小距离distance
             int distance = distanceMap.get(minNode);
+
             for (Edge edge : minNode.edges) {
                 Node toNode = edge.to;
                 if (!distanceMap.containsKey(toNode)) {
+                    // 原始点 到跳转点距离 + edge.weight
                     distanceMap.put(toNode, distance + edge.weight);
                 } else { // toNode
                     distanceMap.put(edge.to, Math.min(distanceMap.get(toNode), distance + edge.weight));
@@ -79,6 +44,7 @@ public class Code07_Dijkstra {
         return distanceMap;
     }
 
+    // distanceMap中哪个距离最涉，并且没有打过对号的点
     public static Node getMinDistanceAndUnselectedNode(HashMap<Node, Integer> distanceMap,
                                                        HashSet<Node> touchedNodes) {
         Node minNode = null;
@@ -93,6 +59,23 @@ public class Code07_Dijkstra {
         }
 
         return minNode;
+    }
+
+    public static HashMap<Node, Integer> dijkstra2(Node head, int size) {
+        NodeHeap nodeHeap = new NodeHeap(size);
+        nodeHeap.addOrUpdateOrIgnore(head, 0);
+        HashMap<Node, Integer> result = new HashMap<>();
+        while (!nodeHeap.isEmpty()) {
+            NodeRecord record = nodeHeap.pop();
+            Node cur = record.node;
+            int distance = record.distance;
+            for (Edge edge: cur.edges) {
+                nodeHeap.addOrUpdateOrIgnore(edge.to, edge.weight + distance);
+            }
+            result.put(cur, distance);
+        }
+
+        return result;
     }
 
     public static class NodeRecord {
@@ -188,21 +171,42 @@ public class Code07_Dijkstra {
         }
     }
 
-    public static HashMap<Node, Integer> dijkstra2(Node head, int size) {
-        NodeHeap nodeHeap = new NodeHeap(size);
-        nodeHeap.addOrUpdateOrIgnore(head, 0);
-        HashMap<Node, Integer> result = new HashMap<>();
-        while (!nodeHeap.isEmpty()) {
-            NodeRecord record = nodeHeap.pop();
-            Node cur = record.node;
-            int distance = record.distance;
-            for (Edge edge: cur.edges) {
-                nodeHeap.addOrUpdateOrIgnore(edge.to, edge.weight + distance);
-            }
-            result.put(cur, distance);
-        }
+    public static class Edge {
+        public int weight;
+        public Node from;
+        public Node to;
 
-        return result;
+        public Edge(int weight, Node from, Node to) {
+            this.weight = weight;
+            this.from = from;
+            this.to = to;
+        }
+    }
+
+    public static class Node {
+        public int value;
+        public int in;
+        public int out;
+        public ArrayList<Node> nexts;
+        public ArrayList<Edge> edges;
+
+        public Node(int value) {
+            this.value = value;
+            in = 0;
+            out = 0;
+            nexts = new ArrayList<>();
+            edges = new ArrayList<>();
+        }
+    }
+
+    public static class Graph {
+        public HashMap<Integer, Node> nodes;
+        public HashSet<Edge> edges;
+
+        public Graph() {
+            nodes = new HashMap<>();
+            edges = new HashSet<>();
+        }
     }
 
     public static class NodeDistance {
