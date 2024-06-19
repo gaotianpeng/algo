@@ -68,9 +68,9 @@ public class Code01_AVLTreeMap {
                 return null;
             }
 
-            AVLNode<K, V> last_node = findLastIndex(key);
-            if (last_node != null && key.compareTo(last_node.k) == 0) {
-                return last_node.v;
+            AVLNode<K, V> lastNode = findLastIndex(key);
+            if (lastNode != null && key.compareTo(lastNode.k) == 0) {
+                return lastNode.v;
             }
 
             return null;
@@ -118,8 +118,8 @@ public class Code01_AVLTreeMap {
                 return null;
             }
 
-            AVLNode<K, V> last_no_big = findLastNoSmallIndex(key);
-            return last_no_big == null ? null : last_no_big.k;
+            AVLNode<K, V> lastNoBig = findLastNoSmallIndex(key);
+            return lastNoBig == null ? null : lastNoBig.k;
         }
 
         /*
@@ -254,10 +254,10 @@ public class Code01_AVLTreeMap {
                 return null;
             }
 
-            int left_h = cur.l != null ? cur.l.h : 0;
-            int right_h = cur.r != null ? cur.r.h : 0;
+            int leftH = cur.l != null ? cur.l.h : 0;
+            int rightH = cur.r != null ? cur.r.h : 0;
 
-            if (Math.abs(left_h - right_h) > 1) {
+            if (Math.abs(leftH - rightH) > 1) {
                 // 左子树比右子树高，需要进行右旋操作
                 /*
                            A(cur)  右旋         B
@@ -268,10 +268,10 @@ public class Code01_AVLTreeMap {
                      / \
                     S   F
                  */
-                if (left_h > right_h) {
-                    int left_left_h = cur.l != null && cur.l.l != null ? cur.l.l.h : 0;
-                    int left_right_h = cur.l != null && cur.l.r != null ? cur.l.r.h : 0;
-                    if (left_left_h >= left_right_h) {
+                if (leftH > rightH) {
+                    int leftLeftH = cur.l != null && cur.l.l != null ? cur.l.l.h : 0;
+                    int leftRightH = cur.l != null && cur.l.r != null ? cur.l.r.h : 0;
+                    if (leftLeftH >= leftRightH) {
                         cur = rightRotate(cur); // cur.l.l.h >= cur.l.r.h 对cur右旋
                     } else {
                         /*
@@ -296,9 +296,9 @@ public class Code01_AVLTreeMap {
                               /  \
                              S   F
                     */
-                    int right_left_h = cur.r != null && cur.r.l != null ? cur.r.l.h : 0;
-                    int right_right_h = cur.r != null && cur.r.r != null  ? cur.r.r.h : 0;
-                    if (right_right_h >= right_left_h) {
+                    int rightLeftH = cur.r != null && cur.r.l != null ? cur.r.l.h : 0;
+                    int rightRightH = cur.r != null && cur.r.r != null  ? cur.r.r.h : 0;
+                    if (rightRightH >= rightLeftH) {
                         cur = leftRotate(cur);
                     } else {
                         cur.r = rightRotate(cur.r);
