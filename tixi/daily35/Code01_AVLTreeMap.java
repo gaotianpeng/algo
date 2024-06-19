@@ -254,11 +254,13 @@ public class Code01_AVLTreeMap {
                 return null;
             }
 
+            // 获取左右子树的高度
             int leftH = cur.l != null ? cur.l.h : 0;
             int rightH = cur.r != null ? cur.r.h : 0;
 
+            // 如果树不平衡
             if (Math.abs(leftH - rightH) > 1) {
-                // 左子树比右子树高，需要进行右旋操作
+                //  1) 左子树比右子树高，需要进行右旋操作
                 /*
                            A(cur)  右旋         B
                           /  \               /    \
@@ -271,22 +273,34 @@ public class Code01_AVLTreeMap {
                 if (leftH > rightH) {
                     int leftLeftH = cur.l != null && cur.l.l != null ? cur.l.l.h : 0;
                     int leftRightH = cur.l != null && cur.l.r != null ? cur.l.r.h : 0;
-                    if (leftLeftH >= leftRightH) {
-                        cur = rightRotate(cur); // cur.l.l.h >= cur.l.r.h 对cur右旋
-                    } else {
+                    if (leftLeftH > leftRightH) { // LL型，对cur右旋
                         /*
-                                   A(cur)  对cur.l左旋    A(cur) 对cur右旋    K
-                                  /  \                 /  \               /   \
-                                B     T               K    T             B     A
-                               / \                   / \                / \   / \
-                              C   K                 B   F              C   S  F  T
-                                 / \               / \
-                                S   F             C   S
+                                   A(cur)  对cur右旋    B
+                                  /  \               /    \
+                                B     T             C      A
+                               / \                 / \    /  \
+                              C   K               S   F   K   T
+                             / \
+                            S   F
                          */
-                        cur.l = leftRotate(cur.l); // cur.l.l.h < cur.l.r.h 先对cur.l 进行左旋，再对cur进程右旋
+                        cur = rightRotate(cur);
+                    } else { // LR型，对cur右旋
+                        /*
+                               A(cur) 先对cur.l左旋   A(cur) 再对cur右旋  K
+                              /  \                 /  \               /   \
+                            B     T               K    T             B     A
+                           / \                   / \                / \   / \
+                          C   K                 B   F              C   S  F  T
+                             / \               / \
+                            S   F             C   S
+                        */
+                        // 1.1 )cur.l.l.h < cur.l.r.h 先对cur.l 进行左旋
+                        cur.l = leftRotate(cur.l);
+                        // 1.2 )对cur进程右旋
                         cur = rightRotate(cur);
                     }
-                } else { // 右子树比左子树高，需要进行左旋操作
+                // 2) 右子树比左子树高，需要进行左旋操作
+                } else {
                     /*
                          A(cur)      左旋         B
                        /   \                   /   \
@@ -297,10 +311,30 @@ public class Code01_AVLTreeMap {
                              S   F
                     */
                     int rightLeftH = cur.r != null && cur.r.l != null ? cur.r.l.h : 0;
-                    int rightRightH = cur.r != null && cur.r.r != null  ? cur.r.r.h : 0;
-                    if (rightRightH >= rightLeftH) {
+                    int rightRightH = cur.r != null && cur.r.r != null ? cur.r.r.h : 0;
+                    // 2.1) RR型, 对cur左旋
+                    if (rightRightH > rightLeftH) {
+                       /*
+                             A(cur)      对cur左旋   B
+                           /   \                   /   \
+                          T     B                 A     C
+                              /   \              / \   /  \
+                             K     C            T   K  S  F
+                                  /  \
+                                 S   F
+                        */
                         cur = leftRotate(cur);
+                    // 2.2) RL型
                     } else {
+                       /*
+                             A(cur)  先对cur.r右旋  A(cur)  再对cur左旋   K
+                           /   \                  /  \                 /  \
+                          T     B                T    K              A     B
+                              /   \                  / \            / \   / \
+                             K     C                S   B          T   S  F  C
+                           /  \                        /  \
+                          S    F                      F   C
+                        */
                         cur.r = rightRotate(cur.r);
                         cur = leftRotate(cur);
                     }
