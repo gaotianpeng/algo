@@ -78,17 +78,17 @@ public class Code02_SkipListMap {
                     head.nextNodes.add(null);
                     ++maxLevel;
                 }
-                SkipListNode<K, V> new_node = new SkipListNode<K, V>(key, val);
+                SkipListNode<K, V> newNode = new SkipListNode<K, V>(key, val);
                 for (int i = 0; i <= newNodeLevel; ++i) {
-                    new_node.nextNodes.add(null);
+                    newNode.nextNodes.add(null);
                 }
                 int level = maxLevel;
                 SkipListNode<K, V> pre = head;
                 while (level >= 0) {
                     pre = mostRightLessNodeInLevel(key, pre, level);
                     if (level <= newNodeLevel) {
-                        new_node.nextNodes.set(level, pre.nextNodes.get(level));
-                        pre.nextNodes.set(level, new_node);
+                        newNode.nextNodes.set(level, pre.nextNodes.get(level));
+                        pre.nextNodes.set(level, newNode);
                     }
                     level--;
                 }
