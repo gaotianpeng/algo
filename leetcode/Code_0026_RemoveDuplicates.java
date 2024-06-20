@@ -2,7 +2,6 @@ package leetcode;
 
 public class Code_0026_RemoveDuplicates {
     /*
-        s
         leetcode 26 删除有序列数组中的重复项
             给你一个升序排列的数组nums，请你原地删除重复出现的元素，使每个元素只出现一次
             返回删除后数组的新长度。元素的 相对顺序 应该保持 一致
