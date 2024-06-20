@@ -280,7 +280,7 @@ public class Code02_SkipListMap {
                     int key = (int)(Math.random() * maxVal);
                     if (treeMap.floorKey(key) != skipList.floorKey(key)) {
                         success = false;
-                        System.out.println("test failed 7");
+                        System.out.println("test failed 8");
                         break;
                     }
                 }
