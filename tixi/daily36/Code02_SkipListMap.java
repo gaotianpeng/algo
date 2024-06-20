@@ -185,6 +185,7 @@ public class Code02_SkipListMap {
             return cur.key;
         }
 
+        // 返回>=key的最小K
         public K ceilingKey(K key) {
             if (key == null) {
                 return null;
@@ -194,6 +195,7 @@ public class Code02_SkipListMap {
             return next != null ? next.key : null;
         }
 
+        // 返回 <= key的最大K
         public K floorKey(K key) {
             if (key == null) {
                 return null;
