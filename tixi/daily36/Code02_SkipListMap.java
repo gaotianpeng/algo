@@ -3,40 +3,49 @@ package tixi.daily36;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/*
+    1）结构上根本和搜索二叉树无关
+    2）利用随机概率分布来使得高层索引可以无视数据规律，做到整体性能优良
+    3）思想是所有有序表中最先进的
+    4）结构简单就是多级单链表
+ */
 public class Code02_SkipListMap {
+
+    // 跳表节点
     public static class SkipListNode<K extends Comparable<K>, V> {
         public K key;
         public V val;
-
-        public ArrayList<SkipListNode<K, V>> next_nodes; // 当前 SkipListNode 包括的每一层的head
+        // 当前 SkipListNode 包括的每一层的head
+        public ArrayList<SkipListNode<K, V>> nextNodes;
 
         public SkipListNode(K k, V v) {
             key = k;
             val = v;
-            next_nodes = new ArrayList<>();
+            nextNodes = new ArrayList<>();
         }
 
         // 头节点的 null 认为最小
-        public boolean isKeyLess(K other_key) {
-            return other_key != null && (key == null || key.compareTo(other_key) < 0);
+        public boolean isKeyLess(K otherKey) {
+            return otherKey != null && (key == null || key.compareTo(otherKey) < 0);
         }
 
-        public boolean isKeyEqual(K other_key) {
-            return (key == null && other_key == null)
-                    || (key != null && other_key != null && key.compareTo(other_key) == 0);        }
+        public boolean isKeyEqual(K otherKey) {
+            return (key == null && otherKey == null)
+                    || (key != null && otherKey != null && key.compareTo(otherKey) == 0);        }
     }
 
     public static class SkipListMap<K extends Comparable<K>, V> {
+        // < 0.5 继续做，>=0.5 停
         private static final double PROBABILITY = 0.5;
         private SkipListNode<K, V> head;
         private int size;
-        private int max_level;
+        private int maxLevel;
 
         public SkipListMap() {
             head = new SkipListNode<K, V>(null, null);
-            head.next_nodes.add(null);
+            head.nextNodes.add(null);
             size = 0;
-            max_level = 0;
+            maxLevel = 0;
         }
 
         public boolean containsKey(K key) {
@@ -45,7 +54,7 @@ public class Code02_SkipListMap {
             }
 
             SkipListNode<K, V> less = mostRightLessNodeInTree(key);
-            SkipListNode<K, V> next = less.next_nodes.get(0);
+            SkipListNode<K, V> next = less.nextNodes.get(0);
             return next != null && next.isKeyEqual(key);
         }
 
@@ -56,35 +65,34 @@ public class Code02_SkipListMap {
             }
 
             SkipListNode<K, V> less = mostRightLessNodeInTree(key);
-            SkipListNode<K, V> find = less.next_nodes.get(0);
+            SkipListNode<K, V> find = less.nextNodes.get(0);
             if (find != null && find.isKeyEqual(key)) {
                 find.val = val;
             } else {
                 ++size;
-                int new_node_level = 0;
+                int newNodeLevel = 0;
                 while (Math.random() < PROBABILITY) {
-                    new_node_level++;
+                    newNodeLevel++;
                 }
-                while (new_node_level > max_level) {
-                    head.next_nodes.add(null);
-                    ++max_level;
+                while (newNodeLevel > maxLevel) {
+                    head.nextNodes.add(null);
+                    ++maxLevel;
                 }
                 SkipListNode<K, V> new_node = new SkipListNode<K, V>(key, val);
-                for (int i = 0; i <= new_node_level; ++i) {
-                    new_node.next_nodes.add(null);
+                for (int i = 0; i <= newNodeLevel; ++i) {
+                    new_node.nextNodes.add(null);
                 }
-                int level = max_level;
+                int level = maxLevel;
                 SkipListNode<K, V> pre = head;
                 while (level >= 0) {
                     pre = mostRightLessNodeInLevel(key, pre, level);
-                    if (level <= new_node_level) {
-                        new_node.next_nodes.set(level, pre.next_nodes.get(level));
-                        pre.next_nodes.set(level, new_node);
+                    if (level <= newNodeLevel) {
+                        new_node.nextNodes.set(level, pre.nextNodes.get(level));
+                        pre.nextNodes.set(level, new_node);
                     }
                     level--;
                 }
             }
-
         }
 
         public V get(K key) {
@@ -93,7 +101,7 @@ public class Code02_SkipListMap {
             }
 
             SkipListNode<K, V> less = mostRightLessNodeInTree(key);
-            SkipListNode<K, V> next = less.next_nodes.get(0);
+            SkipListNode<K, V> next = less.nextNodes.get(0);
             return next != null && next.isKeyEqual(key) ? next.val : null;
         }
 
@@ -104,18 +112,20 @@ public class Code02_SkipListMap {
 
             if (containsKey(key)) {
                 size--;
-                int level = max_level;
+                int level = maxLevel;
                 SkipListNode<K, V> pre = head;
                 while (level >= 0) {
                     pre = mostRightLessNodeInLevel(key, pre, level);
-                    SkipListNode<K, V> next = pre.next_nodes.get(level);
+                    SkipListNode<K, V> next = pre.nextNodes.get(level);
+                    // 1）在这一层中，pre下一个就是key
+                    // 2）在这一层中，pre的下一个key是>要删除key
                     if (next != null && next.isKeyEqual(key)) {
-                        pre.next_nodes.set(level, next.next_nodes.get(level));
+                        pre.nextNodes.set(level, next.nextNodes.get(level));
                     }
                     // level 层只有一个节点，就是默认的head
-                    if (level != 0 && pre == head && pre.next_nodes.get(level) == null) {
-                        head.next_nodes.remove(level);
-                        max_level--;
+                    if (level != 0 && pre == head && pre.nextNodes.get(level) == null) {
+                        head.nextNodes.remove(level);
+                        maxLevel--;
                     }
                     level--;
                 }
@@ -129,9 +139,10 @@ public class Code02_SkipListMap {
             if (key == null) {
                 return null;
             }
-            int level = max_level;
+            int level = maxLevel;
             SkipListNode<K, V> cur = head;
             while (level >= 0) {
+                // 从上层跳下层
                 cur = mostRightLessNodeInLevel(key, cur, level--);
             }
             return cur;
@@ -144,10 +155,10 @@ public class Code02_SkipListMap {
         private SkipListNode<K, V> mostRightLessNodeInLevel(K key,
                                                             SkipListNode<K, V> cur,
                                                             int level) {
-            SkipListNode<K, V> next = cur.next_nodes.get(level);
+            SkipListNode<K, V> next = cur.nextNodes.get(level);
             while (next != null && next.isKeyLess(key)) {
                 cur = next;
-                next = cur.next_nodes.get(level);
+                next = cur.nextNodes.get(level);
             }
             return cur;
         }
@@ -157,17 +168,17 @@ public class Code02_SkipListMap {
         }
 
         public K firstKey() {
-            return head.next_nodes.get(0) != null ? head.next_nodes.get(0).key : null;
+            return head.nextNodes.get(0) != null ? head.nextNodes.get(0).key : null;
         }
 
         public K lastKey() {
-            int level = max_level;
+            int level = maxLevel;
             SkipListNode<K, V> cur = head;
             while (level >= 0) {
-                SkipListNode<K, V> next = cur.next_nodes.get(level);
+                SkipListNode<K, V> next = cur.nextNodes.get(level);
                 while (next != null) {
                     cur = next;
-                    next = cur.next_nodes.get(level);
+                    next = cur.nextNodes.get(level);
                 }
                 level--;
             }
@@ -179,7 +190,7 @@ public class Code02_SkipListMap {
                 return null;
             }
             SkipListNode<K, V> less = mostRightLessNodeInTree(key);
-            SkipListNode<K, V> next = less.next_nodes.get(0);
+            SkipListNode<K, V> next = less.nextNodes.get(0);
             return next != null ? next.key : null;
         }
 
@@ -188,7 +199,7 @@ public class Code02_SkipListMap {
                 return null;
             }
             SkipListNode<K, V> less = mostRightLessNodeInTree(key);
-            SkipListNode<K, V> next = less.next_nodes.get(0);
+            SkipListNode<K, V> next = less.nextNodes.get(0);
             return next != null && next.isKeyEqual(key) ? next.key : less.key;
         }
     }
@@ -196,33 +207,33 @@ public class Code02_SkipListMap {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 10;
+        int testTimes = 100000;
+        int maxVal = 10;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            TreeMap<Integer, Integer> tree_map = new TreeMap<>();
-            SkipListMap<Integer, Integer> skip_list = new SkipListMap<>();
+        for (int i = 0; i < testTimes; ++i) {
+            TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+            SkipListMap<Integer, Integer> skipList = new SkipListMap<>();
             for (int j = 0; j < 100; ++j) {
                 if (Math.random() < 0.1) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.containsKey(key) != skip_list.containsKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.containsKey(key) != skipList.containsKey(key)) {
                         success = false;
                         System.out.println("test failed 1");
                         break;
                     }
                 } else if (Math.random() < 0.2) {
-                    int key = (int)(Math.random() * max_val);
-                    int val = (int)(Math.random() * max_val);
-                    tree_map.put(key, val);
-                    skip_list.put(key, val);
-                    if (tree_map.size() != skip_list.size()) {
+                    int key = (int)(Math.random() * maxVal);
+                    int val = (int)(Math.random() * maxVal);
+                    treeMap.put(key, val);
+                    skipList.put(key, val);
+                    if (treeMap.size() != skipList.size()) {
                         success = false;
                         System.out.println("test failed 2");
                         break;
                     }
                 } else if (Math.random() < 0.4) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.get(key) == skip_list.get(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.get(key) == skipList.get(key)) {
                         continue;
                     } else {
                         success = false;
@@ -230,44 +241,44 @@ public class Code02_SkipListMap {
                         break;
                     }
                 } else if (Math.random() < 0.6) {
-                    int key = (int)(Math.random() * max_val);
-                    tree_map.remove(key);
-                    skip_list.remove(key);
-                    if (tree_map.size() != skip_list.size()) {
+                    int key = (int)(Math.random() * maxVal);
+                    treeMap.remove(key);
+                    skipList.remove(key);
+                    if (treeMap.size() != skipList.size()) {
                         success = false;
                         System.out.println("test failed 4");
                         break;
                     }
                 } else if (Math.random() < 0.7) {
-                    if (tree_map.isEmpty()) {
+                    if (treeMap.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.firstKey() != skip_list.firstKey()) {
-                        System.out.println(tree_map.firstKey());
-                        System.out.println(skip_list.firstKey());
+                    if (treeMap.firstKey() != skipList.firstKey()) {
+                        System.out.println(treeMap.firstKey());
+                        System.out.println(skipList.firstKey());
                         success = false;
                         System.out.println("test failed 5");
                         break;
                     }
                 } else if (Math.random() < 0.8) {
-                    if (tree_map.isEmpty()) {
+                    if (treeMap.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.lastKey() != skip_list.lastKey()) {
+                    if (treeMap.lastKey() != skipList.lastKey()) {
                         success = false;
                         System.out.println("test failed 6");
                         break;
                     }
                 } else if (Math.random() < 0.9) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.ceilingKey(key) != skip_list.ceilingKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.ceilingKey(key) != skipList.ceilingKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
                     }
                 } else {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.floorKey(key) != skip_list.floorKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.floorKey(key) != skipList.floorKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
@@ -278,6 +289,7 @@ public class Code02_SkipListMap {
                 break;
             }
         }
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end...");
     }
 }
