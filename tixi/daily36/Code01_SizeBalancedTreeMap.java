@@ -178,13 +178,22 @@ public class Code01_SizeBalancedTreeMap {
             return cur;
         }
 
+        /*
+                    A(cur)  右旋         B
+                    /  \               /    \
+                B     T             C      A
+                / \                 / \    /  \
+                C   K               S   F   K   T
+                / \
+            S   F
+        */
         private SBTNode<K, V> rightRotate(SBTNode<K, V> cur) {
-            SBTNode<K, V> left = cur.l;
-            cur.l = left.r;
-            left.r = cur;
-            left.size = cur.size;
+            SBTNode<K, V> leftNode = cur.l;
+            cur.l = leftNode.r;
+            leftNode.r = cur;
+            leftNode.size = cur.size;
             cur.size = (cur.l != null ? cur.l.size : 0) + (cur.r != null ? cur.r.size : 0) + 1;
-            return left;
+            return leftNode;
         }
 
         private SBTNode<K, V> leftRotate(SBTNode<K, V> cur) {
