@@ -2,6 +2,21 @@ package tixi.daily36;
 
 import java.util.TreeMap;
 
+/*
+    1）让每一个叔叔节点为头的树，节点个数都不少于其任何一个侄子节点
+    2）也是从底层被影响节点开始向上做路径每个节点检查
+    3）与AVL树非常像，也是四种违规类型：LL、RR、LR、RL
+    4）与AVL树非常像，核心点是：
+        LL（做一次右旋）、RR（做一次左旋）
+        LR和RL（利用旋转让底层那个上到顶部）
+    5）与AVL树不同的是，每轮经过调整后，谁的孩子发生变化了，谁就再查
+
+    SB树在使用时候的改进
+        1）删除时候可以不用检查
+        2）就把平衡性的调整放在插入的时候
+        3）因为这种只要变就递归的特性，别的树没有
+        4）可以在节点上封装别的数据项，来增加功能
+ */
 public class Code01_SizeBalancedTreeMap {
     public static class SBTNode<K extends Comparable<K>, V> {
         public K key;
@@ -28,8 +43,8 @@ public class Code01_SizeBalancedTreeMap {
                 return false;
             }
 
-            SBTNode<K, V> last_node = findLastIndex(key);
-            return last_node != null && key.compareTo(last_node.key) == 0 ? true : false;
+            SBTNode<K, V> lastNode = findLastIndex(key);
+            return lastNode != null && key.compareTo(lastNode.key) == 0 ? true : false;
         }
 
         public int size() {
@@ -41,9 +56,9 @@ public class Code01_SizeBalancedTreeMap {
                 return;
             }
 
-            SBTNode<K, V> last_node = findLastIndex(key);
-            if (last_node != null && key.compareTo(last_node.key) == 0) {
-                last_node.val = val;
+            SBTNode<K, V> lastNode = findLastIndex(key);
+            if (lastNode != null && key.compareTo(lastNode.key) == 0) {
+                lastNode.val = val;
             } else {
                 root = add(root, key, val);
             }
@@ -54,9 +69,9 @@ public class Code01_SizeBalancedTreeMap {
                 return null;
             }
 
-            SBTNode<K, V> last_node = findLastIndex(key);
-            if (last_node != null && key.compareTo(last_node.key) == 0) {
-                return last_node.val;
+            SBTNode<K, V> lastNode = findLastIndex(key);
+            if (lastNode != null && key.compareTo(lastNode.key) == 0) {
+                return lastNode.val;
             } else {
                 return null;
             }
@@ -132,27 +147,27 @@ public class Code01_SizeBalancedTreeMap {
                 return null;
             }
 
-            int left_size = cur.l != null ? cur.l.size : 0;
-            int left_left_size = cur.l != null && cur.l.l != null ? cur.l.l.size : 0;
-            int left_right_size = cur.l != null && cur.l.r != null ? cur.l.r.size : 0;
-            int right_size = cur.r != null ? cur.r.size : 0;
-            int right_left_size = cur.r != null && cur.r.l != null ? cur.r.l.size : 0;
-            int right_right_size = cur.r != null && cur.r.r != null ? cur.r.r.size : 0;
-            if (left_left_size > right_size) {
+            int leftSize = cur.l != null ? cur.l.size : 0;
+            int leftLeftSize = cur.l != null && cur.l.l != null ? cur.l.l.size : 0;
+            int leftRightSize = cur.l != null && cur.l.r != null ? cur.l.r.size : 0;
+            int rightSize = cur.r != null ? cur.r.size : 0;
+            int rightLeftSize = cur.r != null && cur.r.l != null ? cur.r.l.size : 0;
+            int rightRightSize = cur.r != null && cur.r.r != null ? cur.r.r.size : 0;
+            if (leftLeftSize > rightSize) {
                 cur = rightRotate(cur);
                 cur.r = maintain(cur.r);
                 cur = maintain(cur);
-            } else if (left_right_size > right_size) {
+            } else if (leftRightSize > rightSize) {
                 cur.l = leftRotate(cur.l);
                 cur = rightRotate(cur);
                 cur.l = maintain(cur.l);
                 cur.r = maintain(cur.r);
                 cur = maintain(cur);
-            } else if (right_right_size > left_size) {
+            } else if (rightRightSize > leftSize) {
                 cur = leftRotate(cur);
                 cur.l = maintain(cur.l);
                 cur = maintain(cur);
-            } else if (right_left_size > left_size) {
+            } else if (rightLeftSize > leftSize) {
                 cur.r = rightRotate(cur.r);
                 cur = leftRotate(cur);
                 cur.l = maintain(cur.l);
@@ -278,8 +293,8 @@ public class Code01_SizeBalancedTreeMap {
             if (key == null) {
                 return null;
             }
-            SBTNode<K, V> no_small = findNoSmallNodeInde(key);
-            return no_small != null ? no_small.key : null;
+            SBTNode<K, V> noSmall = findNoSmallNodeInde(key);
+            return noSmall != null ? noSmall.key : null;
         }
 
         public K floorKey(K key) {
@@ -287,40 +302,40 @@ public class Code01_SizeBalancedTreeMap {
                 return null;
             }
 
-            SBTNode<K, V> no_big = findNoBigNodeInde(key);
-            return no_big != null ? no_big.key : null;
+            SBTNode<K, V> noBig = findNoBigNodeInde(key);
+            return noBig != null ? noBig.key : null;
         }
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 100;
+        int testTimes = 100000;
+        int maxVal = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            TreeMap<Integer, Integer> tree_map = new TreeMap<>();
-            SizeBalancedTreeMap<Integer, Integer> sb_tree = new SizeBalancedTreeMap<>();
+        for (int i = 0; i < testTimes; ++i) {
+            TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+            SizeBalancedTreeMap<Integer, Integer> sbTree = new SizeBalancedTreeMap<>();
             for (int j = 0; j < 100; ++j) {
                 if (Math.random() < 0.1) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.containsKey(key) != sb_tree.containsKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.containsKey(key) != sbTree.containsKey(key)) {
                         success = false;
                         System.out.println("test failed 1");
                         break;
                     }
                 } else if (Math.random() < 0.2) {
-                    int key = (int)(Math.random() * max_val);
-                    int val = (int)(Math.random() * max_val);
-                    tree_map.put(key, val);
-                    sb_tree.put(key, val);
-                    if (tree_map.size() != sb_tree.size()) {
+                    int key = (int)(Math.random() * maxVal);
+                    int val = (int)(Math.random() * maxVal);
+                    treeMap.put(key, val);
+                    sbTree.put(key, val);
+                    if (treeMap.size() != sbTree.size()) {
                         success = false;
                         System.out.println("test failed 2");
                         break;
                     }
                 } else if (Math.random() < 0.4) {
-                    int key = (int) (Math.random() * max_val);
-                    if (tree_map.get(key) == sb_tree.get(key)) {
+                    int key = (int) (Math.random() * maxVal);
+                    if (treeMap.get(key) == sbTree.get(key)) {
                         continue;
                     } else {
                         success = false;
@@ -328,53 +343,55 @@ public class Code01_SizeBalancedTreeMap {
                         break;
                     }
                 } else if (Math.random() < 0.6) {
-                    int key = (int)(Math.random() * max_val);
-                    tree_map.remove(key);
-                    sb_tree.remove(key);
-                    if (tree_map.size() != sb_tree.size()) {
+                    int key = (int)(Math.random() * maxVal);
+                    treeMap.remove(key);
+                    sbTree.remove(key);
+                    if (treeMap.size() != sbTree.size()) {
                         success = false;
                         System.out.println("test failed 4");
                         break;
                     }
                 } else if (Math.random() < 0.7) {
-                    if (tree_map.isEmpty()) {
+                    if (treeMap.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.firstKey() != sb_tree.firstKey()) {
+                    if (treeMap.firstKey() != sbTree.firstKey()) {
                         success = false;
                         System.out.println("test failed 5");
                         break;
                     }
                 } else if (Math.random() < 0.8) {
-                    if (tree_map.isEmpty()) {
+                    if (treeMap.isEmpty()) {
                         continue;
                     }
-                    if (tree_map.lastKey() != sb_tree.lastKey()) {
+                    if (treeMap.lastKey() != sbTree.lastKey()) {
                         success = false;
                         System.out.println("test failed 6");
                         break;
                     }
                 } else if (Math.random() < 0.9) {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.ceilingKey(key) != tree_map.ceilingKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.ceilingKey(key) != sbTree.ceilingKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
                     }
                 } else {
-                    int key = (int)(Math.random() * max_val);
-                    if (tree_map.floorKey(key) != tree_map.floorKey(key)) {
+                    int key = (int)(Math.random() * maxVal);
+                    if (treeMap.floorKey(key) != sbTree.floorKey(key)) {
                         success = false;
-                        System.out.println("test failed 7");
+                        System.out.println("test failed 8");
                         break;
                     }
                 }
             }
+
             if (!success) {
                 break;
             }
         }
+
+        System.out.println(success? "success":"failed");
         System.out.println("test end...");
     }
 }
-
