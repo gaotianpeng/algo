@@ -206,21 +206,29 @@ public class Code01_AVLTreeMap {
                 return null;
             }
 
-            AVLNode<K, V> cur = root;
-            AVLNode<K, V> pre = null;
-            while (cur != null) {
-                if (key.compareTo(cur.k) < 0) {
-                    cur = cur.r;
-                } else {
-                    pre = cur;
-                    cur = cur.l;
-                    break;
-                }
-            }
-
-            return pre;
+            AVLNode<K, V> ans = null;
+			AVLNode<K, V> cur = root;
+			while (cur != null) {
+				if (key.compareTo(cur.k) == 0) {
+					ans = cur;
+					break;
+				} else if (key.compareTo(cur.k) < 0) {
+					cur = cur.l;
+				} else {
+					ans = cur;
+					cur = cur.r;
+				}
+			}
+			return ans;
         }
 
+        /*
+            0）先找到key所在的节点
+            1）如果该节点没有左孩子、没有右孩子，直接删除即可
+            2）如果该节点有左孩子、没有右孩子，直接用左孩子顶替该节点
+            3）如果该节点没有左孩子、有右孩子，直接用右孩子顶替该节点
+            4）如果该节点有左孩子、有右孩子，用该节点后继节点顶替该节点
+         */
         private AVLNode<K, V> delete(AVLNode<K, V> cur, K key) {
             // 要删除的key位于cur节点右子树
             if (key.compareTo(cur.k) > 0) {
@@ -436,14 +444,14 @@ public class Code01_AVLTreeMap {
                     }
                 } else if (Math.random() < 0.9) {
                     int key = (int)(Math.random() * maxVal);
-                    if (treeMap.ceilingKey(key) != treeMap.ceilingKey(key)) {
+                    if (treeMap.ceilingKey(key) != avlTree.ceilingKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
                     }
                 } else {
                     int key = (int)(Math.random() * maxVal);
-                    if (treeMap.floorKey(key) != treeMap.floorKey(key)) {
+                    if (treeMap.floorKey(key) != avlTree.floorKey(key)) {
                         success = false;
                         System.out.println("test failed 7");
                         break;
