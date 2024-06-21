@@ -28,17 +28,17 @@ public class Code02_OneOdds {
         }
 
         // <value, value出现的次数>
-        HashMap<Integer, Integer> count_map = new HashMap<>();
+        HashMap<Integer, Integer> countMap = new HashMap<>();
         for (int i = 0; i < arr.length; ++i) {
-            if (count_map.containsKey(arr[i])) {
-                count_map.put(arr[i], count_map.get(arr[i]) + 1);
+            if (countMap.containsKey(arr[i])) {
+                countMap.put(arr[i], countMap.get(arr[i]) + 1);
             } else {
-                count_map.put(arr[i], 1);
+                countMap.put(arr[i], 1);
             }
         }
 
         int ret = 0;
-        for (HashMap.Entry<Integer, Integer> entry: count_map.entrySet()) {
+        for (HashMap.Entry<Integer, Integer> entry: countMap.entrySet()) {
             if (entry.getValue() % 2 != 0) {
                 ret = entry.getKey();
             }
@@ -47,49 +47,49 @@ public class Code02_OneOdds {
         return ret;
     }
 
-    public static int[] generateOneOddArray(int max_val, int max_len, int val_max_times) {
-        int arr_len = 0;
+    public static int[] generateOneOddArray(int maxVal, int maxLen, int valMaxTimes) {
+        int arrLen = 0;
         while (true) {
-            arr_len = (int)(Math.random()*max_len + 1);
-            if (arr_len % 2 != 0) {
+            arrLen = (int)(Math.random()*maxLen + 1);
+            if (arrLen % 2 != 0) {
                 break;
             }
         }
 
-        int[] arr = new int[arr_len];
+        int[] arr = new int[arrLen];
         // <value, value出现次数>
         HashMap<Integer, Integer> map = new HashMap<>();
 
-        int odd_val_count = generateOddValue(Math.min(arr_len, val_max_times));
-        int odd_times_val = generateOddValue(max_val);
-        map.put(odd_times_val, odd_val_count);
-        int left_odd_count = arr_len - odd_val_count;
-        while (left_odd_count > 0) {
-            int cur_even_count = generateEvenValue(left_odd_count);
-            int cur_value = generateRandomValue(max_val);
-            if (map.containsKey(cur_value)) {
+        int oddValCount = generateOddValue(Math.min(arrLen, valMaxTimes));
+        int oddTimesVal = generateOddValue(maxVal);
+        map.put(oddTimesVal, oddValCount);
+        int leftOddCount = arrLen - oddValCount;
+        while (leftOddCount > 0) {
+            int curEventCount = generateEvenValue(leftOddCount);
+            int curVAlue = generateRandomValue(maxVal);
+            if (map.containsKey(curVAlue)) {
                 continue;
             }
-            map.put(cur_value, cur_even_count);
-            left_odd_count -= cur_even_count;
+            map.put(curVAlue, curEventCount);
+            leftOddCount -= curEventCount;
         }
 
-        int arr_idx = 0;
+        int arrIndex = 0;
         for (HashMap.Entry<Integer, Integer> entry: map.entrySet()) {
             int i = 0;
             for (i = 0; i < entry.getValue(); ++i) {
-                arr[arr_idx+i] = entry.getKey();
+                arr[arrIndex+i] = entry.getKey();
             }
-            arr_idx += i;
+            arrIndex += i;
         }
 
         return arr;
     }
 
-    public static int generateOddValue(int max_val) {
+    public static int generateOddValue(int maxVal) {
         int ret = 0;
         while (true) {
-            ret = (int)(Math.random()*max_val + 1);
+            ret = (int)(Math.random()*maxVal + 1);
             if (ret % 2 != 0) {
                 break;
             }
@@ -98,10 +98,10 @@ public class Code02_OneOdds {
         return ret;
     }
 
-    public static int generateEvenValue(int max_val) {
+    public static int generateEvenValue(int maxVal) {
         int ret = 0;
         while (true) {
-            ret = (int)(Math.random()*max_val + 1);
+            ret = (int)(Math.random()*maxVal + 1);
             if (ret % 2 == 0) {
                 break;
             }
@@ -110,8 +110,8 @@ public class Code02_OneOdds {
         return ret;
     }
 
-    public static int generateRandomValue(int max_val) {
-        return (int)(Math.random()*max_val + 1);
+    public static int generateRandomValue(int maxVal) {
+        return (int)(Math.random()*maxVal + 1);
     }
 
     public static void randomArray(int[] arr) {
@@ -119,13 +119,13 @@ public class Code02_OneOdds {
             return;
         }
 
-        int random_time = arr.length;
-        while (random_time > 0) {
+        int randomTime = arr.length;
+        while (randomTime > 0) {
             int i = generateRandomValue(arr.length - 1);
             int j = generateRandomValue(arr.length - 1);
             if (i != j) {
                 swap(arr, i, j);
-                random_time--;
+                randomTime--;
             }
         }
     }
@@ -150,13 +150,13 @@ public class Code02_OneOdds {
     public static void main(String[] args) {
         System.out.println("start test...");
 
-        int test_times = 100000;
-        int max_value = 40;
-        int max_len = 50;
+        int testTimes = 100000;
+        int maxValue = 40;
+        int maxLen = 50;
         boolean success = true;
 
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateOneOddArray(max_value, max_len, 7);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateOneOddArray(maxValue, maxLen, 7);
             randomArray(arr);
             if (getOneOddNum(arr) != test(arr)) {
                 success = false;

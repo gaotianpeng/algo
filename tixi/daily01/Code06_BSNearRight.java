@@ -42,10 +42,10 @@ public class Code06_BSNearRight {
         return -1;
     }
 
-    public static int[] genRandomArray(int max_size, int max_value) {
-        int[] arr = new int[(int) ((max_size + 1) * Math.random())];
+    public static int[] genRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((max_value + 1) * Math.random()) - (int) (max_value * Math.random());
+            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
         }
         return arr;
     }
@@ -62,14 +62,14 @@ public class Code06_BSNearRight {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_time = 5;
-        int max_size = 20;
-        int max_value = 100;
+        int testTimes = 5;
+        int maxSize = 20;
+        int maxValue = 100;
         boolean success = true;
-        for (int i = 0; i < test_time; i++) {
-            int[] arr = genRandomArray(max_size, max_value);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = genRandomArray(maxSize, maxValue);
             Arrays.sort(arr);
-            int value = (int) ((max_value + 1) * Math.random()) - (int) (max_value * Math.random());
+            int value = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
             if (test(arr, value) != rightestValue(arr, value)) {
                 printArray(arr);
                 System.out.println(value);
