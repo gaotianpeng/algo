@@ -1,4 +1,5 @@
-package leetcode;
+package leetcode.top150;
+
 /*
     2 两数相加
         给你两个非空 的链表，表示两个非负的整数。它们每位数字都是按照逆序的方式存储的，并且每个节点只能存储一位数字。
@@ -19,7 +20,7 @@ package leetcode;
         输出：[8,9,9,9,0,0,0,1]
  */
 public class Code_0002_AddTwoNumbers {
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
         ListNode() {}
@@ -27,23 +28,23 @@ public class Code_0002_AddTwoNumbers {
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode cur1 = l1;
         ListNode cur2 = l2;
         ListNode prev = null;
         ListNode node = null;
         int val1 = 0;
         int val2 = 0;
-        int cur_sum = 0;
+        int curSum = 0;
         int carry = 0;
 
         while (cur1 != null || cur2 != null) {
             val1 = cur1 != null ? cur1.val : 0;
             val2 = cur2 != null ? cur2.val : 0;
-            cur_sum = val1 + val2 + carry;
-            carry = cur_sum / 10;
+            curSum = val1 + val2 + carry;
+            carry = curSum / 10;
             prev = node;
-            node = new ListNode(cur_sum%10);
+            node = new ListNode(curSum%10);
             node.next = prev;
 
             cur1 = cur1 != null ? cur1.next : null;
@@ -55,6 +56,7 @@ public class Code_0002_AddTwoNumbers {
             node = new ListNode(carry);
             node.next = prev;
         }
+
         return reverseList(node);
     }
 
@@ -72,7 +74,7 @@ public class Code_0002_AddTwoNumbers {
         return prev;
     }
 
-    public ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
+    public static ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
         }
@@ -105,6 +107,7 @@ public class Code_0002_AddTwoNumbers {
                 l2 = l2.next;
             }
         }
+
         if (carry > 0) {
             tail.next = new ListNode(1);
         }
@@ -112,5 +115,91 @@ public class Code_0002_AddTwoNumbers {
         return head;
     }
 
+    // for test
+    public static ListNode generateRandomLinkedList(int maxLen, int maxVal) {
+        int listLen = (int)(Math.random() * (maxLen+ 1));
+        if (listLen == 0) {
+            return null;
+        }
 
+        ListNode head = new ListNode((int)(Math.random()*(maxVal+1)));
+        ListNode prev = head;
+        while (listLen != 0) {
+            ListNode node = new ListNode((int)(Math.random()*(maxVal+1)));
+            prev.next = node;
+            prev = node;
+            listLen--;
+        }
+
+        return head;
+    }
+
+    public static ListNode copyLinkedList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode prev = new ListNode(head.val);
+        ListNode retNode = prev;
+        ListNode cur = head.next;
+        while (cur != null) {
+            ListNode node = new ListNode(cur.val);
+            prev.next = node;
+            cur = cur.next;
+            prev = node;
+        }
+
+        return retNode;
+    }
+
+    public static void printLinkedList(ListNode head) {
+        while (head != null) {
+            System.out.print(head.val + "->");
+            head = head.next;
+        }
+        System.out.println("null");
+    }
+
+    public static boolean isEqual(ListNode head1, ListNode head2) {
+        if (head1 == null && head2 == null) {
+            return true;
+        }
+
+        while (head1 != null && head2 != null) {
+            if (head1.val != head2.val) {
+                return false;
+            }
+            head1 = head1.next;
+            head2 = head2.next;
+        }
+
+        if (head1 != null || head2 != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int testTimes = 1000000;
+        int maxLen = 10;
+        int maxVal = 9;
+        boolean success = true;
+        for (int i = 0; i < testTimes; i++) {
+            ListNode list1 = generateRandomLinkedList(maxLen, maxVal);
+            ListNode list2 = generateRandomLinkedList(maxLen, maxVal);
+            ListNode ans1 = addTwoNumbers(list1, list2);
+            ListNode ans2 = addTwoNumbers1(list1, list2);
+            if (!isEqual(ans1, ans2)) {
+                printLinkedList(ans1);
+                printLinkedList(ans2);
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success ? "success": "failed");
+        System.out.println("test end");
+    }
 }
