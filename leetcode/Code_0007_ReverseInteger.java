@@ -8,8 +8,9 @@ package leetcode;
  */
 public class Code_0007_ReverseInteger {
     public int reverse(int x) {
-        boolean is_neg = x < 0;
-        x = is_neg ? x: -x;
+        boolean neg = x < 0;
+        // boolean neg = ((x >>> 31) & 1) == 1;
+        x = neg ? x: -x;
         int m = Integer.MIN_VALUE / 10;
         int o = Integer.MIN_VALUE % 10;
         int ans = 0;
@@ -21,6 +22,6 @@ public class Code_0007_ReverseInteger {
             x /= 10;
         }
 
-        return is_neg ? ans: Math.abs(ans);
+        return neg ? ans: Math.abs(ans);
     }
 }
