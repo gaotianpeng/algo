@@ -49,7 +49,7 @@ public class Code_0137_SingleNumber2 {
         int ans = 0;
 
         for (Map.Entry<Integer, Integer> entry: map.entrySet()) {
-            int num = entry.getKey(), cnt = entry.getValue();
+            int num = entry.getKey();
             if (entry.getValue() == 1) {
                 ans = num;
                 break;
