@@ -5,7 +5,7 @@ package leetcode.all;
     两个节点之间的路径长度由它们之间的边数表示
  */
 public class Code_0687_LongestUnivaluePath {
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -18,7 +18,7 @@ public class Code_0687_LongestUnivaluePath {
         }
     }
 
-    public int longestUnivaluePath(TreeNode root) {
+    public static int longestUnivaluePath(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -41,21 +41,47 @@ public class Code_0687_LongestUnivaluePath {
             return new Info(0, 0);
         }
 
-        TreeNode left = x.left;
-        TreeNode right = x.right;
-        Info left_info = process(left);
-        Info right_info = process(right);
+        TreeNode l = x.left;
+        TreeNode r = x.right;
+        Info lInfo = process(l);
+        Info rInfo = process(r);
         int len = 1;
-        if (left != null && left.val == x.val) {
-            len = left_info.len + 1;
+        if (l != null && l.val == x.val) {
+            len = lInfo.len + 1;
         }
-        if (right != null && right.val == x.val) {
-            len = Math.max(len, right_info.len + 1);
+        if (r != null && r.val == x.val) {
+            len = Math.max(len, rInfo.len + 1);
         }
-        int max = Math.max(Math.max(left_info.max, right_info.max), len);
-        if (left != null && right != null && left.val == x.val && right.val == x.val) {
-            max = Math.max(max, left_info.len + right_info.len + 1);
+
+        int max = Math.max(Math.max(lInfo.max, rInfo.max), len);
+        if (l != null && r != null && l.val == x.val && r.val == x.val) {
+            max = Math.max(lInfo.len + rInfo.len + 1, max);
         }
+
         return new Info(len, max);
+    }
+
+    public static int longestUnivaluePath1(TreeNode root) {
+        int[] res = new int[1]; // 使用数组来存储结果，数组是可变的，可以传递引用
+        dfs(root, res);
+        return res[0];
+    }
+
+    public static int dfs(TreeNode root, int[] res) {
+        if (root == null) {
+            return 0;
+        }
+
+        int left = dfs(root.left, res), right = dfs(root.right, res);
+        int left1 = 0, right1 = 0;
+        if (root.left != null && root.left.val == root.val) {
+            left1 = left + 1;
+        }
+
+        if (root.right != null && root.right.val == root.val) {
+            right1 = right + 1;
+        }
+        res[0] = Math.max(res[0], left1 + right1);
+        return Math.max(left1, right1);
     }
 }
