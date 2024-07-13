@@ -31,6 +31,7 @@ public class Code_0300_LongestIncreasingSubsequence {
         int[] ends = new int[nums.length];
         // ends[i]：i+1长度的最长递增子串，结束位置的最小值
         ends[0] = nums[0];
+        // right 代表ends[]数组中结尾位置
         int right = 0;
         int l = 0;
         int r = 0;
@@ -47,10 +48,12 @@ public class Code_0300_LongestIncreasingSubsequence {
                     r = m - 1;
                 }
             }
+            // 更新ends[]的结尾位置
             right = Math.max(right, l);
             ends[l] = nums[i];
             ans = Math.max(ans, l + 1);
         }
+
         return ans;
     }
 
