@@ -24,33 +24,34 @@ Constraints:
     -104 <= nums[i] <= 104
  */
 public class Code_0300_LongestIncreasingSubsequence {
-    public static int lengthOfLIS(int[] arr) {
-        if (arr == null || arr.length == 0) {
+    public static int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
-        int[] ends = new int[arr.length];
-        ends[0] = arr[0];
+        int[] ends = new int[nums.length];
+        // ends[i]：i+1长度的最长递增子串，结束位置的最小值
+        ends[0] = nums[0];
         int right = 0;
         int l = 0;
         int r = 0;
         int m = 0;
-        int max = 1;
-        for (int i = 1; i < arr.length; i++) {
+        int ans = 1;
+        for (int i = 1; i < nums.length; i++) {
             l = 0;
             r = right;
             while (l <= r) {
                 m = (l + r) / 2;
-                if (arr[i] > ends[m]) {
+                if (nums[i] > ends[m]) {
                     l = m + 1;
                 } else {
                     r = m - 1;
                 }
             }
             right = Math.max(right, l);
-            ends[l] = arr[i];
-            max = Math.max(max, l + 1);
+            ends[l] = nums[i];
+            ans = Math.max(ans, l + 1);
         }
-        return max;
+        return ans;
     }
 
     public static  int test(int[] nums) {
