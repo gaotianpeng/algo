@@ -1,6 +1,6 @@
 package leetcode.all;
 
-public class Code_328_OddEvenLinkedList {
+public class Code_0328_OddEvenLinkedList {
     public static class ListNode {
         int val;
         ListNode next;
