@@ -88,4 +88,29 @@ public class BM_064_MinCostClimbingStairs {
 
         return prev1;
     }
+
+    public static int minCostClimbingStairs1(int[] cost) {
+        if (cost == null || cost.length == 0) {
+            return 0;
+        }
+
+        if (cost.length == 1) {
+            return cost[0];
+        }
+
+        return Math.min(process1(cost, cost.length - 1), process1(cost, cost.length - 2));
+    }
+
+    public static int process1(int[] cost, int index) {
+        if (index == 0) {
+            return cost[0];
+        }
+
+        if (index == 1) {
+            return cost[1];
+        }
+
+        return Math.min(process1(cost, index - 1),
+                process1(cost, index - 2)) + cost[index];
+    }
 }
