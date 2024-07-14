@@ -36,23 +36,21 @@ public class Code_0369_PlusOneLinkedList {
         ListNode rever = reverse(head);
         ListNode cur = rever;
         int carry = 1;
-        ListNode pre = null;
         while (cur != null) {
             int val = cur.val + carry;
             carry = val / 10;
             cur.val = val % 10;
-            pre = cur;
+            if (carry == 0) {
+                break;
+            }
+            if (cur.next == null) {
+                cur.next = new ListNode(0);
+            }
             cur = cur.next;
-
-        }
-
-        if (carry != 0) {
-            pre.next = new ListNode(1);
         }
 
         return reverse(rever);
     }
-
     public static ListNode reverse(ListNode head) {
         ListNode pre = null;
         ListNode next = null;
