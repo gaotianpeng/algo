@@ -77,6 +77,25 @@ public class Code01_CordCoverMaxPoint {
 		return max;
 	}
 
+	public static int test1(int[] arr, int L) {
+		if (arr == null || arr.length == 0 || L < 0) {
+			return 0;
+		}
+
+		int ans = 0;
+		for (int i = 0; i < arr.length; ++i) {
+			int cnt = 0;
+			for (int j = i; j < arr.length; ++j) {
+				if (arr[j] - arr[i] <= L) {
+					++cnt;
+				}
+			}
+			ans = Math.max(ans, cnt);
+		}
+
+		return ans;
+	}
+
 	public static int[] generateArray(int len, int max) {
 		int[] ans = new int[(int) (Math.random() * len) + 1];
 		for (int i = 0; i < ans.length; i++) {
@@ -98,7 +117,8 @@ public class Code01_CordCoverMaxPoint {
 			int ans1 = maxPoint1(arr, L);
 			int ans2 = maxPoint2(arr, L);
 			int ans3 = test(arr, L);
-			if (ans1 != ans2 || ans2 != ans3) {
+			int ans4 = test1(arr, L);
+			if (ans1 != ans2 || ans2 != ans3 || ans1 != ans4 || ans2 != ans4) {
                 success = false;
 				break;
 			}
