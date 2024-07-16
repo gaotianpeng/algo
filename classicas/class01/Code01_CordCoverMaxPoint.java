@@ -6,10 +6,18 @@ import java.util.Arrays;
     给定一个有序数组arr，从左到右依次表示X轴上从左往右点的位置
     给定一个正整数K，返回如果有一根长度为K的绳子，最多能盖住几个点
     绳子的边缘点碰到X轴上的点，也算盖住
+
+    类似题目：
+    	1052. 爱生气的书店老板
+		1004. 最大连续1的个数 III
  */
 public class Code01_CordCoverMaxPoint {
 
 	public static int maxPoint1(int[] arr, int L) {
+		if (arr == null || arr.length == 0 || L < 0) {
+			return 0;
+		}
+
 		int res = 1;
 		for (int i = 0; i < arr.length; i++) {
 			int nearest = nearestIndex(arr, i, arr[i] - L);
@@ -34,6 +42,9 @@ public class Code01_CordCoverMaxPoint {
 	}
 
 	public static int maxPoint2(int[] arr, int L) {
+		if (arr == null || arr.length == 0 || L < 0) {
+			return 0;
+		}
 		int left = 0;
 		int right = 0;
 		int N = arr.length;
@@ -47,8 +58,14 @@ public class Code01_CordCoverMaxPoint {
 		return max;
 	}
 
-	// for test
+	/*
+		for test
+	 */
 	public static int test(int[] arr, int L) {
+		if (arr == null || arr.length == 0 || L < 0) {
+			return 0;
+		}
+
 		int max = 0;
 		for (int i = 0; i < arr.length; i++) {
 			int pre = i - 1;
@@ -60,7 +77,6 @@ public class Code01_CordCoverMaxPoint {
 		return max;
 	}
 
-	// for test
 	public static int[] generateArray(int len, int max) {
 		int[] ans = new int[(int) (Math.random() * len) + 1];
 		for (int i = 0; i < ans.length; i++) {
