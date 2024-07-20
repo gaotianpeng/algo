@@ -1,6 +1,6 @@
 package shuati.daily10;
 
-public class Code01_JumpGame2 {
+public class Code01_JumpGameII {
     /*
         https://leetcode.cn/problems/jump-game-ii/
         leetcode 45. 跳跃游戏 II
