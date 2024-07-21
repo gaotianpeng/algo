@@ -12,40 +12,40 @@ public class Code04_QuickSort1 {
         process(arr, 0, arr.length - 1);
     }
 
-    public static void process(int[] arr, int left, int right) {
-        if (left >= right) {
+    public static void process(int[] arr, int L, int R) {
+        if (L >= R) {
             return;
         }
-
-        int[] area = partition(arr, left, right);
-        process(arr, left, area[0] - 1);
-        process(arr, area[1] + 1, right);
+        
+        int[] area = partition(arr, L, R);
+        process(arr, L, area[0] - 1);
+        process(arr, area[1] + 1, R);
     }
 
-    public static int[] partition(int[] arr, int left, int right) {
-        if (left > right) {
-            return new int[] {-1, -1};
+    public static int[] partition(int[] arr, int L, int R) {
+        if (L > R) {
+            return new int[] { -1, -1};
         }
 
-        if (left == right) {
-            return new int[] {left, left};
+        if (L == R) {
+            return new int[] {L, L};
         }
 
-        int less = left - 1;
-        int more = right;
-        int index = left;
+        int less = L - 1;
+        int more = R;
+        int index = L;
         while (index < more) {
-            if (arr[index] < arr[right]) {
+            if (arr[index] < arr[R]) {
                 swap(arr, ++less, index++);
-            } else if (arr[index] == arr[right]) {
-                ++index;
+            } else if (arr[index] > arr[R]) {
+                swap(arr, --more, index);
             } else {
-                swap(arr, index, --more);
+                ++index;
             }
         }
 
-        swap(arr, more, right);
-        return new int[] {++less, more};
+        swap(arr, more, R);
+        return new int[] {less + 1, more};
     }
 
     private static void swap(int[] arr, int i, int j) {
