@@ -34,11 +34,12 @@ public class Code03_QuickSort {
         }
 
         int less = L - 1;
-        while (L < R) {
-            if (arr[L] <= arr[R]) {
-                swap(arr, ++less, L);
+        int index = L;
+        while (index < R) {
+            if (arr[index] <= arr[R]) {
+                swap(arr, ++less, index);
             }
-            L++;
+            ++index;
         }
 
         swap(arr, ++less, R);
