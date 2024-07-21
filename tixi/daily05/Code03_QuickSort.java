@@ -14,39 +14,36 @@ public class Code03_QuickSort {
         process(arr, 0, arr.length - 1);
     }
 
-    public static void process(int[] arr, int left, int right) {
-        if (left >= right) {
+    public static void process(int[] arr, int L, int R) {
+        if (L >= R) {
             return;
         }
 
-        int mid = partition(arr, left, right);
-        process(arr, left, mid - 1);
-        process(arr, mid + 1, right);
+        int mid = partition(arr, L, R);
+        process(arr, L, mid - 1);
+        process(arr, mid + 1, R);
     }
 
-    public static int partition(int[] arr, int left, int right) {
-        if (left > right) {
+    public static int partition(int[] arr, int L, int R) {
+        if (L > R) {
             return -1;
         }
 
-        if (left == right) {
-            return left;
+        if (L == R) {
+            return L;
         }
 
-        int less = left - 1;
-        int index = left;
-        while (index < right) {
-            if (arr[index] <= arr[right]) {
-                swap(arr, ++less, index);
+        int less = L - 1;
+        while (L < R) {
+            if (arr[L] <= arr[R]) {
+                swap(arr, ++less, L);
             }
-            ++index;
+            L++;
         }
 
-
-        swap(arr, ++less, right);
+        swap(arr, ++less, R);
         return less;
     }
-
 
 
     private static void swap(int[] arr, int i, int j) {
