@@ -21,6 +21,13 @@ public class Code04_UnRecursiveInTraverseBT {
         }
     }
 
+    /*
+     *  步骤
+     *  1）整条左边界依次入栈
+     *  2）
+     *      a) 1)无法继续，弹出节点，打印
+     *      b) 来到右树，继续1)
+     */
     public static List<Integer> inOrder(TreeNode cur) {
         List<Integer> ans = new ArrayList<>();
         if (cur == null) {
