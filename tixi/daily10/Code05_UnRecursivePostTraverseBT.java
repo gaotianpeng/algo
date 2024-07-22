@@ -44,6 +44,38 @@ public class Code05_UnRecursivePostTraverseBT {
         return ans;
     }
 
+    public static List<Integer> postOrder2(TreeNode head) {
+        List<Integer> ans = new ArrayList<>();
+        if (head == null) {
+            return ans;
+        }
+
+        // head 跟踪上次打印的节点
+        // 如果上次打印的是cur的左孩子，说明该打印cur该右树了
+        // 如果上次打印的是cur的右孩子，说明该打印cur左孩子也处理完了
+		if (head != null) {
+			Stack<TreeNode> stack = new Stack<TreeNode>();
+			stack.push(head);
+			TreeNode cur = null;
+			while (!stack.isEmpty()) {
+				cur = stack.peek();
+                // 左右子树都没打印过，新到的，入栈
+				if (cur.left != null && head != cur.left && head != cur.right) {
+					stack.push(cur.left);
+                // 左树处理过了，看看右树处理过没
+				} else if (cur.right != null && head != cur.right) {
+					stack.push(cur.right);
+                // 左右两树都处理完了，打印cur
+				} else {
+                    ans.add(stack.pop().val);
+					head = cur;
+				}
+			}
+		}
+        
+        return ans;
+	}
+
     /*
         for test
      */
@@ -120,9 +152,11 @@ public class Code05_UnRecursivePostTraverseBT {
             TreeNode root = generateRandomBT(maxVal, maxLevel);
             List<Integer> order1 = postOrder(root);
             List<Integer> order2 = test(root);
-            if (!isEqual(order1, order2)) {
+            List<Integer> order3 = postOrder2(root);
+            if (!isEqual(order1, order2) || !isEqual(order2, order3)) {
                 print(order1);
                 print(order2);
+                print(order3);
                 success = false;
                 break;
             }

@@ -20,6 +20,18 @@ public class Code03_UnRecursivePreTraverseBT {
         }
     }
 
+    /*
+     * 步骤
+     *  1）弹出打印
+     *  2）如果有右，压入右
+     *  3）如果有左，压入左
+     * 
+     *              a
+     *            /   \
+     *           b     c
+     *       入栈： a, c, b
+     *       出栈:  a, b, c  
+     */
     public static List<Integer> preOrder(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
         if (root != null) {
@@ -61,23 +73,23 @@ public class Code03_UnRecursivePreTraverseBT {
         process(root.right, ans);
     }
 
-    public static TreeNode generateRandomBT(int max_val, int max_level) {
-        return generate(1, max_level, max_val);
+    public static TreeNode generateRandomBT(int maxVal, int maxLevel) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    public static TreeNode generate(int level, int max_level, int max_val) {
-        if (level > max_level || Math.random() > 0.5) {
+    public static TreeNode generate(int level, int maxLevel, int maxVal) {
+        if (level > maxLevel || Math.random() > 0.5) {
             return null;
         }
 
-        TreeNode node = new TreeNode(randomVal(max_val));
-        node.left = generate(level + 1, max_level, max_val);
-        node.right = generate(level + 1, max_level, max_val);
+        TreeNode node = new TreeNode(randomVal(maxVal));
+        node.left = generate(level + 1, maxLevel, maxVal);
+        node.right = generate(level + 1, maxLevel, maxVal);
         return node;
     }
 
-    public static int randomVal(int max_val) {
-        return (int)(Math.random() * (max_val + 1));
+    public static int randomVal(int maxVal) {
+        return (int)(Math.random() * (maxVal + 1));
     }
 
     public static boolean isEqual(List<Integer> order1, List<Integer> order2) {
@@ -111,11 +123,11 @@ public class Code03_UnRecursivePreTraverseBT {
     public static void main(String[] args) {
         System.out.println("test start...");
         boolean success = true;
-        int test_times = 1000000;
-        int max_level = 20;
-        int max_val = 100;
-        for (int i = 0; i < test_times; i++) {
-            TreeNode root = generateRandomBT(max_val, max_level);
+        int testTimes = 1000000;
+        int maxLevel = 20;
+        int maxVal = 100;
+        for (int i = 0; i < testTimes; i++) {
+            TreeNode root = generateRandomBT(maxVal, maxLevel);
             List<Integer> order1 = preOrder(root);
             List<Integer> order2 = test(root);
             if (!isEqual(order1, order2)) {
