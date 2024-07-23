@@ -110,12 +110,12 @@ public class Code01_MergeSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 1000000;
-        int max_val = 40;
-        int max_len = 50;
+        int testTimes = 1000000;
+        int maxVal = 40;
+        int maxLen = 50;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            int[] nums1 = generateRandomArray(max_len, max_val);
+        for (int i = 0; i < testTimes; ++i) {
+            int[] nums1 = generateRandomArray(maxLen, maxVal);
             int[] nums2 = copyArray(nums1);
             mergeSort(nums1);
             test(nums2);

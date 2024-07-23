@@ -124,13 +124,13 @@ public class Code06_QuickSort3 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 50;
-        int max_len = 10;
+        int testTimes = 100000;
+        int maxVal = 50;
+        int maxLen = 10;
         boolean success = true;
 
-        for (int i = 0; i < test_times; i++) {
-            int[] arr1 = generateRandomArray(max_len, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr1 = generateRandomArray(maxLen, maxVal);
             int[] arr2 = copyArray(arr1);
             quickSort(arr1);
             test(arr2);

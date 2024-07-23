@@ -18,9 +18,9 @@ public class Code05_QuickSort2 {
         }
 
         swap(arr, right, left + (int)(Math.random() * (right - left + 1)));
-        int[] equal_area = netherlandsFlag(arr, left, right);
-        process(arr, left, equal_area[0] - 1);
-        process(arr, equal_area[1] + 1, right);
+        int[] equal = netherlandsFlag(arr, left, right);
+        process(arr, left, equal[0] - 1);
+        process(arr, equal[1] + 1, right);
     }
 
     private static int[] netherlandsFlag(int[] arr, int left, int right) {
@@ -122,13 +122,13 @@ public class Code05_QuickSort2 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 50;
-        int max_len = 30;
+        int testTimes = 100000;
+        int maxVal = 50;
+        int maxLen = 30;
         boolean success = true;
 
-        for (int i = 0; i < test_times; i++) {
-            int[] arr1 = generateRandomArray(max_len, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr1 = generateRandomArray(maxLen, maxVal);
             int[] arr2 = copyArray(arr1);
             quickSort(arr1);
             test(arr2);

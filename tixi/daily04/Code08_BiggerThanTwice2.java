@@ -16,26 +16,26 @@ public class Code08_BiggerThanTwice2 {
             return 0;
         }
 
-        int merge_size = 1;
+        int mergeSize = 1;
         int n = arr.length;
         int ans = 0;
-        while (merge_size < n) {
+        while (mergeSize < n) {
             int left = 0;
             while (left < n) {
-                if (merge_size > n - left) {
+                if (mergeSize > n - left) {
                     break;
                 }
 
-                int mid = left + merge_size - 1;
-                int right = mid + Math.min(merge_size, n - mid - 1);
+                int mid = left + mergeSize - 1;
+                int right = mid + Math.min(mergeSize, n - mid - 1);
                 ans += merge(arr, left, mid, right);
                 left = right + 1;
             }
 
-            if (merge_size > n/2) {
+            if (mergeSize > n/2) {
                 break;
             }
-            merge_size <<= 1;
+            mergeSize <<= 1;
         }
 
         return ans;
@@ -43,30 +43,30 @@ public class Code08_BiggerThanTwice2 {
 
     private static int merge(int[] arr, int left, int mid, int right) {
         int ans = 0;
-        int win_r = mid + 1;
+        int winR = mid + 1;
         for (int i = left; i <= mid; i++) {
-            while (win_r <= right && (long)arr[i] > 2*(long)arr[win_r]) {
-                win_r++;
+            while (winR <= right && (long)arr[i] > 2*(long)arr[winR]) {
+                winR++;
             }
-            ans += win_r - mid - 1;
+            ans += winR - mid - 1;
         }
 
         int[] helper = new int[right - left + 1];
-        int left_index = left;
-        int right_index = mid + 1;
+        int leftPos = left;
+        int rightPos = mid + 1;
         int index = 0;
 
-        while (left_index <= mid && right_index <= right) {
-            helper[index++] = arr[left_index] <= arr[right_index] ?
-                    arr[left_index++] : arr[right_index++];
+        while (leftPos <= mid && rightPos <= right) {
+            helper[index++] = arr[leftPos] <= arr[rightPos] ?
+                    arr[leftPos++] : arr[rightPos++];
         }
 
-        while (left_index <= mid) {
-            helper[index++] = arr[left_index++];
+        while (leftPos <= mid) {
+            helper[index++] = arr[leftPos++];
         }
 
-        while (right_index <= right) {
-            helper[index++] = arr[right_index++];
+        while (rightPos <= right) {
+            helper[index++] = arr[rightPos++];
         }
 
         for (int i = 0; i < helper.length; i++) {
@@ -95,22 +95,22 @@ public class Code08_BiggerThanTwice2 {
         return ans;
     }
 
-    public static int[] generateRandomArray(int max_val, int max_len) {
-        int len = (int)(Math.random()*(max_len + 1));
+    public static int[] generateRandomArray(int maxVal, int maxLen) {
+        int len = (int)(Math.random()*(maxLen + 1));
         if (len == 0) {
             return null;
         }
 
         int[] ans = new int[len];
         for (int i = 0; i < len; i++) {
-            ans[i] = generateRandomNum(max_val);
+            ans[i] = generateRandomNum(maxVal);
         }
 
         return ans;
     }
 
-    public static int generateRandomNum(int max_val) {
-        return (int)(Math.random()*(max_val + 1)) - (int)(Math.random()*max_val);
+    public static int generateRandomNum(int maxVal) {
+        return (int)(Math.random()*(maxVal + 1)) - (int)(Math.random()*maxVal);
     }
 
     public static void printArray(int[] arr) {
@@ -140,12 +140,12 @@ public class Code08_BiggerThanTwice2 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_val = 30;
-        int max_len = 25;
-        int test_times = 1000000;
+        int maxVal = 30;
+        int maxLen = 25;
+        int testTimes = 1000000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateRandomArray(max_val, max_len);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray(maxVal, maxLen);
             int[] arr1 = copyArray(arr);
             int ans1 = biggerTwice(arr);
             int ans2 = test(arr1);

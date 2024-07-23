@@ -32,20 +32,20 @@ public class Code02_MergeSort2 {
 
     public static void merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int left_idx = left;
-        int right_idx = mid + 1;
+        int leftPos = left;
+        int rightPos = mid + 1;
         int pos = 0;
 
-        while (left_idx <= mid && right_idx <= right) {
-            helper[pos++] = arr[left_idx] <= arr[right_idx] ? arr[left_idx++] : arr[right_idx++];
+        while (leftPos <= mid && rightPos <= right) {
+            helper[pos++] = arr[leftPos] <= arr[rightPos] ? arr[leftPos++] : arr[rightPos++];
         }
 
-        while (left_idx <= mid) {
-            helper[pos++] = arr[left_idx++];
+        while (leftPos <= mid) {
+            helper[pos++] = arr[leftPos++];
         }
 
-        while (right_idx <= right) {
-            helper[pos++] = arr[right_idx++];
+        while (rightPos <= right) {
+            helper[pos++] = arr[rightPos++];
         }
 
         for (int i = 0; i < helper.length; i++) {
@@ -117,12 +117,12 @@ public class Code02_MergeSort2 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 1000000;
-        int max_val = 40;
-        int max_len = 50;
+        int testTimes = 1000000;
+        int maxVal = 40;
+        int maxLen = 50;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr1 = generateRandomArray(max_len, max_val);
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr1 = generateRandomArray(maxLen, maxVal);
             int[] arr2 = copyArray(arr1);
             mergeSort(arr1);
             test(arr2);

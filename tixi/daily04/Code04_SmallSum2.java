@@ -18,27 +18,27 @@ public class Code04_SmallSum2 {
         }
 
         int ans = 0;
-        int merge_size = 1;
+        int mergeSize = 1;
         int n = arr.length;
         
-        while (merge_size < n) {
+        while (mergeSize < n) {
             int left = 0;
             while (left < n) {
-                if (merge_size > n - left) {
+                if (mergeSize > n - left) {
                     break;
                 }
                 
-                int mid = left + merge_size - 1;
-                int right = mid + Math.min(merge_size, n - mid - 1);
+                int mid = left + mergeSize - 1;
+                int right = mid + Math.min(mergeSize, n - mid - 1);
                 ans += merge(arr, left, mid, right);
                 left = right + 1;
             }
 
-            if (merge_size > n/2) {
+            if (mergeSize > n/2) {
                 break;
             }
 
-            merge_size <<= 1;
+            mergeSize <<= 1;
         }
 
         return ans;
@@ -47,21 +47,21 @@ public class Code04_SmallSum2 {
 
     private static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int left_index = left;
-        int right_index = mid + 1;
+        int leftPos = left;
+        int rightPos = mid + 1;
         int index = 0;
         int ans = 0;
-        while (left_index <= mid && right_index <= right) {
-            ans += arr[left_index] < arr[right_index] ? (right - right_index + 1)*arr[left_index] : 0;
-            helper[index++] = arr[left_index] < arr[right_index] ? arr[left_index++] : arr[right_index++];
+        while (leftPos <= mid && rightPos <= right) {
+            ans += arr[leftPos] < arr[rightPos] ? (right - rightPos + 1)*arr[leftPos] : 0;
+            helper[index++] = arr[leftPos] < arr[rightPos] ? arr[leftPos++] : arr[rightPos++];
         }
 
-        while (left_index <= mid) {
-            helper[index++] = arr[left_index++];
+        while (leftPos <= mid) {
+            helper[index++] = arr[leftPos++];
         }
 
-        while (right_index <= right) {
-            helper[index++] = arr[right_index++];
+        while (rightPos <= right) {
+            helper[index++] = arr[rightPos++];
         }
 
         for (int i = 0; i < helper.length; i++) {
@@ -155,12 +155,12 @@ public class Code04_SmallSum2 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 10000000;
-        int max_value = 30;
-        int max_len = 20;
+        int testTimes = 10000000;
+        int maxValue = 30;
+        int maxLen = 20;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr1 = generateRandomArray(max_len, max_value);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr1 = generateRandomArray(maxLen, maxValue);
             int[] arr2 = copyArray(arr1);
             if (smallSum(arr1) != test(arr2)) {
                 System.out.println(smallSum(arr1));

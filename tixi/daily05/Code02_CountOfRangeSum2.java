@@ -99,16 +99,16 @@ public class Code02_CountOfRangeSum2 {
         }
 
         int ans = 0;
-        long[] pre_sum = new long[nums.length + 1];
-        pre_sum[0] = 0;
-        pre_sum[1] = nums[0];
+        long[] preSum = new long[nums.length + 1];
+        preSum[0] = 0;
+        preSum[1] = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            pre_sum[i+1] += pre_sum[i] + nums[i];
+            preSum[i+1] += preSum[i] + nums[i];
         }
 
         for (int i = 0; i < nums.length; i++) {
             for (int j = i; j < nums.length; j++) {
-                long sum = pre_sum[j+1] - pre_sum[i];
+                long sum = preSum[j+1] - preSum[i];
                 if (sum >= lower && sum <= upper) {
                     ans++;
                 }
@@ -118,15 +118,15 @@ public class Code02_CountOfRangeSum2 {
         return ans;
     }
 
-    public static int[] generateRandomArray(int max_val, int max_len) {
-        int len = (int)(Math.random()*(max_len + 1));
+    public static int[] generateRandomArray(int maxVal, int maxLen) {
+        int len = (int)(Math.random()*(maxLen + 1));
         if (len == 0) {
             return null;
         }
 
         int[] ans = new int[len];
         for (int i = 0; i < len; i++) {
-            ans[i] = generateRandomNum(max_val);
+            ans[i] = generateRandomNum(maxVal);
         }
 
         return ans;
@@ -161,23 +161,23 @@ public class Code02_CountOfRangeSum2 {
         return ans;
     }
 
-    public static int[] generateRandomRange(int max_val) {
-        int lower = (int)(Math.random()*(max_val + 1)) - (int)(Math.random()*(max_val + 1));
-        int upper = (int)(Math.random()*(max_val + 1)) - (int)(Math.random()*(max_val + 1));
+    public static int[] generateRandomRange(int maxVal) {
+        int lower = (int)(Math.random()*(maxVal + 1)) - (int)(Math.random()*(maxVal + 1));
+        int upper = (int)(Math.random()*(maxVal + 1)) - (int)(Math.random()*(maxVal + 1));
 
         return lower <= upper ? new int[] {lower, upper}: new int[] {upper, lower};
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_val = Integer.MAX_VALUE;
-        int max_len = 10;
-        int test_times = 10000;
+        int maxVal = Integer.MAX_VALUE;
+        int maxLen = 10;
+        int testTimes = 10000;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr1 = generateRandomArray(max_val, max_len);
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr1 = generateRandomArray(maxVal, maxLen);
             int[] arr2 = copyArray(arr1);
-            int[] range = generateRandomRange(max_val);
+            int[] range = generateRandomRange(maxVal);
             if (countRangeSum(arr1, range[0], range[1]) != test(arr2, range[0], range[1])) {
                 success = false;
                 System.out.println(countRangeSum(arr1, range[0], range[1]));

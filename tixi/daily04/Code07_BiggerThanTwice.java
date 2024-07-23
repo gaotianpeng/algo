@@ -127,12 +127,12 @@ public class Code07_BiggerThanTwice {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_val = 30;
-        int max_len = 25;
-        int test_times = 1000000;
+        int maxVal = 30;
+        int maxLen = 25;
+        int testTimes = 1000000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateRandomArray(max_val, max_len);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray(maxVal, maxLen);
             int[] arr1 = copyArray(arr);
             int ans1 = biggerTwice(arr);
             int ans2 = test(arr1);

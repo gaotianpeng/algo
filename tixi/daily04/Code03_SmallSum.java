@@ -141,12 +141,12 @@ public class Code03_SmallSum {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 10000000;
-        int max_value = 30;
-        int max_len = 20;
+        int testTimes = 10000000;
+        int maxValue = 30;
+        int maxLen = 20;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr1 = generateRandomArray(max_len, max_value);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr1 = generateRandomArray(maxLen, maxValue);
             int[] arr2 = copyArray(arr1);
             if (smallSum(arr1) != test(arr2)) {
                 System.out.println(smallSum(arr1));

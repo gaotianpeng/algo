@@ -20,10 +20,10 @@ public class Code07_QuickSort4 {
             return;
         }
 
-        int[] equal_area = netherlandsFlag(arr, 0, arr.length - 1);
+        int[] equal = netherlandsFlag(arr, 0, arr.length - 1);
         Stack<Op> stack = new Stack<>();
-        stack.push(new Op(0, equal_area[0] - 1));
-        stack.push(new Op(equal_area[1] + 1, arr.length - 1));
+        stack.push(new Op(0, equal[0] - 1));
+        stack.push(new Op(equal[1] + 1, arr.length - 1));
         while (!stack.isEmpty()) {
             Op op = stack.pop();
             if (op.left < op.right) {
@@ -133,13 +133,13 @@ public class Code07_QuickSort4 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 50;
-        int max_len = 30;
+        int testTimes = 100000;
+        int maxVal = 50;
+        int maxLen = 30;
         boolean success = true;
 
-        for (int i = 0; i < test_times; i++) {
-            int[] arr1 = generateRandomArray(max_len, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr1 = generateRandomArray(maxLen, maxVal);
             int[] arr2 = copyArray(arr1);
             quickSort(arr1);
             test(arr2);

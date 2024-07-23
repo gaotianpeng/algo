@@ -38,10 +38,18 @@ public class Code05_UnionFind {
         }
 
         public boolean isSameSet(V x, V y) {
+            if (!nodes.containsKey(x) || !nodes.containsKey(y)) {
+                return false;
+            }
+    
             return findFather(nodes.get(x)) == findFather(nodes.get(y));
         }
 
         public void union(V x, V y) {
+            if (!nodes.containsKey(x) || !nodes.containsKey(y)) {
+                return;
+            }
+
             Node<V> xHead = findFather(nodes.get(x));
             Node<V> yHead = findFather(nodes.get(y));
             if (xHead == yHead) {
