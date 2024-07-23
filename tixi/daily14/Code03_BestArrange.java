@@ -51,10 +51,16 @@ public class Code03_BestArrange {
             return 0;
         }
 
-
         return process(programs, 0, 0);
     }
 
+    /*
+     *  programs: 还剩什么会义没安排
+     *  done: 之前已经安排了多少会议数量
+     *  timeLine：当前来到的时间点
+     */
+    // 当前来到timeLine时间点，已经安排了done个会议，剩下的会议programs可以自由安排
+    // 返回能安排的最多会议数量
     public static int process(Program[] programs, int done, int timeLine) {
         if (programs.length == 0) {
             return done;

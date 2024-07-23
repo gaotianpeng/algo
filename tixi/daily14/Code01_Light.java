@@ -57,10 +57,11 @@ public class Code01_Light {
         选出能照亮所有.的方案，并且在这些有效方案中返回至少需要几个灯
      */
     private static int process(char[] str, int index, HashSet<Integer> lights) {
-        if (index == str.length) {
+        if (index == str.length) { // 结束的时候，验证是否是合法的
             for (int i = 0; i < str.length; i++) {
                 if (str[i] == '.') {
-                    if (!lights.contains(i-1) && !lights.contains(i)
+                    if (!lights.contains(i-1) 
+                            && !lights.contains(i)
                             && !lights.contains(i+1)) {
                         return Integer.MAX_VALUE;
                     }
@@ -68,7 +69,8 @@ public class Code01_Light {
             }
 
             return lights.size();
-        } else {
+        } else { // 没结束的时候
+            // index 位置不放灯
             int no = process(str, index + 1, lights);
             int yes = Integer.MAX_VALUE;
             if (str[index] == '.') {
@@ -80,7 +82,6 @@ public class Code01_Light {
             return Math.min(no, yes);
         }
     }
-
 
     public static String randomString(int len) {
         char[] ans = new char[(int)(Math.random()*len) + 1];

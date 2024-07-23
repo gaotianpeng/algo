@@ -19,9 +19,9 @@ public class Code11_GetMax {
         }
 
         int mid = left + ((right - left) >> 1);
-        int left_max = process(nums, left, mid);
-        int right_max = process(nums, mid + 1, right);
-        return Math.max(left_max, right_max);
+        int leftMax = process(nums, left, mid);
+        int rightMax = process(nums, mid + 1, right);
+        return Math.max(leftMax, rightMax);
     }
     /*
         for test
@@ -30,16 +30,16 @@ public class Code11_GetMax {
         if (nums.length == 1) {
             return nums[0];
         }
-        int max_idx = 0;
+        int maxIndex = 0;
         for (int i = 1; i < nums.length; i++) {
-            max_idx = nums[i] > nums[max_idx] ? i : max_idx;
+            maxIndex = nums[i] > nums[maxIndex] ? i : maxIndex;
         }
-        return nums[max_idx];
+        return nums[maxIndex];
     }
 
 
-    public static int[] generateRandomArray(int max_size, int max_value) {
-        int[] arr = new int[(int)(max_size * Math.random() + 1)];
+    public static int[] generateRandomArray(int maxSize, int max_value) {
+        int[] arr = new int[(int)(maxSize * Math.random() + 1)];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (int)((max_value + 1) * Math.random()) - (int)(max_value * Math.random());
         }
@@ -74,12 +74,12 @@ public class Code11_GetMax {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 1000;
-        int max_len = 100;
+        int testTimes = 100000;
+        int maxVal = 1000;
+        int maxLen = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr = generateRandomArray(max_len, max_val);
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr = generateRandomArray(maxLen, maxVal);
             if (getMax(arr) != test(arr)) {
                 success = false;
                 printArray(arr);

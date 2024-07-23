@@ -31,7 +31,7 @@ public class Code03_LowestAncestor {
     private static class Info {
         public boolean findP;
         public boolean findQ;
-        public Node ans;
+        public Node ans; // p, q 最先交汇点
 
         public Info(boolean findP, boolean findQ, Node ans) {
             this.findP = findP;
@@ -40,17 +40,26 @@ public class Code03_LowestAncestor {
         }
     }
 
-    private static Info process(Node head, Node p, Node q) {
-        if (head == null) {
+    /*
+     *  1) p, q 无一个在X上
+     *  2）p, q 只一个在X上
+     *  3）p, q 都在X为头的树上
+     *      a) 左右各一个
+     *      b) p, q 都在左
+     *      c) p, q 都在右
+     *      d) x 是 p或q
+     */
+    private static Info process(Node X, Node p, Node q) {
+        if (X == null) {
             return new Info(false, false, null);
         }
 
 
-        Info leftInfo = process(head.left, p, q);
-        Info rightInfo = process(head.right, p, q);
+        Info leftInfo = process(X.left, p, q);
+        Info rightInfo = process(X.right, p, q);
 
-        boolean findP = (head == p) || leftInfo.findP || rightInfo.findP;
-        boolean findQ = (head == q) || leftInfo.findQ || rightInfo.findQ;
+        boolean findP = (X == p) || leftInfo.findP || rightInfo.findP;
+        boolean findQ = (X == q) || leftInfo.findQ || rightInfo.findQ;
         Node ans = null;
         if (leftInfo.ans != null) {
             ans = leftInfo.ans;
@@ -58,7 +67,7 @@ public class Code03_LowestAncestor {
             ans = rightInfo.ans;
         } else {
             if (findP && findQ) {
-                ans = head;
+                ans = X;
             }
         }
         

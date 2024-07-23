@@ -76,20 +76,23 @@ public class Code01_IsCBT {
         if (root == null) {
             return true;
         }
-
+        
+        /*  判断条件
+         *  1) 任何节点有右无左false，否则，继续
+         *  2）一旦遇到左右孩子不双全，后续遇到的所有节点必须为叶节点
+         */ 
         Queue<Node> queue = new LinkedList<>();
         Node left = null;
         Node right = null;
+        // 是否遇到过左右孩子不双全的节点
         boolean leaf = false;
         queue.add(root);
         while (!queue.isEmpty()) {
             Node cur = queue.poll();
             left = cur.left;
             right = cur.right;
-
-            if((leaf && (left != null || right != null))
-                    || (left == null && right != null)
-            ) {
+            if((leaf && (left != null || right != null)) ||
+                    (left == null && right != null)) {
                 return false;
             }
 
@@ -109,23 +112,23 @@ public class Code01_IsCBT {
         return true;
     }
 
-    public static Node generateRandomBT(int max_level, int max_val) {
-        return generate(0, max_level, max_val);
+    public static Node generateRandomBT(int maxLevel, int maxVal) {
+        return generate(0, maxLevel, maxVal);
     }
 
-    private static Node generate(int cur_level, int max_level, int max_val) {
-        if (cur_level > max_level || Math.random() > 0.5) {
+    private static Node generate(int curLevel, int maxLevel, int maxVal) {
+        if (curLevel > maxLevel || Math.random() > 0.5) {
             return null;
         }
 
-        Node node = new Node(randomValue(max_val));
-        node.left = generate(cur_level + 1, max_level, max_val);
-        node.right = generate( cur_level + 1, max_level, max_val);
+        Node node = new Node(randomValue(maxVal));
+        node.left = generate(curLevel + 1, maxLevel, maxVal);
+        node.right = generate( curLevel + 1, maxLevel, maxVal);
         return node;
     }
 
-    private static int randomValue(int max_val) {
-        return (int)(Math.random() * (max_val + 1));
+    private static int randomValue(int maxVal) {
+        return (int)(Math.random() * (maxVal + 1));
     }
 
     public static void main(String[] args) {

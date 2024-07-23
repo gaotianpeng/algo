@@ -54,18 +54,18 @@ public class Code01_ReverseList {
     }
 
     public static Node generateRandomLinkedList(int max_len, int max_value) {
-        int list_len = (int)(Math.random() * (max_len+ 1));
-        if (list_len == 0) {
+        int listLen = (int)(Math.random() * (max_len+ 1));
+        if (listLen == 0) {
             return null;
         }
 
         Node head = new Node((int)(Math.random()*(max_value+1)));
         Node prev = head;
-        while (list_len != 0) {
+        while (listLen != 0) {
             Node node = new Node((int)(Math.random()*(max_value+1)));
             prev.next = node;
             prev = node;
-            list_len--;
+            listLen--;
         }
 
         return head;
@@ -77,7 +77,7 @@ public class Code01_ReverseList {
         }
 
         Node prev = new Node(head.value);
-        Node ret_node = prev;
+        Node retNode = prev;
         Node cur = head.next;
         while (cur != null) {
             Node node = new Node(cur.value);
@@ -86,7 +86,7 @@ public class Code01_ReverseList {
             prev = node;
         }
 
-        return ret_node;
+        return retNode;
     }
 
     public static void printLinkedList(Node head) {
@@ -121,13 +121,13 @@ public class Code01_ReverseList {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_time = 1000000;
-        int max_len = 12;
-        int max_value = 40;
+        int testTime = 1000000;
+        int maxLen = 12;
+        int maxValue = 40; 
         boolean success = true;
 
-        for (int i = 0; i < test_time; i++) {
-            Node node = generateRandomLinkedList(max_len, max_value);
+        for (int i = 0; i < testTime; i++) {
+            Node node = generateRandomLinkedList(maxLen, maxValue);
             Node node1 = copyLinkedList(node);
             if (!checkTwoLinkedListIsEqual(node, node1)) {
                 printLinkedList(node);

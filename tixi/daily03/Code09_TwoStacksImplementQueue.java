@@ -68,23 +68,23 @@ public class Code09_TwoStacksImplementQueue {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int one_test_data_num = 100;
+        int testTimes = 100000;
+        int oneTestDataNum = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            TwoStacksQueue my_queue = new TwoStacksQueue();
+        for (int i = 0; i < testTimes; i++) {
+            TwoStacksQueue myQueue = new TwoStacksQueue();
             Queue<Integer> queue = new LinkedList<>();
-            for (int j = 0; j < one_test_data_num; j++) {
+            for (int j = 0; j < oneTestDataNum; j++) {
                 int nums = (int)(Math.random() * 1000);
                 if (queue.isEmpty()) {
-                    my_queue.add(nums);
+                    myQueue.add(nums);
                     queue.offer(nums);
                 } else {
                     if (Math.random() < 0.5) {
-                        my_queue.poll();
+                        myQueue.poll();
                         queue.poll();
                     } else {
-                        if (!isEqual(my_queue.peek(), queue.peek())) {
+                        if (!isEqual(myQueue.peek(), queue.peek())) {
                             success = false;
                             break;
                         }

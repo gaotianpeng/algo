@@ -2,7 +2,6 @@ package tixi.daily12;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class Code02_IsBST {
     public static class Node {

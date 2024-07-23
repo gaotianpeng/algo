@@ -51,60 +51,59 @@ public class Code08_GetMinStack {
     }
 
     public static class MyStackTest {
-        private Stack<Integer> stack_;
-        private PriorityQueue<Integer> queue_;
+        private Stack<Integer> stack;
+        private PriorityQueue<Integer> queue;
         public MyStackTest() {
-            stack_ = new Stack<>();
-            queue_ = new PriorityQueue<>();
+            stack = new Stack<>();
+            queue = new PriorityQueue<>();
         }
 
         public void push(int new_num) {
-            stack_.push(new_num);
-            queue_.add(new_num);
+            stack.push(new_num);
+            queue.add(new_num);
         }
 
         public int pop() {
-            if (stack_.isEmpty()) {
+            if (stack.isEmpty()) {
                 throw new RuntimeException("当前栈为空，无法弹出数据");
             }
 
-            int ret = stack_.pop();
-            queue_.remove(ret);
+            int ret = stack.pop();
+            queue.remove(ret);
             return ret;
         }
 
         public int getMin() {
-            if (stack_.isEmpty()) {
+            if (stack.isEmpty()) {
                 throw new RuntimeException("当前栈为空，没有最小值");
             }
 
-            return queue_.peek();
+            return queue.peek();
         }
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 1000000;
-        int one_time_max_num = 100;
-        int max_val = 100;
+        int testTimes = 1000000;
+        int maxVal = 100;
         boolean success = true;
 
-        for (int i = 0; i < test_times; i++) {
+        for (int i = 0; i < testTimes; i++) {
             MyStack stack = new MyStack();
-            MyStackTest my_stack = new MyStackTest();
-            int nums = (int)(Math.random() * max_val);
+            MyStackTest myStack = new MyStackTest();
+            int nums = (int)(Math.random() * maxVal);
             if (Math.random() < 0.5 ) {
                 stack.push(nums);
-                my_stack.push(nums);
-                if (stack.getMin() != my_stack.getMin()) {
+                myStack.push(nums);
+                if (stack.getMin() != myStack.getMin()) {
                     success = false;
                     break;
                 }
             } else {
                 try {
                     stack.pop();
-                    my_stack.pop();
-                    if (stack.getMin() != my_stack.getMin()) {
+                    myStack.pop();
+                    if (stack.getMin() != myStack.getMin()) {
                         success = false;
                         break;
                     }

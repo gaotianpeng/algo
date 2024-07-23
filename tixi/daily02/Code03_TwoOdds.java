@@ -37,21 +37,21 @@ public class Code03_TwoOdds {
             return null;
         }
 
-        HashMap<Integer, Integer> num_times_map = new HashMap<>();
+        HashMap<Integer, Integer> numTimesMap = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
-            if (num_times_map.containsKey(arr[i])) {
-                num_times_map.put(arr[i], num_times_map.get(arr[i]) + 1);
+            if (numTimesMap.containsKey(arr[i])) {
+                numTimesMap.put(arr[i], numTimesMap.get(arr[i]) + 1);
             } else {
-                num_times_map.put(arr[i], 1);
+                numTimesMap.put(arr[i], 1);
             }
         }
 
-        int ret_arr_index = 0;
+        int retArrIndex = 0;
         int[] ret = new int[2];
-        for (HashMap.Entry<Integer, Integer> entry: num_times_map.entrySet()) {
+        for (HashMap.Entry<Integer, Integer> entry: numTimesMap.entrySet()) {
             if (entry.getValue() % 2 == 1) {
-                ret[ret_arr_index] = entry.getKey();
-                ret_arr_index++;
+                ret[retArrIndex] = entry.getKey();
+                retArrIndex++;
             }
         }
 
@@ -76,66 +76,66 @@ public class Code03_TwoOdds {
     }
 
     public static int[] generateTwoOddArray(int max_val, int max_len, int max_val_times) {
-        int arr_len = 0;
+        int arrLen = 0;
         // 产生随机数据长度
         while (true) {
-            arr_len = generateEvenNum(max_len);
-            if (arr_len >= 2) {
+            arrLen = generateEvenNum(max_len);
+            if (arrLen >= 2) {
                 break;
             }
         }
 
-        int [] arr = new int[arr_len];
+        int [] arr = new int[arrLen];
         // 产生两个出现奇数次数并存放HashMap
-        int odd1_num_times = 0;
-        int odd2_num_times = 0;
+        int odd1NumTimes = 0;
+        int odd2NumTimes = 0;
         while (true) {
-            odd1_num_times = generateOddNum(Math.min(max_len/2, max_val_times));
-            odd2_num_times = generateOddNum(Math.min(max_len/2, max_val_times));
-            if (odd1_num_times + odd2_num_times > arr.length) {
+            odd1NumTimes = generateOddNum(Math.min(max_len/2, max_val_times));
+            odd2NumTimes = generateOddNum(Math.min(max_len/2, max_val_times));
+            if (odd1NumTimes + odd2NumTimes > arr.length) {
                 continue;
             }
-            if (odd1_num_times > 0 && odd2_num_times > 0) {
+            if (odd1NumTimes > 0 && odd2NumTimes > 0) {
                 break;
             }
 
         }
 
-        HashMap<Integer, Integer> val_times_map = new HashMap<>();
-        int odd1_num = 0;
-        int odd2_num = 0;
+        HashMap<Integer, Integer> valTimesMap = new HashMap<>();
+        int odd1Num = 0;
+        int odd2Num = 0;
         while (true) {
-            odd1_num = generateRandomNum(max_val);
-            odd2_num = generateRandomNum(max_val);
+            odd1Num = generateRandomNum(max_val);
+            odd2Num = generateRandomNum(max_val);
 
-            if (odd1_num != odd2_num) {
-                val_times_map.put(odd1_num, odd1_num_times);
-                val_times_map.put(odd2_num, odd2_num_times);
+            if (odd1Num != odd2Num) {
+                valTimesMap.put(odd1Num, odd1NumTimes);
+                valTimesMap.put(odd2Num, odd2NumTimes);
                 break;
             }
         }
 
         // 产生其余出现偶数次的数
-        int left_even_nums = arr_len - odd1_num_times - odd2_num_times;
-        while (left_even_nums > 0) {
-            int even_num_times = generateEvenNum(Math.min(left_even_nums, max_val_times));
-            int even_num = generateRandomNum(max_val);
-            if (!val_times_map.containsKey(even_num)) {
-                int old_left_even_nums = left_even_nums;
-                left_even_nums -= even_num_times;
-                if (left_even_nums < 0) {
-                    even_num_times = old_left_even_nums;
+        int leftEvenNums = arrLen - odd1NumTimes - odd2NumTimes;
+        while (leftEvenNums > 0) {
+            int evenNumTimes = generateEvenNum(Math.min(leftEvenNums, max_val_times));
+            int evenNum = generateRandomNum(max_val);
+            if (!valTimesMap.containsKey(evenNum)) {
+                int oldLeftEvenNums = leftEvenNums;
+                leftEvenNums -= evenNumTimes;
+                if (leftEvenNums < 0) {
+                    evenNumTimes = oldLeftEvenNums;
                 }
-                val_times_map.put(even_num, even_num_times);
+                valTimesMap.put(evenNum, evenNumTimes);
             }
         }
 
         // 随机数组填充值
-        int arr_idx = 0;
-        for (HashMap.Entry<Integer, Integer> entry: val_times_map.entrySet()) {
+        int arrIndex = 0;
+        for (HashMap.Entry<Integer, Integer> entry: valTimesMap.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
-                arr[arr_idx] = entry.getKey();
-                arr_idx++;
+                arr[arrIndex] = entry.getKey();
+                arrIndex++;
             }
         }
 
@@ -184,13 +184,13 @@ public class Code03_TwoOdds {
             return;
         }
 
-        int random_time = arr.length;
-        while (random_time > 0) {
+        int ranodmTimes = arr.length;
+        while (ranodmTimes > 0) {
             int i = generateRandomNum(arr.length - 1);
             int j = generateRandomNum(arr.length - 1);
             if (i != j) {
                 swap(arr, i, j);
-                random_time--;
+                ranodmTimes--;
             }
         }
     }
@@ -203,13 +203,13 @@ public class Code03_TwoOdds {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_value = 30;
-        int max_val_times = 5;
-        int max_len = 30;
+        int testTimes = 100000;
+        int maxValue = 30;
+        int maxValTimes = 5;
+        int maxLen = 30;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateTwoOddArray(max_value, max_len, max_val_times);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateTwoOddArray(maxValue, maxLen, maxValTimes);
             randomArray(arr);
             if (!isEqual(getTwoOddsNum(arr), test(arr))) {
                 printArr(arr);

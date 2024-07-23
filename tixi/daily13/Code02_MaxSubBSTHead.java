@@ -20,18 +20,18 @@ public class Code02_MaxSubBSTHead {
             return null;
         }
 
-        return process(head).max_bst_head;
+        return process(head).maxBstHead;
     }
 
     private static class Info {
-        public Node max_bst_head;
-        public int max_bst_size;
+        public Node maxBstHead;
+        public int maxBstSize;
         public int max;
         public int min;
 
-        public Info(Node node, int bst_size, int ma, int mi) {
-            max_bst_head = node;
-            max_bst_size = bst_size;
+        public Info(Node node, int bstSize, int ma, int mi) {
+            maxBstHead = node;
+            maxBstSize = bstSize;
             max = ma;
             min = mi;
         }
@@ -42,36 +42,36 @@ public class Code02_MaxSubBSTHead {
             return null;
         }
 
-        Info left_info = process(head.left);
-        Info right_info = process(head.right);
-        Node max_bst_head = null;
+        Info leftInfo = process(head.left);
+        Info rightInfo = process(head.right);
+        Node maxBstHead = null;
         int max = head.value;
         int min = head.value;
-        int max_bst_size = 0;
-        if (left_info != null) {
-            max = Math.max(max, left_info.max);
-            min = Math.min(min, left_info.min);
-            max_bst_head = left_info.max_bst_head;
-            max_bst_size = left_info.max_bst_size;
+        int maxBstSize = 0;
+        if (leftInfo != null) {
+            max = Math.max(max, leftInfo.max);
+            min = Math.min(min, leftInfo.min);
+            maxBstHead = leftInfo.maxBstHead;
+            maxBstSize = leftInfo.maxBstSize;
         }
 
-        if (right_info != null) {
-            max = Math.max(max, right_info.max);
-            min = Math.min(min, right_info.min);
-            if (right_info.max_bst_size > max_bst_size) {
-                max_bst_head = right_info.max_bst_head;
-                max_bst_size = right_info.max_bst_size;
+        if (rightInfo != null) {
+            max = Math.max(max, rightInfo.max);
+            min = Math.min(min, rightInfo.min);
+            if (rightInfo.maxBstSize > maxBstSize) {
+                maxBstHead = rightInfo.maxBstHead;
+                maxBstSize = rightInfo.maxBstSize;
             }
         }
 
-        if ((left_info == null ? true : (left_info.max_bst_head == head.left && left_info.max < head.value))
-            && (right_info == null ? true : (right_info.max_bst_head == head.right && right_info.min > head.value))) {
-            max_bst_head = head;
-            max_bst_size = (left_info == null ? 0 : left_info.max_bst_size)
-                        + (right_info == null ? 0 : right_info.max_bst_size) + 1;
+        if ((leftInfo == null ? true : (leftInfo.maxBstHead == head.left && leftInfo.max < head.value))
+            && (rightInfo == null ? true : (rightInfo.maxBstHead == head.right && rightInfo.min > head.value))) {
+            maxBstHead = head;
+            maxBstSize = (leftInfo == null ? 0 : leftInfo.maxBstSize)
+                        + (rightInfo == null ? 0 : rightInfo.maxBstSize) + 1;
         }
 
-        return new Info(max_bst_head, max_bst_size, max, min);
+        return new Info(maxBstHead, maxBstSize, max, min);
     }
 
     public static Node test(Node head) {
@@ -83,10 +83,10 @@ public class Code02_MaxSubBSTHead {
             return head;
         }
 
-        Node ans_left = test(head.left);
-        Node ans_right = test(head.right);
+        Node ansLeft = test(head.left);
+        Node ansRight = test(head.right);
 
-        return getBSTSize(ans_left) >= getBSTSize(ans_right) ? ans_left : ans_right;
+        return getBSTSize(ansLeft) >= getBSTSize(ansRight) ? ansLeft : ansRight;
     }
 
     private static int getBSTSize(Node head) {
@@ -119,28 +119,28 @@ public class Code02_MaxSubBSTHead {
     /*
         for test
      */
-    public static Node generateRandomBST(int max_level, int max_val) {
-        return generate(1, max_level, max_val);
+    public static Node generateRandomBST(int maxLevel, int maxVal) {
+        return generate(1, maxLevel, maxVal);
     }
 
-    public static Node generate(int level, int max_level, int max_val) {
-        if (level > max_level || Math.random() < 0.5) {
+    public static Node generate(int level, int maxLevel, int maxVal) {
+        if (level > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node head = new Node((int) (Math.random() * max_val));
-        head.left = generate(level + 1, max_level, max_val);
-        head.right = generate(level + 1, max_level, max_val);
+        Node head = new Node((int) (Math.random() * maxVal));
+        head.left = generate(level + 1, maxLevel, maxVal);
+        head.right = generate(level + 1, maxLevel, maxVal);
         return head;
     }
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_level = 10;
-        int max_val = 100;
-        int test_times = 1000000;
+        int maxLevel = 10;
+        int maxVal = 100;
+        int testTimes = 1000000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            Node head = generateRandomBST(max_level, max_val);
+        for (int i = 0; i < testTimes; i++) {
+            Node head = generateRandomBST(maxLevel, maxVal);
             if (maxSubBSTHead(head) != test(head)) {
                 success = false;
                 break;
