@@ -69,20 +69,20 @@ public class Code_0094_BinaryTreeInorderTraversal {
         }
 
         TreeNode cur = root;
-        TreeNode most_right = null;
+        TreeNode most = null;
         while (cur != null) {
-            most_right = cur.left;
-            if (most_right != null) {
-                while (most_right.right != null && most_right.right != cur) {
-                    most_right = most_right.right;
+            most = cur.left;
+            if (most != null) {
+                while (most.right != null && most.right != cur) {
+                    most = most.right;
                 }
 
-                if (most_right.right == null) {
-                    most_right.right = cur;
+                if (most.right == null) {
+                    most.right = cur;
                     cur = cur.left;
                     continue;
                 } else {
-                    most_right.right = null;
+                    most.right = null;
                 }
             }
             ans.add(cur.val);
