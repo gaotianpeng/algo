@@ -87,11 +87,11 @@ public class Code04_RadixSort {
         return true;
     }
 
-    public static int[] generateRandomArray(int max_val, int max_len) {
-        int len = (int)(Math.random() * (max_len + 1));
+    public static int[] generateRandomArray(int maxVal, int maxLen) {
+        int len = (int)(Math.random() * (maxLen + 1));
         int[] arr = new int[len];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int)(Math.random() * (max_val + 1));
+            arr[i] = (int)(Math.random() * (maxVal + 1));
         }
 
         return arr;

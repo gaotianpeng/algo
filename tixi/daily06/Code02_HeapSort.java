@@ -85,18 +85,18 @@ public class Code02_HeapSort {
         Arrays.sort(arr);
     }
 
-    public static int[] generateRandomArray(int max_val, int max_len) {
-        int arr_len = (int)(Math.random() * (max_len + 1));
-        int[] ret = new int[arr_len];
-        for (int i = 0; i < arr_len; i++) {
-            ret[i] = generateRandomValue(max_val);
+    public static int[] generateRandomArray(int maxVal, int maxLen) {
+        int arrLen = (int)(Math.random() * (maxLen + 1));
+        int[] ret = new int[arrLen];
+        for (int i = 0; i < arrLen; i++) {
+            ret[i] = generateRandomValue(maxVal);
         }
 
         return ret;
     }
 
-    public static int generateRandomValue(int max_val) {
-        return (int)(Math.random()*(max_val + 1)) - (int)(Math.random() * max_val);
+    public static int generateRandomValue(int maxVal) {
+        return (int)(Math.random()*(maxVal + 1)) - (int)(Math.random() * maxVal);
     }
 
     public static int[] copyArray(int[] arr) {
@@ -151,13 +151,13 @@ public class Code02_HeapSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_len = 40;
-        int max_value = 50;
-        int test_times = 1000000;
+        int maxLen = 40;
+        int maxValue = 50;
+        int testTimes = 1000000;
         boolean success = true;
 
-        for (int i = 0; i < test_times; ++i) {
-            int[] arr1 = generateRandomArray(max_value, max_len);
+        for (int i = 0; i < testTimes; ++i) {
+            int[] arr1 = generateRandomArray(maxValue, maxLen);
             int[] arr2 = copyArray(arr1);
             int[] arr3 = copyArray(arr1);
             heapSort(arr1);

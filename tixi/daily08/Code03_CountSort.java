@@ -57,11 +57,11 @@ public class Code03_CountSort {
         return true;
     }
 
-    public static int[] generateRandomArray(int max_val, int max_len) {
-        int len = (int)(Math.random() * (max_len + 1));
+    public static int[] generateRandomArray(int maxVal, int maxLen) {
+        int len = (int)(Math.random() * (maxLen + 1));
         int[] arr = new int[len];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int)(Math.random() * (max_val + 1));
+            arr[i] = (int)(Math.random() * (maxVal + 1));
         }
 
         return arr;
@@ -92,12 +92,12 @@ public class Code03_CountSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int test_times = 100000;
-        int max_val = 200;
-        int max_len = 100;
+        int testTimes = 100000;
+        int maxVal = 200;
+        int maxLen = 100;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            int[] arr = generateRandomArray(max_val, max_len);
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray(maxVal, maxLen);
             int[] arr2 = copyArray(arr);
             int[] arr3 = copyArray(arr);
             countSort(arr);

@@ -38,29 +38,29 @@ public class Code03_SortedArrDistanceLessK {
         Arrays.sort(arr);
     }
 
-    public static int[] generateRandomLessKArray(int max_val, int max_len, int k) {
-        int arr_len = (int)(Math.random() * (max_len + 1));
-        int[] ret_arr = new int[arr_len];
-        for (int i = 0; i < arr_len; i++) {
-            ret_arr[i] = generateRandomValue(max_val);
+    public static int[] generateRandomLessKArray(int maxVal, int maxLen, int k) {
+        int arrLen = (int)(Math.random() * (maxLen + 1));
+        int[] ans = new int[arrLen];
+        for (int i = 0; i < arrLen; i++) {
+            ans[i] = generateRandomValue(maxVal);
         }
 
-        Arrays.sort(ret_arr);
-        boolean[] is_swapped = new boolean[arr_len];
-        for (int i= 0; i < ret_arr.length; i++) {
-            int j = Math.min(i + (int)(Math.random() * (k+1)), ret_arr.length - 1);
-            if (!is_swapped[i] && !is_swapped[j]) {
-                is_swapped[i] = true;
-                is_swapped[j] = true;
-                swap(ret_arr, i, j);
+        Arrays.sort(ans);
+        boolean[] isSwapped = new boolean[arrLen];
+        for (int i= 0; i < ans.length; i++) {
+            int j = Math.min(i + (int)(Math.random() * (k+1)), ans.length - 1);
+            if (!isSwapped[i] && !isSwapped[j]) {
+                isSwapped[i] = true;
+                isSwapped[j] = true;
+                swap(ans, i, j);
             }
         }
 
-        return ret_arr;
+        return ans;
     }
 
-    public static int generateRandomValue(int max_val) {
-        return (int)(Math.random()*(max_val + 1)) - (int)(Math.random() * max_val);
+    public static int generateRandomValue(int maxVal) {
+        return (int)(Math.random()*(maxVal + 1)) - (int)(Math.random() * maxVal);
     }
 
     public static int[] copyArray(int[] arr) {
@@ -121,14 +121,14 @@ public class Code03_SortedArrDistanceLessK {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int max_len = 40;
-        int max_value = 50;
-        int test_times = 1000000;
+        int maxLen = 40;
+        int maxValue = 50;
+        int testTimes = 1000000;
         boolean success = true;
 
-        for (int i = 0; i < test_times; ++i) {
-            int k = (int)(Math.random() * max_len) + 1;
-            int[] arr1 = generateRandomLessKArray(max_value, max_len, k);
+        for (int i = 0; i < testTimes; ++i) {
+            int k = (int)(Math.random() * maxLen) + 1;
+            int[] arr1 = generateRandomLessKArray(maxValue, maxLen, k);
             int[] arr2 = copyArray(arr1);
             heapSortLessK(arr1, k);
             test(arr2, k);

@@ -4,21 +4,21 @@ import java.util.HashMap;
 
 public class Code02_TrieTree2 {
     public static class TrieNode {
-        public int pass_;
-        public int end_;
-        public HashMap<Integer, TrieNode> nexts_;
+        public int pass;
+        public int end;
+        public HashMap<Integer, TrieNode> nexts;
 
         public TrieNode() {
-            pass_ = 0;
-            end_= 0;
-            nexts_ = new HashMap<>();
+            pass = 0;
+            end = 0;
+            nexts = new HashMap<>();
         }
     }
 
     public static class TrieTree {
-        private TrieNode root_node_;
+        private TrieNode rootNode;
         public TrieTree() {
-            root_node_ = new TrieNode();
+            rootNode = new TrieNode();
         }
 
         public void insert(String word) {
@@ -27,17 +27,17 @@ public class Code02_TrieTree2 {
             }
 
             char[] chs = word.toCharArray();
-            TrieNode node = root_node_;
-            node.pass_++;
+            TrieNode node = rootNode;
+            node.pass++;
             for (int i = 0; i < chs.length; i++) {
                 int index = (int)chs[i];
-                if (!node.nexts_.containsKey(index)) {
-                    node.nexts_.put(index, new TrieNode());
+                if (!node.nexts.containsKey(index)) {
+                    node.nexts.put(index, new TrieNode());
                 }
-                node = node.nexts_.get(index);
-                node.pass_++;
+                node = node.nexts.get(index);
+                node.pass++;
             }
-            node.end_++;
+            node.end++;
         }
 
         public void delete(String word) {
@@ -46,17 +46,17 @@ public class Code02_TrieTree2 {
             }
 
             char[] chs = word.toCharArray();
-            TrieNode node = root_node_;
-            node.pass_--;
+            TrieNode node = rootNode;
+            node.pass--;
             for (int i = 0; i < chs.length; i++) {
                 int index = (int)chs[i];
-                if (--node.nexts_.get(index).pass_ == 0) {
-                    node.nexts_.remove(index);
+                if (--node.nexts.get(index).pass == 0) {
+                    node.nexts.remove(index);
                     return;
                 }
-                node = node.nexts_.get(index);
+                node = node.nexts.get(index);
             }
-            node.pass_--;
+            node.pass--;
         }
 
         public int search(String word) {
@@ -65,15 +65,15 @@ public class Code02_TrieTree2 {
             }
 
             char[] chs = word.toCharArray();
-            TrieNode node = root_node_;
+            TrieNode node = rootNode;
             for (int i = 0; i < chs.length; i++) {
                 int index = (int)chs[i];
-                if (node.nexts_.get(index) == null) {
+                if (node.nexts.get(index) == null) {
                     return 0;
                 }
-                node = node.nexts_.get(index);
+                node = node.nexts.get(index);
             }
-            return node.end_;
+            return node.end;
         }
 
         public int prefixNumber(String pre) {
@@ -82,15 +82,15 @@ public class Code02_TrieTree2 {
             }
 
             char[] chs = pre.toCharArray();
-            TrieNode node = root_node_;
+            TrieNode node = rootNode;
             for (int i = 0; i < chs.length; i++) {
                 int index = (int)chs[i];
-                if (node.nexts_.get(index) == null) {
+                if (node.nexts.get(index) == null) {
                     return 0;
                 }
-                node = node.nexts_.get(index);
+                node = node.nexts.get(index);
             }
-            return node.pass_;
+            return node.pass;
         }
     }
 
@@ -142,8 +142,8 @@ public class Code02_TrieTree2 {
         }
     }
 
-    public static String generateRandomString(int str_len) {
-        char[] chs = new char[(int)(Math.random() * str_len) + 1];
+    public static String generateRandomString(int strLen) {
+        char[] chs = new char[(int)(Math.random() * strLen) + 1];
         for (int i = 0; i < chs.length; i++) {
             int val = (int)(Math.random() * 6);
             chs[i] = (char)(97+val);
@@ -151,10 +151,10 @@ public class Code02_TrieTree2 {
         return String.valueOf(chs);
     }
 
-    public static String[] generateRandomStringArray(int arr_len, int str_len) {
-        String[] ans = new String[(int)(Math.random() * arr_len) + 1];
+    public static String[] generateRandomStringArray(int arrLen, int strLen) {
+        String[] ans = new String[(int)(Math.random() * arrLen) + 1];
         for (int i = 0; i < ans.length; i++) {
-            ans[i] = generateRandomString(str_len);
+            ans[i] = generateRandomString(strLen);
         }
 
         return ans;
@@ -162,32 +162,32 @@ public class Code02_TrieTree2 {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int arr_len = 30;
-        int str_len = 20;
-        int test_times = 10000;
+        int arrLen = 30;
+        int strLen = 20;
+        int testTimes = 10000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
-            String[] arr = generateRandomStringArray(arr_len, str_len);
-            TrieTree trie_tree = new TrieTree();
-            TrieTest test_tree = new TrieTest();
+        for (int i = 0; i < testTimes; i++) {
+            String[] arr = generateRandomStringArray(arrLen, strLen);
+            TrieTree trieTree = new TrieTree();
+            TrieTest testTree = new TrieTest();
             for (int j = 0; j < arr.length; j++) {
                 double decide = Math.random();
                 if (decide < 0.25) {
-                    trie_tree.insert(arr[j]);
-                    test_tree.insert(arr[j]);
+                    trieTree.insert(arr[j]);
+                    testTree.insert(arr[j]);
                 } else if (decide < 0.5) {
-                    trie_tree.delete(arr[j]);
-                    test_tree.delete(arr[j]);
+                    trieTree.delete(arr[j]);
+                    testTree.delete(arr[j]);
                 } else if (decide < 0.75) {
-                    int ans1 = trie_tree.search(arr[j]);
-                    int ans2 = test_tree.search(arr[j]);
+                    int ans1 = trieTree.search(arr[j]);
+                    int ans2 = testTree.search(arr[j]);
                     if (ans1 != ans2) {
                         success = false;
                         break;
                     }
                 } else {
-                    int ans1 = trie_tree.prefixNumber(arr[j]);
-                    int ans2 = test_tree.prefixNumber(arr[j]);
+                    int ans1 = trieTree.prefixNumber(arr[j]);
+                    int ans2 = testTree.prefixNumber(arr[j]);
                     if (ans1 != ans2) {
                         success = false;
                         break;

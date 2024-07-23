@@ -115,10 +115,10 @@ public class Code01_TrieTree {
         for test
      */
     public static class TrieTest {
-        private HashMap<String, Integer> map_;
+        private HashMap<String, Integer> map;
 
         public TrieTest() {
-            map_ = new HashMap<>();
+            map = new HashMap<>();
         }
 
         public void insert(String word) {
@@ -126,10 +126,10 @@ public class Code01_TrieTree {
                 return;
             }
 
-            if (map_.containsKey(word)) {
-                map_.put(word, map_.get(word) + 1);
+            if (map.containsKey(word)) {
+                map.put(word, map.get(word) + 1);
             } else {
-                map_.put(word, 1);
+                map.put(word, 1);
             }
         }
 
@@ -138,11 +138,11 @@ public class Code01_TrieTree {
                 return;
             }
 
-            if (map_.containsKey(word)) {
-                if (map_.get(word) == 1) {
-                    map_.remove(word);
+            if (map.containsKey(word)) {
+                if (map.get(word) == 1) {
+                    map.remove(word);
                 } else {
-                    map_.put(word, map_.get(word) - 1);
+                    map.put(word, map.get(word) - 1);
                 }
             }
         }
@@ -152,8 +152,8 @@ public class Code01_TrieTree {
                 return 0;
             }
 
-            if (map_.containsKey(word)) {
-                return map_.get(word);
+            if (map.containsKey(word)) {
+                return map.get(word);
             }
 
             return 0;
@@ -165,17 +165,17 @@ public class Code01_TrieTree {
             }
 
             int ans = 0;
-            for (String s: map_.keySet()) {
+            for (String s: map.keySet()) {
                 if (s.startsWith(prefix)) {
-                    ans += map_.get(s);
+                    ans += map.get(s);
                 }
             }
             return ans;
         }
     }
 
-    public static String generateRandomString(int str_len) {
-        char[] chs = new char[(int)(Math.random() * str_len) + 1];
+    public static String generateRandomString(int strLen) {
+        char[] chs = new char[(int)(Math.random() * strLen) + 1];
         for (int i = 0; i < chs.length; i++) {
             int val = (int)(Math.random() * 6);
             chs[i] = (char)(97+val);
@@ -183,10 +183,10 @@ public class Code01_TrieTree {
         return String.valueOf(chs);
     }
 
-    public static String[] generateRandomStringArray(int arr_len, int str_len) {
-        String[] ans = new String[(int)(Math.random() * arr_len) + 1];
+    public static String[] generateRandomStringArray(int arrLen, int strLen) {
+        String[] ans = new String[(int)(Math.random() * arrLen) + 1];
         for (int i = 0; i < ans.length; i++) {
-            ans[i] = generateRandomString(str_len);
+            ans[i] = generateRandomString(strLen);
         }
 
         return ans;

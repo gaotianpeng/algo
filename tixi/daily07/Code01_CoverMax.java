@@ -117,9 +117,9 @@ public class Code01_CoverMax {
         int N = 100;
         int L = 0;
         int R = 200;
-        int test_times = 100000;
+        int testTimes = 100000;
         boolean success = true;
-        for (int i = 0; i < test_times; i++) {
+        for (int i = 0; i < testTimes; i++) {
             int[][] lines = generateLines(N, L, R);
             int ans1 = test(lines);
             int ans2 = maxCover(lines);
