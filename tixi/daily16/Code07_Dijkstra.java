@@ -1,6 +1,5 @@
 package tixi.daily16;
 
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -10,19 +9,25 @@ import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+/*
+    Dijkstra最短路径算法(计算图中，一个点到其他所有点的最短路径)
+        1）Dijkstra算法必须指定一个源点
+        2）生成一个源点到各个点的最小距离表，一开始只有一条记录，即原点到自己的最小距离为0，源点到其他所有点的最小距离都为正无穷大
+        3）从距离表中拿出没拿过记录里的最小记录，通过这个点发出的边，更新源点到各个点的最小距离表，不断重复这一步
+        4）源点到所有的点记录如果都被拿过一遍，过程停止，最小距离表得到了
+*/
 public class Code07_Dijkstra {
     /*
-        Dijkstra最短路径算法
-            1）Dijkstra算法必须指定一个源点
-            2）生成一个源点到各个点的最小距离表，一开始只有一条记录，即原点到自己的最小距离为0，源点到其他所有点的最小距离都为正无穷大
-            3）从距离表中拿出没拿过记录里的最小记录，通过这个点发出的边，更新源点到各个点的最小距离表，不断重复这一步
-            4）源点到所有的点记录如果都被拿过一遍，过程停止，最小距离表得到了
-    */
+     *  求从图中from点出发，到图中所有其它点的最小距离
+     *  HashMap<Node, Integer>
+     *      key: 从haead出发到达key
+     *      value: 从head出发到达key的最小距离
+     */
     public static HashMap<Node, Integer> dijkstra(Node from) {
         // from 点到图中各个点的最短距离，包含from点本身
         HashMap<Node, Integer> distanceMap = new HashMap<>();
         distanceMap.put(from, 0);
-        // 已计算出最短距离的点
+        // 已经求过距离的节点，存在selectedNodes中，以后再也不碰
         HashSet<Node> selectedNodes = new HashSet<>();
         Node minNode = getMinDistanceAndUnselectedNode(distanceMap, selectedNodes);
         while (minNode != null) {
@@ -44,7 +49,7 @@ public class Code07_Dijkstra {
         return distanceMap;
     }
 
-    // distanceMap中哪个距离最涉，并且没有打过对号的点
+    // distanceMap中哪个距离最近，并且没有打过对号的点
     public static Node getMinDistanceAndUnselectedNode(HashMap<Node, Integer> distanceMap,
                                                        HashSet<Node> touchedNodes) {
         Node minNode = null;
