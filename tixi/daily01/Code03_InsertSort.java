@@ -16,8 +16,9 @@ public class Code03_InsertSort {
             return;
         }
 
-        for (int i = 1; i < arr.length; ++i) {
-            for (int j = i; j > 0; j--) {
+        int N = arr.length;
+        for (int i = 1; i < N; ++i) {
+            for (int j = i; j > 0; --j) {
                 if (arr[j] < arr[j-1]) {
                     swap(arr, j, j - 1);
                 }
@@ -99,21 +100,21 @@ public class Code03_InsertSort {
         int testTime = 500000;
         int maxSize = 100;
         int maxValue = 100;
-        boolean succeed = true;
+        boolean success = true;
         for (int i = 0; i < testTime; ++i) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
             test(arr1);
             insertSorrt(arr2);
             if (!isEqual(arr1, arr2)) {
-                succeed = false;
+                success = false;
                 printArray(arr1);
                 printArray(arr2);
                 break;
             }
         }
 
-        System.out.println(succeed ? "Success": "Failed");
+        System.out.println(success ? "Success": "Failed");
         System.out.println("test end");
     }
 }

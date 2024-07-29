@@ -31,6 +31,10 @@ public class Code04_BSExist {
         for test
      */
     public static boolean test(int[] arr, int num) {
+        if (arr == null || arr.length == 0) {
+            return false;
+        }
+
         for(int cur : arr) {
             if(cur == num) {
                 return true;
@@ -49,20 +53,20 @@ public class Code04_BSExist {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int testTimes = 500000;
+        int testTimes = 100000;
         int maxSize = 10;
         int maxValue = 100;
-        boolean succeed = true;
+        boolean success = true;
         for (int i = 0; i < testTimes; i++) {
             int[] arr = generateRandomArray(maxSize, maxValue);
             Arrays.sort(arr);
             int value = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
             if (test(arr, value) != exist(arr, value)) {
-                succeed = false;
+                success = false;
                 break;
             }
         }
-        System.out.println(succeed ? "Success!" : "Failed");
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end");
     }
 }

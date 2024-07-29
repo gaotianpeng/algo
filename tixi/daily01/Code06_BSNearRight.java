@@ -9,9 +9,9 @@ public class Code06_BSNearRight {
             return -1;
         }
 
+        int ans = -1;
         int left = 0;
         int right = arr.length - 1;
-        int ans = -1;
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (arr[mid] <= num) {
@@ -79,7 +79,7 @@ public class Code06_BSNearRight {
                 break;
             }
         }
-        System.out.println(success ? "Success" : "Failed");
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end");
     }
 }

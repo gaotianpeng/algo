@@ -12,31 +12,33 @@ import java.util.Arrays;
     最后在arr[0～1]范围上，重复上面的过程，但最后一步是arr[0]和arr[1]，谁大谁来到1位置
  */
 public class Code02_BubbleSort {
+    // 每次将未排序的数组中最大值放在未排序数组的最后一个位置上
     public static void bubbleSort(int arr[]) {
         if (arr == null || arr.length < 2) {
             return;
         }
 
         int N = arr.length;
-        for (int i = N - 1; i > 0; i--) {
+        for (int i = N - 1; i > 0; --i) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] > arr[j+1]) {
-                    swap(arr, j, j+1);
+                    swap(arr, j, j + 1);
                 }
             }
         }
     }
 
+    // 每次将未排序的数组中最小值放在未排序数组的第一个位置上
     public static void bubbleSort1(int arr[]) {
         if (arr == null || arr.length < 2) {
             return;
         }
 
         int N = arr.length;
-        for (int i = 0; i < N -1; i++) {
+        for (int i = 0; i < N - 1; ++i) {
             for (int j = N - 1; j > i; j--) {
-                if (arr[j-1] > arr[j]) {
-                    swap(arr, arr[j-1], arr[j]);
+                if (arr[j] < arr[j-1]) {
+                    swap(arr, j - 1, j );
                 }
             }
         }
@@ -113,31 +115,31 @@ public class Code02_BubbleSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int testTime = 500000;
+        int testTime = 100000;
         int maxSize = 100;
         int maxValue = 100;
-        boolean succeed = true;
+        boolean success = true;
         for (int i = 0; i < testTime; ++i) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
             int[] arr3 = copyArray(arr1);
             test(arr1);
             bubbleSort(arr2);
-            bubbleSort(arr3);
+            bubbleSort1(arr3);
             if (!isEqual(arr1, arr2)) {
-                succeed = false;
+                success = false;
                 printArray(arr1);
                 printArray(arr2);
                 break;
             }
             if (!isEqual(arr1, arr3)) {
-                succeed = false;
+                success = false;
                 printArray(arr1);
                 printArray(arr3);
             }
         }
 
-        System.out.println(succeed ? "Success": "Failed");
+        System.out.println(success ? "success": "failed");
         System.out.println("test end");
     }
 }

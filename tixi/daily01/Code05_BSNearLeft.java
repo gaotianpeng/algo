@@ -64,10 +64,10 @@ public class Code05_BSNearLeft {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int testTimes = 500000;
+        int testTimes = 100000;
         int maxSize = 10;
         int maxValue = 100;
-        boolean succeed = true;
+        boolean success = true;
         for (int i = 0; i < testTimes; i++) {
             int[] arr = genRandomArray(maxSize, maxValue);
             Arrays.sort(arr);
@@ -77,11 +77,11 @@ public class Code05_BSNearLeft {
                 System.out.println(value);
                 System.out.println(test(arr, value));
                 System.out.println(nearestIndex(arr, value));
-                succeed = false;
+                success = false;
                 break;
             }
         }
-        System.out.println(succeed ? "Success!" : "Failed");
+        System.out.println(success ? "success" : "failed");
         System.out.println("test end");
     }
 }

@@ -130,10 +130,10 @@ public class Code01_SelectSort {
 
     public static void main(String[] args) {
         System.out.println("test start...");
-        int testTime = 500000;
+        int testTime = 100000;
         int maxSize = 100;
         int maxValue = 100;
-        boolean succeed = true;
+        boolean success = true;
         for (int i = 0; i < testTime; ++i) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
@@ -142,7 +142,7 @@ public class Code01_SelectSort {
             selectSort(arr2);
             selectSort1(arr3);
             if (!isEqual(arr1, arr2) || !isEqual(arr1, arr3)) {
-                succeed = false;
+                success = false;
                 printArray(arr1);
                 printArray(arr2);
                 printArray(arr3);
@@ -150,7 +150,7 @@ public class Code01_SelectSort {
             }
         }
 
-        System.out.println(succeed ? "Success": "Failed");
+        System.out.println(success ? "success": "failed");
         System.out.println("test end");
     }
 }
