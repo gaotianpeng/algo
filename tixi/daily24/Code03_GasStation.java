@@ -64,8 +64,8 @@ public class Code03_GasStation {
         
         return result;
     }
+
     public static int test(int[] gas, int[] cost) {
-        // 无法过滤参数
         int n = gas.length;
         int[] left = new int [n];
         for (int i = 0; i < n; ++i) {

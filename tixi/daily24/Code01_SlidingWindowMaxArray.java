@@ -12,26 +12,30 @@ public class Code01_SlidingWindowMaxArray {
             例如，arr = [4,3,5,4,3,3,6,7], W = 3
             返回：[5,5,5,4,6,7]
      */
-    public static int[] maxSlidingWindow(int[] arr, int w) {
-        if (arr == null || arr.length < w || w < 1) {
+    // [6, 4, 2, 3, 5, 7, 0, 5]
+    //  0  1  2  3  4  5  6  7
+    public static int[] maxSlidingWindow(int[] arr, int W) {
+        if (arr == null || arr.length < W || W < 1) {
             return null;
         }
 
         int N = arr.length;
-        int[] ans = new int[N - w + 1];
+        int[] ans = new int[N - W + 1];
         int index = 0;
+        // 假设让窗口依次缩小，哪些位置会依次成为窗口内的最大值
         LinkedList<Integer> qmax = new LinkedList<>();
-        for (int right = 0; right < N; ++right) {
-            while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[right]) {
+        for (int R = 0; R < N; ++R) {
+            while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[R]) {
                 qmax.pollLast();
             }
-            qmax.addLast(right);
-
-            if (qmax.peekFirst() == right - w) {
+            qmax.addLast(R);
+            // R-W 位置过期
+            if (qmax.peekFirst() == R - W) {
                 qmax.pollFirst();
             }
 
-            if (right >= w - 1) {
+            // 此时，形成了一个正常的窗口，需要收集答案
+            if (R >= W - 1) {
                 ans[index++] = arr[qmax.peekFirst()];
             }
         }
@@ -120,7 +124,7 @@ public class Code01_SlidingWindowMaxArray {
             }
         }
 
-        System.out.println(success ? "test success": "test failed");
+        System.out.println(success ? "success": "failed");
         System.out.println("test end");
     }
 }

@@ -20,22 +20,24 @@ public class Code02_AllLessNumSubArray {
 
         int ans = 0;
         int N = arr.length;
-        LinkedList<Integer> qmin = new LinkedList<>();
-        LinkedList<Integer> qmax = new LinkedList<>();
+        LinkedList<Integer> minWindow = new LinkedList<>();
+        LinkedList<Integer> maxWindow = new LinkedList<>();
         int R = 0;
+        // [L...R)
         for (int L = 0; L < N; ++L) {
+            // R向右扩，扩到初次不达标，停
             while (R < N) {
-                while (!qmax.isEmpty() && arr[qmax.peekLast()] <= arr[R]) {
-                    qmax.pollLast();
+                while (!maxWindow.isEmpty() && arr[maxWindow.peekLast()] <= arr[R]) {
+                    maxWindow.pollLast();
                 }
-                qmax.addLast(R);
+                maxWindow.addLast(R);
 
-                while (!qmin.isEmpty() && arr[qmin.peekLast()] >= arr[R]) {
-                    qmin.pollLast();
+                while (!minWindow.isEmpty() && arr[minWindow.peekLast()] >= arr[R]) {
+                    minWindow.pollLast();
                 }
-                qmin.addLast(R);
-
-                if (arr[qmax.peekFirst()] - arr[qmin.peekFirst()] > sum) {
+                minWindow.addLast(R);
+                // 不达标，停
+                if (arr[maxWindow.peekFirst()] - arr[minWindow.peekFirst()] > sum) {
                     break;
                 } else {
                     ++R;
@@ -43,13 +45,12 @@ public class Code02_AllLessNumSubArray {
             }
 
             ans += R - L;
-
-            if (qmax.peekFirst() == L) {
-                qmax.pollFirst();
+            // L即将++, L位置过期
+            if (maxWindow.peekFirst() == L) {
+                maxWindow.pollFirst();
             }
-
-            if (qmin.peekFirst() == L) {
-                qmin.pollFirst();
+            if (minWindow.peekFirst() == L) {
+                minWindow.pollFirst();
             }
         }
 
