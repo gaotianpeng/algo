@@ -1,7 +1,9 @@
 package tixi.daily26;
 
+import java.util.HashMap;
+
 public class Code02_FibonacciProblem {
-    public int fib(int n) {
+    public static int fib(int n) {
         if (n == 0) {
             return 0;
         }
@@ -13,7 +15,33 @@ public class Code02_FibonacciProblem {
         return fib(n-1) + fib(n-2);
     }
 
-    public int fib1(int n) {
+    public static int fib1(int n) {
+        if (n == 0) {
+            return 0;
+        }
+
+        if (n == 1) {
+            return 1;
+        }
+
+        HashMap<Integer, Integer> dp = new HashMap<>();
+        dp.put(0, 0);
+        dp.put(1, 1);
+        return process(n, dp);
+    }
+
+    public static int process(int n, HashMap<Integer, Integer> dp) {
+        if (dp.containsKey(n)) {
+            return dp.get(n);
+        }
+
+        int ans1 = process(n-1, dp);
+        int ans2 = process(n-2, dp);
+        dp.put(n, ans1 + ans2);
+        return ans1 + ans2;
+    }
+
+    public static int fib2(int n) {
         if (n < 1) {
             return 0;
         }
@@ -35,7 +63,7 @@ public class Code02_FibonacciProblem {
     }
 
     // O(logN)
-    public static int fib2(int n) {
+    public static int fib3(int n) {
         if (n < 1) {
             return 0;
         }
@@ -82,5 +110,27 @@ public class Code02_FibonacciProblem {
             }
         }
         return ans;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        boolean success = true;
+        int testTimes = 10000;
+        for (int i = 0; i < testTimes; ++i) {
+            int n = (int)(Math.random()*1000);
+            if (fib1(n) != fib2(n)) {
+                success = false;
+                break;
+            }
+
+            if (fib1(n) != fib3(n)) {
+                success = false;
+                break;
+            }
+
+        }
+
+        System.out.println(success ? "success":"failed");
+        System.out.println("test end");
     }
 }
