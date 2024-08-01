@@ -53,23 +53,29 @@ public class Code01_MorrisTraversal {
         }
 
         Node cur = head;
-        Node most_right = null;
+        Node mostRight = null;  // 左树最右节点
         while (cur != null) {
-            most_right = cur.left;
-            if (most_right != null) {
-                while (most_right.right != null && most_right.right != cur) {
-                    most_right = most_right.right;
+            // cur 有没有左树?
+            mostRight = cur.left;
+            if (mostRight != null) { // cur左树不为空
+                // 找到cur.left 真实的最右节点
+                while (mostRight.right != null && mostRight.right != cur) {
+                    mostRight = mostRight.right;
                 }
-                if (most_right.right == null) {
-                    most_right.right = cur;
+                // 从while出来，mostRight是cur左树上的最右节点
+                // 第一次
+                if (mostRight.right == null) {
+                    mostRight.right = cur;
                     cur = cur.left;
                     continue;
-                } else {
-                    most_right.right = null;
+                } else { // 第二次，mostRight.right = cur;
+                    mostRight.right = null;
+                    // cur = cur.right;
+                    // continue;
                 }
             }
 
-            cur = cur.right;
+            cur = cur.right; // cur左树为空
         }
     }
 
@@ -137,20 +143,20 @@ public class Code01_MorrisTraversal {
         }
 
         Node cur = head;
-        Node most_right = null;
+        Node mostRight = null;
         while (cur != null) {
-            most_right = cur.left;
-            if (most_right != null) {
-                while (most_right.right != null && most_right.right != cur) {
-                    most_right = most_right.right;
+            mostRight = cur.left;
+            if (mostRight != null) {
+                while (mostRight.right != null && mostRight.right != cur) {
+                    mostRight = mostRight.right;
                 }
 
-                if (most_right.right == null) {
-                    most_right.right = cur;
+                if (mostRight.right == null) {
+                    mostRight.right = cur;
                     cur = cur.left;
                     continue;
                 } else {
-                    most_right.right = null;
+                    mostRight.right = null;
                     printEdge(cur.left);
                 }
             }
