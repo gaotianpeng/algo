@@ -4,6 +4,15 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+    Morris 遍历
+        假设来到当前节点 cur, 开始时，cur 来到头节点位置
+        1）如果 cur 没有左孩子，cur 向右移动(cur = cur.right)
+        2）如果 cur 有左孩子，找到左子树上最右的节点 mostRight
+            a. 如果 mostRight 的右指针指向为空，让其指向 cur，然后cur向左移动(cur = cur.left)
+            b. 如果 mostRight 的右指针指向cur, 让其指向 null，然后 cur 向右移动 (cur = cur.right)
+        3）cur 为空时遍历停止
+*/
 public class Code02_MorrisPreTraversal {
     public static class Node {
         public int value;
@@ -15,15 +24,6 @@ public class Code02_MorrisPreTraversal {
         }
     }
 
-    /*
-        Morris 遍历
-            假设来到当前节点 cur, 开始时，cur 来到头节点位置
-            1）如果 cur 没有左孩子，cur 向右移动(cur = cur.right)
-            2）如果 cur 有左孩子，找到左子树上最右的节点 mostRight
-                a. 如果 mostRight 的右指针指向为空，让其指向 cur，然后cur向左移动(cur = cur.left)
-                b. 如果 mostRight 的右指针指向cur, 让其指向 null，然后 cur 向右移动 (cur = cur.right)
-            3）cur 为空时遍历停止
-     */
     public static List<Integer> morrisPre(Node head) {
         if (head == null) {
             return null;
@@ -34,25 +34,25 @@ public class Code02_MorrisPreTraversal {
         Node mostRight = null;
         while (cur != null) {
             mostRight = cur.left;
-            if (mostRight != null) {
+            if (mostRight != null) { // cur的左孩子不为空
                 while (mostRight.right != null && mostRight.right != cur) {
                     mostRight = mostRight.right;
                 }
 
+                // 此时，mostRight是cur左树上的最右节点
                 if (mostRight.right == null) {
                     ans.add(cur.value);
                     mostRight.right = cur;
                     cur = cur.left;
-                    continue;
-                } else {
+                    continue; 
+                } else { // 第二次来到cur, mostRight.right = cur
                     mostRight.right = null;
                 }
-
             } else {
-                ans.add(cur.value);
+                ans.add(cur.value); // 第一次来到节点，收集结果
             }
 
-            cur = cur.right;
+            cur = cur.right;    // cur左孩子为空
         }
 
         return ans;
