@@ -41,7 +41,7 @@ public class Code02_MorrisPreTraversal {
 
                 // 此时，mostRight是cur左树上的最右节点
                 if (mostRight.right == null) {
-                    ans.add(cur.value);
+                    ans.add(cur.value); // 第一次来到节点，收集结果
                     mostRight.right = cur;
                     cur = cur.left;
                     continue; 
