@@ -5,14 +5,15 @@ import java.util.List;
 
 public class Code05_MinimumDepthOfBinaryTree {
     public static class Node {
-        public int value;
+        public int val;
         Node left;
         Node right;
 
         public Node(int data) {
-            this.value = data;
+            this.val = data;
         }
     }
+
     public static int minDepth(Node head) {
         if (head == null) {
             return 0;
