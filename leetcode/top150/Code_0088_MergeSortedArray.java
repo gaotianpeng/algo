@@ -1,7 +1,10 @@
 package leetcode.top150;
 
+import java.util.Arrays;
+
 public class Code_0088_MergeSortedArray {
     /*
+    88. 合并两个有序数组
     给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。
     请你 合并 nums2 到 nums1 中，使合并后的数组同样按 非递减顺序 排列。
     注意：最终，合并后数组不应由函数返回，而是存储在数组 nums1 中。为了应对这种情况，nums1 的初始长度为 m + n，
@@ -51,5 +54,109 @@ public class Code_0088_MergeSortedArray {
         while (p2 >= 0) {
             nums1[p--] = nums2[p2--];
         }
+    }
+
+    /*
+        for test
+     */
+    public static void test(int[] nums1, int m, int[] nums2, int n) {
+        if (n < 1) {
+            return;
+        }
+
+        for (int i = 0; i < n; ++i) {
+            nums1[i + m] = nums2[i];
+        }
+
+        Arrays.sort(nums1);
+    }
+
+    public static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int)((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int)((maxValue + 1) * Math.random()) - (int)(maxValue * Math.random());
+        }
+
+        return arr;
+    }
+
+    public static int[] copyArray(int[] arr) {
+        if (arr == null) {
+            return null;
+        }
+
+        int[] ret = new int[arr.length];
+        for (int i = 0; i < arr.length; ++i) {
+            ret[i] = arr[i];
+        }
+
+        return ret;
+    }
+
+    public static boolean isEqual(int[] arr1, int[] arr2) {
+        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
+            return false;
+        }
+
+        if (arr1 == null && arr2 == null) {
+            return true;
+        }
+
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void printArray(int[] arr) {
+        if (arr == null) {
+            return;
+        }
+
+        for (int i = 0; i < arr.length; ++i) {
+            System.out.print(arr[i] + " ");
+        }
+
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("test start...");
+        int testTimes = 100000;
+        int maxVal = 50;
+        int maxLen = 10;
+        boolean success = true;
+
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray(maxLen, maxVal);
+            int[] nums2 = generateRandomArray(maxLen, maxVal);
+            int m = arr.length;
+            int n = nums2.length;
+            Arrays.sort(arr);
+            Arrays.sort(nums2);
+            int[] nums1 = new int[arr.length + nums2.length];
+            for (int j = 0; j < arr.length; ++j) {
+                nums1[j] = arr[j];
+            }
+
+            int[] copyNums1 = copyArray(nums1);
+            int[] copyNums2 = copyArray(nums2);
+            merge(nums1, m, nums2, n);
+            test(copyNums1, m, copyNums2, n);
+            if (!isEqual(nums1, copyNums1)) {
+                success = false;
+                break;
+            }
+        }
+
+        System.out.println(success ? "success": "failed");
+        System.out.println("test end");
     }
 }
