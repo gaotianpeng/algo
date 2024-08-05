@@ -8,17 +8,17 @@ public class Code01_Manacher {
         if (s == null || s.length() == 0) {
             return 0;
         }
-
+        // "12132" -> "#1#2#1#3#2#"
         char[] str = manacherString(s);
         int n = str.length;
         int[] pRadiusArr = new int[n]; // 回文半径大小数组
-        int pCenter = -1;
-        int right = -1; // 成功扩至最右的下一个位置
+        int C = -1; // R对应的回文中心点
+        int R = -1; // 成功扩至最右的下一个位置
         int ans = Integer.MIN_VALUE;
         for (int i = 0; i < n; ++i) {
             // R第一个违规的位置，i>= R
             // i位置扩出来的答案，i位置扩的区域，至少是多大。
-            pRadiusArr[i] = right > i ? Math.min(right - i, pRadiusArr[2*pCenter - i]) : 1;
+            pRadiusArr[i] = R > i ? Math.min(R - i, pRadiusArr[2*C - i]) : 1;
             while (i + pRadiusArr[i] < str.length && i - pRadiusArr[i] > -1) {
                 if (str[i+pRadiusArr[i]] == str[i-pRadiusArr[i]]) {
                     pRadiusArr[i]++;
@@ -26,9 +26,9 @@ public class Code01_Manacher {
                     break;
                 }
             }
-            if (i + pRadiusArr[i] > right) {
-                right = i + pRadiusArr[i];
-                pCenter = i;
+            if (i + pRadiusArr[i] > R) {
+                R = i + pRadiusArr[i];
+                C = i;
             }
 
             ans = Math.max(ans, pRadiusArr[i]);
@@ -80,17 +80,19 @@ public class Code01_Manacher {
 
     public static void main(String[] args) {
         System.out.println("test start...");
+        boolean success = true;
         int posibilities = 5;
         int strSize = 30;
         int testTimes = 100000;
         for (int i = 0; i < testTimes; ++i) {
             String s = getRandomString(posibilities, strSize);
             if (test(s) != manacher(s)) {
-                System.out.println("test failed");
+                success = false;
                 break;
             }
         }
 
+        System.out.println(success? "success" : "failed");
         System.out.println("test end");
     }
 }
