@@ -8,27 +8,29 @@ import java.util.Random;
     返回其长度
  */
 public class Code01_LongestSumSubArrayLengthInPositiveArray {
+    // 具有单调性，可以使用滑动窗口的思想来解决
     public static int getMaxLength(int[] arr, int K) {
         if (arr == null || arr.length == 0 || K <= 0) {
             return 0;
         }
 
-        int ans = 0;
-        int left = 0;
-        int right = 0;
+        int L = 0;
+        int R = 0;
+        int N = arr.length;
         int sum = arr[0];
-        while (right < arr.length) {
+        int ans = 0;
+        while (R < N) {
             if (sum == K) {
-                ans = Math.max(ans, right - left + 1);
-                sum -= arr[left++];
+                ans = Math.max(ans, R - L + 1);
+                sum -= arr[L++];
             } else if (sum < K) {
-                ++right;
-                if (right == arr.length) {
+                ++R;
+                if (R == N) {
                     break;
                 }
-                sum += arr[right];
+                sum += arr[R];
             } else {
-                sum -= arr[left++];
+                sum -= arr[L++];
             }
         }
 
@@ -97,7 +99,6 @@ public class Code01_LongestSumSubArrayLengthInPositiveArray {
         int maxValue = 100;
         int maxLen = 50;
         for (int i = 0; i < testTimes; ++i) {
-            int len = (int) (Math.random() * maxLen) + 1;
             int K = (int) (Math.random() * maxValue) + 1;
             int[] arr = generatePositiveArray(maxLen, maxValue);
             int ans1 = getMaxLength(arr, K);
