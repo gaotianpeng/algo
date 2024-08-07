@@ -9,11 +9,18 @@ import java.util.Random;
     返回其长度
  */
 public class Code03_LongestLessSumSubArrayLength {
+    /*
+     *  arr         [ 3, 7, 4, -6, 6, 3, -2, 0, 7, -3, 2]
+     * minSums      [                    -2, 0, 4, -3, 2]
+     * minSumEnds   [                     8, 8, 9,  9,10]          
+     */
     public static int maxLengthAwesome(int[] arr, int k) {
         if (arr == null || arr.length == 0) {
             return 0;
         }
+        // minSum以i开头，最小的累加和
         int[] minSums = new int[arr.length];
+        // minSum以i开头，最小的累加和数组的结尾位置
         int[] minSumEnds = new int[arr.length];
         minSums[arr.length - 1] = arr[arr.length - 1];
         minSumEnds[arr.length - 1] = arr.length - 1;
