@@ -8,28 +8,32 @@ import java.util.Random;
     给定一个整数值K
     找到arr的所有子数组里，哪个子数组的累加和等于K，并且是长度最大的
     返回其长度
+
+    leetcode 325
  */
 public class Code02_LongestSumSubArrayLength {
     public static int maxLength(int[] arr, int K) {
-        if (arr == null || arr.length == 0) {
+        if (arr == null  || arr.length == 0) {
             return 0;
         }
-        // key: 前缀和
-        // value : 最早出现key所代表的前缀和的位置
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-        map.put(0, -1);
-        int len = 0;
+
+        int ans = 0;
+        int  N = arr.length;
+        HashMap<Integer, Integer> sumLeftestPos = new HashMap<>();
+        sumLeftestPos.put(0, -1); // [3, -3, -7] k = 7，防止错过最长
         int sum = 0;
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < N; ++i) {
             sum += arr[i];
-            if (map.containsKey(sum - K)) {
-                len = Math.max(i - map.get(sum - K), len);
+            if (sumLeftestPos.containsKey(sum - K)) {
+                ans = Math.max(ans, i - sumLeftestPos.get(sum - K));
             }
-            if (!map.containsKey(sum)) {
-                map.put(sum, i);
+
+            if (!sumLeftestPos.containsKey(sum)) {
+                sumLeftestPos.put(sum, i);
             }
         }
-        return len;
+
+        return ans;
     }
 
 

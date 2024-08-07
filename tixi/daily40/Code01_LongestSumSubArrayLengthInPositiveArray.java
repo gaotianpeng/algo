@@ -14,9 +14,9 @@ public class Code01_LongestSumSubArrayLengthInPositiveArray {
             return 0;
         }
 
+        int N = arr.length;
         int L = 0;
         int R = 0;
-        int N = arr.length;
         int sum = arr[0];
         int ans = 0;
         while (R < N) {
@@ -28,6 +28,7 @@ public class Code01_LongestSumSubArrayLengthInPositiveArray {
                 if (R == N) {
                     break;
                 }
+                
                 sum += arr[R];
             } else {
                 sum -= arr[L++];
