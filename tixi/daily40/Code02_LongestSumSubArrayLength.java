@@ -20,7 +20,7 @@ public class Code02_LongestSumSubArrayLength {
         int ans = 0;
         int  N = arr.length;
         HashMap<Integer, Integer> sumLeftestPos = new HashMap<>();
-        sumLeftestPos.put(0, -1); // [3, -3, -7] k = 7，防止错过最长
+        sumLeftestPos.put(0, -1); // [5, 5] k = 10，防止错过最长
         int sum = 0;
         for (int i = 0; i < N; ++i) {
             sum += arr[i];
