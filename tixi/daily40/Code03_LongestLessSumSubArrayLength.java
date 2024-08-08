@@ -20,9 +20,9 @@ public class Code03_LongestLessSumSubArrayLength {
         }
 
         int N = arr.length;
-        // minSum以i开头，最小的累加和
+        // minSums[i]代表子数组必须以i开头的最小累加和
         int[] minSums = new int[N];
-        // minSum以i开头，最小的累加和数组的结尾位置
+        // minSumEnds[i]代表 minSums[i]所代表的子数组和的结尾位置
         int[] minSumEnds = new int[N];
         minSums[N - 1] = arr[N - 1];
         minSumEnds[N - 1] = N - 1;
