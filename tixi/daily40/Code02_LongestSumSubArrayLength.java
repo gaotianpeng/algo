@@ -10,6 +10,7 @@ import java.util.Random;
     返回其长度
 
     leetcode 325
+    类似题目 leetcode 525
  */
 public class Code02_LongestSumSubArrayLength {
     public static int maxLength(int[] arr, int K) {
