@@ -101,7 +101,6 @@ public class Code02_LongestSumSubArrayLength {
         int maxValue = 100;
         int maxLen = 50;
         for (int i = 0; i < testTimes; ++i) {
-            int len = (int) (Math.random() * maxLen) + 1;
             int K = (int) (Math.random() * maxValue) - (int) (Math.random() * maxValue);
             int[] arr = generatePositiveArray(maxLen, maxValue);
             int ans1 = maxLength(arr, K);
