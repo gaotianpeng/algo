@@ -5,7 +5,7 @@ import java.util.TreeMap;
 /*
  * 给定一个数组arr，给定一个值v求子数组平均值小于等于v的最长子数组长度
  */
-public class Code_04_AvgLessEqualValueLongestSubarray {
+public class Code04_AvgLessEqualValueLongestSubarray {
 	// 时间复杂度O(N*logN)
     // 给定一个数组arr，给定一个值v求子数组平均值小于等于v的最长子数组长度
 	public static int betterF(int[] arr, int v) {

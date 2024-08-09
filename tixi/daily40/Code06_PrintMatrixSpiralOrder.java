@@ -1,0 +1,11 @@
+package tixi.daily40;
+
+/*
+ * 给定一个长方形矩阵matrix，实现转圈打印
+        a  b   c  d
+        e  f   g  h
+        i  j   k  L
+        打印顺序：a b c d h L k j I e f g
+ */
+public class Code06_PrintMatrixSpiralOrder {
+}
