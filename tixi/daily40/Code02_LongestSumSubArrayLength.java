@@ -20,17 +20,17 @@ public class Code02_LongestSumSubArrayLength {
 
         int ans = 0;
         int  N = arr.length;
-        HashMap<Integer, Integer> sumLeftestPos = new HashMap<>();
-        sumLeftestPos.put(0, -1); // [5, 5] k = 10，防止错过最长
+        HashMap<Integer, Integer> preSumLeftestPos = new HashMap<>();
+        preSumLeftestPos.put(0, -1); // [5, 5] k = 10，防止错过最长
         int sum = 0;
         for (int i = 0; i < N; ++i) {
             sum += arr[i];
-            if (sumLeftestPos.containsKey(sum - K)) {
-                ans = Math.max(ans, i - sumLeftestPos.get(sum - K));
+            if (preSumLeftestPos.containsKey(sum - K)) {
+                ans = Math.max(ans, i - preSumLeftestPos.get(sum - K));
             }
 
-            if (!sumLeftestPos.containsKey(sum)) {
-                sumLeftestPos.put(sum, i);
+            if (!preSumLeftestPos.containsKey(sum)) {
+                preSumLeftestPos.put(sum, i);
             }
         }
 
