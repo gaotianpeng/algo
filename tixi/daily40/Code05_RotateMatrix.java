@@ -52,9 +52,9 @@ public class Code05_RotateMatrix {
         };
         
         printMatrix(matrix);
-		rotate(matrix);
-		System.out.println("=========");
-		printMatrix(matrix);
+        rotate(matrix);
+        System.out.println("=========");
+        printMatrix(matrix);
 
         System.out.println("test end");
     }
