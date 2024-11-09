@@ -3,7 +3,9 @@ package tixi.daily01;
 import java.util.Arrays;
 
 public class Code06_BSNearRight {
-    // 在一个有序数组中，找<=某个数最右侧的位置
+    /* 
+        在一个有序数组中，找<=某个数最右侧的位置
+    */
     public static int rightestValue(int[] arr, int num) {
         if (arr == null || arr.length == 0) {
             return -1;
@@ -21,7 +23,6 @@ public class Code06_BSNearRight {
                 right = mid - 1;
             }
         }
-
         return ans;
     }
 
