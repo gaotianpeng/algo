@@ -2,8 +2,14 @@ package tixi.daily02;
 
 public class Code01_Swap2Number {
     public static void swap(int[] arr, int i, int j) {
+        /*
+         * a = arr[i], b = arr[j]
+         * arr[i] = a ^ b
+         * arr[j] = a ^ b ^ b = a
+         * arr[i] = a ^ b ^ a = b
+         */
         arr[i] = arr[i] ^ arr[j];
-        arr[j] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];  
         arr[i] = arr[i] ^ arr[j];
     }
 
