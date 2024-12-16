@@ -136,6 +136,7 @@ public class Code02_BubbleSort {
                 success = false;
                 printArray(arr1);
                 printArray(arr3);
+                break;
             }
         }
 
