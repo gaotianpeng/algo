@@ -12,21 +12,20 @@ public class Code04_KM {
         注：请保证数据中只有一个数出现k次，其余数都出现M次
     */
     public static int km(int[] arr, int k, int m) {
-        int n = arr.length;
+        int N = arr.length;
         int[] helper = new int[32];
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < 32; j++) {
-                helper[j] += (arr[i] >> j) & 1;
-            }
-        }
-        int ans = 0;
-        for (int i = 0; i < 32; ++i) {
-            helper[i] %= m;
-            if (helper[i] != 0) {
-                ans |= (1 << i);
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < 32; ++j) {
+                helper[j] += ((arr[i] >> j) & 1);
             }
         }
 
+        int ans = 0;
+        for (int i = 0; i < 32; ++i) {
+            if (helper[i] % m != 0) {
+                ans |= (1 << i);
+            }
+        }
         return ans;
     }
 
