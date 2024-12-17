@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Code02_ReverseList2 {
-    public static class DoubleNode {
+    public static class DNode {
         public int value;
-        public DoubleNode last;
-        public DoubleNode next;
+        public DNode last;
+        public DNode next;
 
-        public DoubleNode(int data) {
+        public DNode(int data) {
             value = data;
             last = null;
             next = null;
         }
     }
 
-    public static DoubleNode reverseDoubleList(DoubleNode head) {
-        DoubleNode prev = null;
-        DoubleNode next = null;
+    public static DNode reverseDoubleList(DNode head) {
+        DNode prev = null;
+        DNode next = null;
         while (head != null) {
             next = head.next;
             head.next = prev;
@@ -30,12 +30,12 @@ public class Code02_ReverseList2 {
         return prev;
     }
 
-    public static DoubleNode test(DoubleNode head) {
+    public static DNode test(DNode head) {
         if (head == null) {
             return null;
         }
 
-        List<DoubleNode> linkList = new ArrayList<>();
+        List<DNode> linkList = new ArrayList<>();
         while (head != null) {
             linkList.add(head);
             head = head.next;
@@ -56,17 +56,17 @@ public class Code02_ReverseList2 {
         return linkList.get(listLen - 1);
     }
 
-    public static DoubleNode generateRandomDoubleLinkedList(int maxLen, int maxVal) {
+    public static DNode generateRandomDoubleLinkedList(int maxLen, int maxVal) {
         int listLen = (int)(Math.random()*(maxLen + 1));
         if (listLen == 0) {
             return null;
         }
 
-        DoubleNode head = new DoubleNode((int)(Math.random()*(maxVal + 1)));
-        DoubleNode prev = head;
+        DNode head = new DNode((int)(Math.random()*(maxVal + 1)));
+        DNode prev = head;
 
         while (listLen != 0) {
-            DoubleNode node = new DoubleNode((int)(Math.random()*(maxVal + 1)));
+            DNode node = new DNode((int)(Math.random()*(maxVal + 1)));
             prev.next = node;
             node.last = prev;
             prev = node;
@@ -76,14 +76,14 @@ public class Code02_ReverseList2 {
         return head;
     }
 
-    public static DoubleNode copyDoubleLinkedList(DoubleNode head) {
+    public static DNode copyDoubleLinkedList(DNode head) {
         if (head == null) {
             return null;
         }
 
-        List<DoubleNode> newList = new ArrayList<>();
+        List<DNode> newList = new ArrayList<>();
         while (head != null) {
-            newList.add(new DoubleNode(head.value));
+            newList.add(new DNode(head.value));
             head = head.next;
         }
 
@@ -98,7 +98,7 @@ public class Code02_ReverseList2 {
         return newList.get(0);
     }
 
-    public static boolean checkDoubleLinkedListIsEqual(DoubleNode head1, DoubleNode head2) {
+    public static boolean checkDoubleLinkedListIsEqual(DNode head1, DNode head2) {
         if (head1 == head2) {
             return true;
         }
@@ -118,7 +118,7 @@ public class Code02_ReverseList2 {
         return true;
     }
 
-    public static void printDoubleLinkedList(DoubleNode head) {
+    public static void printDoubleLinkedList(DNode head) {
         if (head == null) {
             System.out.println("null");
             return;
@@ -140,11 +140,11 @@ public class Code02_ReverseList2 {
         int maxLen = 30;
         boolean success = true;
         for (int i = 0; i < testTimes; i++) {
-            DoubleNode node1 = generateRandomDoubleLinkedList(maxLen, maxVal);
-            DoubleNode node2 = copyDoubleLinkedList(node1);
+            DNode node1 = generateRandomDoubleLinkedList(maxLen, maxVal);
+            DNode node2 = copyDoubleLinkedList(node1);
 
-            DoubleNode reverse_node1 = reverseDoubleList(node1);
-            DoubleNode reverse_node2 = test(node2);
+            DNode reverse_node1 = reverseDoubleList(node1);
+            DNode reverse_node2 = test(node2);
             if (!checkDoubleLinkedListIsEqual(reverse_node1, reverse_node2)) {
                 printDoubleLinkedList(node1);
                 printDoubleLinkedList(node2);
