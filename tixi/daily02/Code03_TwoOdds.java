@@ -13,21 +13,21 @@ public class Code03_TwoOdds {
             return null;
         }
 
-        int N = arr.length; 
-        int xor = 0;
+        int N = arr.length;
+        int xor1 = 0;
         for (int i = 0; i < N; ++i) {
-            xor ^= arr[i];
+            xor1 ^= arr[i];
         }
 
-        int rightOne = xor &(-xor);
+        int rightOne = xor1 & (-xor1);
         int xor2 = 0;
         for (int i = 0; i < N; ++i) {
-            if ((arr[i] & rightOne) == 0) {
+            if ((rightOne & arr[i]) == 0) {
                 xor2 ^= arr[i];
             }
         }
 
-        return new int[] {xor2, xor^xor2};
+        return new int[] {xor2, xor1^xor2};
     }
 
     /*
