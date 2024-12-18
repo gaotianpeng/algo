@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 public class Code01_MergeSort {
     public static void mergeSort(int[] nums) {
-        if (nums == null || nums.length <2) {
+        if (nums == null || nums.length < 2) {
             return;
         }
 
-        process(nums, 0, nums.length - 1);
+        process(nums, 0, nums.length - 1);   
     }
 
     private static void process(int[] nums, int left, int right) {
@@ -24,19 +24,21 @@ public class Code01_MergeSort {
 
     private static void merge(int[] nums, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int p1 = left;
-        int p2 = mid + 1;
         int index = 0;
-        while (p1 <= mid && p2 <= right) {
-            helper[index++] = nums[p1] < nums[p2] ? nums[p1++] : nums[p2++];
+        int leftIndex = left;
+        int rightIndex = mid + 1;
+
+        while (leftIndex <= mid && rightIndex <= right) {
+            helper[index++] = 
+                nums[leftIndex] <= nums[rightIndex] ? nums[leftIndex++] : nums[rightIndex++];
         }
 
-        while (p1 <= mid) {
-            helper[index++] = nums[p1++];
+        while (leftIndex <= mid) {
+            helper[index++] = nums[leftIndex++];
         }
 
-        while (p2 <= right) {
-            helper[index++] = nums[p2++];
+        while (rightIndex <= right) {
+            helper[index++] = nums[rightIndex++];
         }
 
         for (int i = 0; i < helper.length; ++i) {
