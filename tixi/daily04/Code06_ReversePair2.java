@@ -12,9 +12,10 @@ public class Code06_ReversePair2 {
             return 0;
         }
 
-        int N = arr.length;
         int mergeSize = 1;
+        int N = arr.length;
         int ans = 0;
+
         while (mergeSize < N) {
             int left = 0;
             while (left < N) {
@@ -28,7 +29,7 @@ public class Code06_ReversePair2 {
                 left = right + 1;
             }
 
-            if (mergeSize > N / 2) {
+            if (mergeSize > N/2) {
                 break;
             }
 
@@ -38,24 +39,23 @@ public class Code06_ReversePair2 {
         return ans;
     }
 
-    public static int merge(int[] arr, int left, int mid, int right) {
+    private static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int leftmost = mid;
-        int rightmost = right;
+        int leftMost = mid;
+        int rightMost = right;
         int index = helper.length - 1;
         int ans = 0;
-
-        while (leftmost >= left && rightmost > mid) {
-            ans += arr[leftmost] > arr[rightmost] ? rightmost - mid : 0;
-            helper[index--] = arr[leftmost] > arr[rightmost] ? arr[leftmost--]: arr[rightmost--];
+        while (leftMost >= left && rightMost > mid) {
+            ans += arr[leftMost] > arr[rightMost] ? rightMost - mid: 0;
+            helper[index--] = arr[leftMost] > arr[rightMost] ? arr[leftMost--] : arr[rightMost--];
         }
 
-        while (leftmost >= left) {
-            helper[index--] = arr[leftmost--];
+        while (leftMost >= left) {
+            helper[index--] = arr[leftMost--];
         }
 
-        while (rightmost > mid) {
-            helper[index--] = arr[rightmost--];
+        while (rightMost > mid) {
+            helper[index--]  = arr[rightMost--];
         }
 
         for (int i = 0; i < helper.length; ++i) {
@@ -64,8 +64,6 @@ public class Code06_ReversePair2 {
 
         return ans;
     }
-
-
 
     /*
         for test
