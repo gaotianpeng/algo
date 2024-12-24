@@ -14,36 +14,35 @@ public class Code05_ReversePair {
         return process(arr, 0, arr.length - 1);
     }
 
-    public static int process(int[] arr, int left, int right) {
+    private static int process(int[] arr, int left, int right) {
         if (left == right) {
             return 0;
         }
 
         int mid = left + ((right - left) >> 1);
-
         return process(arr, left, mid)
                 + process(arr, mid + 1, right)
                 + merge(arr, left, mid, right);
     }
 
-    public static int merge(int[] arr, int left, int mid, int right) {
+    private static int merge(int[] arr, int left, int mid, int right) {
         int[] helper = new int[right - left + 1];
-        int rightmost = right;
-        int leftmost = mid;
+        int leftMost = mid;
+        int rightMost = right;
         int index = helper.length - 1;
         int ans = 0;
         
-        while (leftmost >= left && rightmost > mid) {
-            ans += arr[leftmost] > arr[rightmost] ? rightmost - mid : 0;
-            helper[index--] = arr[leftmost] > arr[rightmost] ? arr[leftmost--] : arr[rightmost--];
+        while (leftMost >= left && rightMost > mid) {
+            ans += arr[leftMost] > arr[rightMost] ? rightMost - mid: 0;
+            helper[index--] = arr[leftMost] > arr[rightMost] ? arr[leftMost--] : arr[rightMost--];
         }
 
-        while (leftmost >= left) {
-            helper[index--] = arr[leftmost--];
+        while (leftMost >= left) {
+            helper[index--] = arr[leftMost--];
         }
 
-        while (rightmost > mid) {
-            helper[index--] = arr[rightmost--];
+        while (rightMost > mid) {
+            helper[index--] = arr[rightMost--];
         }
 
         for (int i = 0; i < helper.length; ++i) {
