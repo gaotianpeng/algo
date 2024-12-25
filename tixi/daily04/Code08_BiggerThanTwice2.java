@@ -17,24 +17,25 @@ public class Code08_BiggerThanTwice2 {
         }
 
         int mergeSize = 1;
-        int n = arr.length;
+        int N = arr.length;
         int ans = 0;
-        while (mergeSize < n) {
+        while (mergeSize < N) {
             int left = 0;
-            while (left < n) {
-                if (mergeSize > n - left) {
+            while (left < N) {
+                if (N - left < mergeSize) {
                     break;
                 }
 
                 int mid = left + mergeSize - 1;
-                int right = mid + Math.min(mergeSize, n - mid - 1);
+                int right = mid + Math.min(mergeSize, N - mid - 1);
                 ans += merge(arr, left, mid, right);
                 left = right + 1;
             }
 
-            if (mergeSize > n/2) {
+            if (mergeSize > N/2) {
                 break;
             }
+
             mergeSize <<= 1;
         }
 
@@ -42,36 +43,35 @@ public class Code08_BiggerThanTwice2 {
     }
 
     private static int merge(int[] arr, int left, int mid, int right) {
-        int ans = 0;
         int winR = mid + 1;
-        for (int i = left; i <= mid; i++) {
-            while (winR <= right && (long)arr[i] > 2*(long)arr[winR]) {
+        int ans = 0;
+        for (int index = left; index <= mid; ++index) {
+            while (winR <= right && (long)arr[index] > (long)(arr[winR]*2)) {
                 winR++;
             }
             ans += winR - mid - 1;
         }
 
         int[] helper = new int[right - left + 1];
-        int leftPos = left;
-        int rightPos = mid + 1;
+        int leftIdx = left;
+        int rightIdx = mid + 1;
         int index = 0;
-
-        while (leftPos <= mid && rightPos <= right) {
-            helper[index++] = arr[leftPos] <= arr[rightPos] ?
-                    arr[leftPos++] : arr[rightPos++];
+        while (leftIdx <= mid && rightIdx <= right) {
+            helper[index++] = arr[leftIdx] <= arr[rightIdx] ? arr[leftIdx++] : arr[rightIdx++];
         }
 
-        while (leftPos <= mid) {
-            helper[index++] = arr[leftPos++];
+        while (leftIdx <= mid) {
+            helper[index++] = arr[leftIdx++];
         }
 
-        while (rightPos <= right) {
-            helper[index++] = arr[rightPos++];
+        while (rightIdx <= right) {
+            helper[index++] = arr[rightIdx++];
         }
 
-        for (int i = 0; i < helper.length; i++) {
+        for (int i = 0; i < helper.length; ++i) {
             arr[left + i] = helper[i];
         }
+
         return ans;
     }
 
