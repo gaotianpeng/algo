@@ -16,22 +16,23 @@ public class Code07_BiggerThanTwice {
         if (arr == null || arr.length < 2) {
             return 0;
         }
-
+        
         return process(arr, 0, arr.length - 1);
     }
 
-    public static int process(int[] arr, int left, int right) {
+
+    private static int process(int[] arr, int left, int right) {
         if (left == right) {
             return 0;
         }
 
         int mid = left + ((right - left) >> 1);
-        return process(arr, left, mid)
-                + process(arr, mid + 1, right)
-                + merge(arr, left, mid, right);
+        return process(arr, left, mid) 
+                    + process(arr, mid + 1, right) 
+                    + merge(arr, left, mid, right);
     }
 
-    public static int merge(int[] arr, int left, int mid, int right) {
+    private static int merge(int[] arr, int left, int mid, int right) {
         int ans = 0;
         int winR = mid + 1;
         for (int index = left; index <= mid; ++index) {
@@ -42,19 +43,19 @@ public class Code07_BiggerThanTwice {
         }
 
         int[] helper = new int[right - left + 1];
+        int leftIdx = left;
+        int rightIdx = mid + 1;
         int index = 0;
-        int p1 = left;
-        int p2 = mid + 1;
-        while (p1 <= mid && p2 <= right) {
-            helper[index++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
+        while (leftIdx <= mid && rightIdx <= right) {
+            helper[index++] = arr[leftIdx] <= arr[rightIdx] ? arr[leftIdx++] : arr[rightIdx++];
         }
 
-        while (p1 <= mid) {
-            helper[index++] = arr[p1++];
+        while (leftIdx <= mid) {
+            helper[index++] = arr[leftIdx++];
         }
 
-        while (p2 <= right) {
-            helper[index++] = arr[p2++];
+        while (rightIdx <= right) {
+            helper[index++] = arr[rightIdx++];
         }
 
         for (int i = 0; i < helper.length; ++i) {
