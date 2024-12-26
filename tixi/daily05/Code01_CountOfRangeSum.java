@@ -1,9 +1,28 @@
 package tixi.daily05;
 /*
     给定一个数组arr，两个整数lower和upper，
-    返回arr中有多少个子数组的累加和在[lower,upper]范围上
+    返回arr中有多少个子数组的累加和在[lower, upper]范围上
  */
 public class Code01_CountOfRangeSum {
+    /*
+     * 题目转化为
+     *      假设 0-i 整体累加和是 X, 所求范围是 [lower, upper]
+     *      求必须以 i 位置结尾的子数组，有多个少在[lower, upper]上
+     *      
+     *  等同于
+     *      求 i 之前所有前缀和中有多个个前缀和在[X-upper, X-lower]上
+     * 
+     *  等同于求
+     *      1）arr[] -> sum[]
+     *      2）求 sum[i] 之前有多少个数落在 [sum[i] - upper，sum[i] - lower] 之间
+     */
+
+     /*
+            sum[]  [lower, up] = [1, 5]
+            [1, 3, 4, 4, 5]  [2, 7, 8, 8, 9]
+            左               右
+            当右来到sum[right]时，求 sum[left] 中有多少个数满足 sum[right] - 5 <= sum[left] <= sum[right] - 1
+      */
     public static int countRangeSum(int[] nums, int lower,int upper) {
         if (nums == null || nums.length == 0) {
             return 0;
