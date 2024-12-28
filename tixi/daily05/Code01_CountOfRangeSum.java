@@ -28,71 +28,69 @@ public class Code01_CountOfRangeSum {
             return 0;
         }
 
-        int N = nums.length;
-        long[] preSum = new long[N];
+        long[] preSum = new long[nums.length];
         preSum[0] = nums[0];
-        for (int i = 1; i < N; ++i) {
+        for (int i = 1; i < nums.length; ++i) {
             preSum[i] = preSum[i-1] + nums[i];
         }
 
         return process(preSum, 0, preSum.length - 1, lower, upper);
     }
 
-    public static int process(long[] sums, int left, int right, int lower, int upper) {
-        if (left == right) {
-            return checkValid(sums[left], lower, upper) ? 1: 0;
+    private static int process(long[] sum, int L, int R, int lower, int upper) {
+        if (L == R) {
+            return checkValid(sum[L], lower, upper) ? 1: 0;
         }
 
-        int mid = left + ((right - left) >> 1);
-        return process(sums, left, mid, lower, upper)
-                + process(sums, mid + 1, right, lower, upper)
-                + merge(sums, left, mid, right, lower, upper);
+        int M = L+ ((R - L) >> 1);
+        return process(sum, L, M, lower, upper) 
+                + process(sum, M + 1, R, lower, upper)
+                + merge(sum, L, M, R, lower, upper);
     }
 
-    public static int merge(long[] sums, int left, int mid, int right, int lower, int upper) {
+    private static int merge(long[] sum, int L, int M, int R, int lower, int upper) {
         int ans = 0;
-        int winLeft = left;
-        int winRight = left;
-        for (int i = mid + 1; i <= right; ++i) {
-            long min = sums[i] - upper;
-            long max = sums[i] - lower;
-            
-            while (winRight <= mid && sums[winRight] <= max) {
-                winRight++;
+        int winL = L;
+        int winR = L;
+
+        for (int i = M+ 1; i <= R; ++i) {
+            long min = sum[i] - upper;
+            long max = sum[i] - lower;
+            while (winR <= M && sum[winR] <= max) {
+                winR++;
             }
-            
-            while (winLeft <= mid && sums[winLeft] < min) {
-                winLeft++;
+            while (winL <= M && sum[winL] < min) {
+                winL++;
             }
 
-            ans += winRight - winLeft;
+            ans += winR - winL;
         }
 
-        long[] helper = new long[right - left + 1];
+        long[] helper = new long[R - L + 1];
         int index = 0;
-        int p1 = left;
-        int p2 = mid + 1;
-        while (p1 <= mid && p2 <= right) {
-            helper[index++] = sums[p1] <= sums[p2] ? sums[p1++] : sums[p2++];
+        int leftIdx = L;
+        int rightIdx = M + 1;
+        while (leftIdx <= M && rightIdx <= R) {
+            helper[index++] = sum[leftIdx] <= sum[rightIdx] ? sum[leftIdx++] : sum[rightIdx++];
         }
 
-        while (p1 <= mid) {
-            helper[index++] = sums[p1++];
+        while (leftIdx <= M) {
+            helper[index++] = sum[leftIdx++];
         }
 
-        while (p2 <= right) {
-            helper[index++] = sums[p2++];
+        while (rightIdx <= R) {
+            helper[index++] = sum[rightIdx++];
         }
 
         for (int i = 0; i < helper.length; ++i) {
-            sums[left + i] = helper[i];
+            sum[L+i] = helper[i];
         }
 
         return ans;
     }
 
-    public static boolean checkValid(long sum, int lower, int upper) {
-        return sum >= lower && sum <= upper;
+    private static boolean checkValid(long val, int lower, int upper) {
+        return val <= upper && val >= lower;
     }
 
     /*
