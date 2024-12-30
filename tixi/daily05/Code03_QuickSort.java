@@ -24,6 +24,7 @@ public class Code03_QuickSort {
         process(arr, M + 1, R);
     }
 
+    // 将 arr[] 以 arr[R] 分为界，<= arr[R] 放arr左边，> arr[R] 放arr右边 
     private static int partition(int[] arr, int L, int R) {
         if (L > R) {
             return -1;
@@ -33,6 +34,11 @@ public class Code03_QuickSort {
             return L;
         }
 
+        /*
+        * 当前数 arr[index] 目标数 arr[R]
+        * 1）当前数 <= 目标，当前数和<=区下一个数交换，<=区向右扩
+        * 2）当前数 > 目标，当前跳下一个
+        */
         int less = L-1;
         int index = L;
         while (index < R) {
