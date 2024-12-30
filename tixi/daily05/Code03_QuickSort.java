@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Code03_QuickSort {
     public static void quickSort(int[] arr) {
-        if (arr == null || arr.length == 0) {
+        if (arr == null || arr.length < 2) {
             return;
         }
 
