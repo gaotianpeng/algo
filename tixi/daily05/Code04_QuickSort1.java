@@ -22,6 +22,9 @@ public class Code04_QuickSort1 {
         process(arr, area[1] + 1, R);
     }
 
+    /*
+     * 将 arr[] 划分为 < arr[R], =arr[R], > arr[R] 三个区域 
+     */
     public static int[] partition(int[] arr, int L, int R) {
         if (L > R) {
             return new int[] { -1, -1};
@@ -31,6 +34,12 @@ public class Code04_QuickSort1 {
             return new int[] {L, L};
         }
 
+        /*
+         * [3, 4, 6, 0, 7, 4, 5, 1, 3]   4
+         * 1) 当前数 < 目标，当前和 <区下一个交换，<区右扩，当前数跳下一个
+         * 2）当前数 == 目标，当前直接跳下一个
+         * 3）当前数 > 目标，当前数和 >区前一个交换，>区左扩，当前数停在原地
+         */
         int less = L - 1;
         int more = R;
         int index = L;
