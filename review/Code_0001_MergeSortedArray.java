@@ -6,7 +6,6 @@ package review;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class Code_0001_MergeSortedArray {
     public static int[] mergeSortedArray(int[] arrA, int[] arrB) {
