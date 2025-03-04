@@ -77,12 +77,11 @@ public class Code_0001_MergeSortedArray {
         return ans.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    public static int[] generateRandomSortedData(int maxlen) {
-        Random random = new Random();
-        int len = random.nextInt(maxlen) + 1; // 生成 1 到 maxlen 之间的随机长度
+    public static int[] generateRandomSortedData(int maxlen, int minValue, int maxValue) {
+        int len = (int) (Math.random() * maxlen) + 1; // Generate a random length between 1 and maxlen
         int[] data = new int[len];
         for (int i = 0; i < len; i++) {
-            data[i] = random.nextInt(); // 生成随机整数
+            data[i] = (int) (Math.random() * (maxValue - minValue + 1)) + minValue; // Generate random integers within the range
         }
         Arrays.sort(data);
         return data;
@@ -111,10 +110,12 @@ public class Code_0001_MergeSortedArray {
         System.out.println("test start...");
         int testTime = 100000;
         int maxlen = 100;
+        int minValue = 0;
+        int maxValue = 1000;
         boolean success = true;
         for (int i = 0; i < testTime; i++) {
-            int[] arrA = generateRandomSortedData(maxlen);
-            int[] arrB = generateRandomSortedData(maxlen);
+            int[] arrA = generateRandomSortedData(maxlen, minValue, maxValue);
+            int[] arrB = generateRandomSortedData(maxlen, minValue, maxValue);
             if (!isEqual(mergeSortedArray(arrA, arrB), test(arrA, arrB))) {
                 success = false;
                 break;
