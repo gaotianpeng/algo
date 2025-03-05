@@ -4,7 +4,6 @@ package review;
     给定两个递增有序数组a和b，将所有元素归并到数组c中，并且要求c中的元素也是递增有序的
 */
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Code_0001_MergeSortedArray {
@@ -17,26 +16,27 @@ public class Code_0001_MergeSortedArray {
             return arrA;
         }
 
-        ArrayList<Integer> ans = new ArrayList<>();
         int m = arrA.length;
         int n = arrB.length;
+        int[] ans = new int[m+n];
         int i = 0;
         int j = 0;
+        int index = 0;
         while (i < m && j < n) {
             if (arrA[i] <= arrB[j]) {
-                ans.add(arrA[i++]);
+                ans[index++] = arrA[i++];
             } else {
-                ans.add(arrB[j++]);
+                ans[index++] = arrB[j++];
             }
         }
 
         while (i < m) {
-            ans.add(arrA[i++]);
+            ans[index++]  = arrA[i++];
         }
         while (j < n) {
-            ans.add(arrB[j++]);
+            ans[index++] = arrB[j++];
         }
-        return ans.stream().mapToInt(Integer::intValue).toArray();
+        return ans;
     }
 
     /*
@@ -44,36 +44,33 @@ public class Code_0001_MergeSortedArray {
      */
     public static int[] test(int[] arrA, int[] arrB) {
         if (arrA == null) {
-            return arrB.clone();
+            return arrB;
         }
-
         if (arrB == null) {
-            return arrA.clone();
+            return arrA;
         }
 
-        int[] copyA = arrA.clone();
-        int[] copyB = arrB.clone();
-
-        ArrayList<Integer> ans = new ArrayList<>();
-        int m = copyA.length;
-        int n = copyB.length;
-        int i = 0;
-        int j = 0;
-        while (i < m && j < n) {
-            if (copyA[i] <= copyB[j]) {
-                ans.add(copyA[i++]);
+        int m = arrA.length;
+        int n = arrB.length;
+        int[] ans = new int[m+n];
+        int index = ans.length;
+        while (m > 0 && n > 0) {
+            if (arrA[m-1] >= arrB[n-1]) {
+                ans[--index] = arrA[--m];
             } else {
-                ans.add(copyB[j++]);
+                ans[--index] = arrB[--n];
             }
         }
 
-        while (i < m) {
-            ans.add(copyA[i++]);
+        while (m > 0) {
+            ans[--index] = arrA[--m];
         }
-        while (j < n) {
-            ans.add(copyB[j++]);
+
+        while (n > 0) {
+            ans[--index] = arrB[--n];
         }
-        return ans.stream().mapToInt(Integer::intValue).toArray();
+
+        return ans;
     }
 
     public static int[] generateRandomSortedData(int maxlen, int minValue, int maxValue) {
