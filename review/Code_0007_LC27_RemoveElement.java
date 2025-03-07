@@ -21,6 +21,22 @@ public class Code_0007_LC27_RemoveElement {
         return ans;
     }
 
+    public static int removeElement2(int[] nums, int val) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int k = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] == val) {
+                k++;
+            } else {
+                nums[i-k] = nums[i];
+            }
+        }
+        return nums.length - k;
+    }
+
     public static int test(int[] nums, int  val) {
         int[] tmp = new int[nums.length];
         int index = 0;
@@ -103,10 +119,16 @@ public class Code_0007_LC27_RemoveElement {
         for (int i = 0; i < testTimes; i++) {
             int[] nums1 = generateRandomArray(maxLen, maxVal);
             int[] nums2 = copyArray(nums1);
+            int[] nums3 = copyArray(nums1);
             int val  = (int)((maxVal + 1) * Math.random()) - (int)(maxVal * Math.random());
             int ans1 = removeElement(nums1, val);
-            int ans2 = test(nums2, val);
+            int ans2 = removeElement2(nums2, val);
+            int ans3 = test(nums3, val);
             if (ans1 != ans2) {
+                success = false;
+                break;
+            }
+            if (ans2 != ans3) {
                 success = false;
                 break;
             }
@@ -115,6 +137,7 @@ public class Code_0007_LC27_RemoveElement {
                 success = false;
                 break;
             }
+
         }
 
         System.out.println(success ? "success": "failed");
