@@ -48,6 +48,24 @@ public class Code_0009_LC189_RorateArray {
         return y > 0 ? gcd(y, x % y) : x;
     }
 
+    public static void rotate2(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+        reverse(nums, 0, n - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, n - 1);
+    }
+
+    public static void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
     /*
      * for test
      */
@@ -108,7 +126,15 @@ public class Code_0009_LC189_RorateArray {
         System.out.println("]");
     }
 
+    public static void simpleTest() {
+        int[] nums = new int [] {1,2,3,4,5,6,7};
+        int k = 3;
+        printArray(nums);
+        rotate(nums, k);
+        printArray(nums);
+    }
     public static void main(String[] args) {
+        simpleTest();
         System.out.println("test start...");
         boolean success = true;
         int testTime = 100000;
@@ -122,16 +148,12 @@ public class Code_0009_LC189_RorateArray {
             int k = (int)(Math.random() * arr.length);
             int[] arr1 = copyArray(arr);
             int[] arr2 = copyArray(arr);
+            int[] arr3 = copyArray(arr);
             test(arr1, k);
             rotate(arr2, k);
-            if (!isEqual(arr1, arr2)) {
+            rotate2(arr3, k);
+            if (!isEqual(arr1, arr2) || !isEqual(arr1, arr2)) {
                 success = false;
-                System.out.print("Original array: ");
-                printArray(arr);
-                System.out.print("Expected: ");
-                printArray(arr1);
-                System.out.print("Output: ");
-                printArray(arr2);
                 break;
             }
         }
