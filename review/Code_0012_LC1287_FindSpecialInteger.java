@@ -10,7 +10,7 @@ package review;
 
 import java.util.Map;
 
-public class Code_0012_1287_FindSpecialInteger {
+public class Code_0012_LC1287_FindSpecialInteger {
     public static int findSpecialInteger(int[] nums) {
         if (nums == null || nums.length == 0) {
             return -1;
