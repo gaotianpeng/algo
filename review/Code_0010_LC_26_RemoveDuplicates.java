@@ -31,14 +31,14 @@ public class Code_0010_LC_26_RemoveDuplicates {
             return 0;
         }
 
-        int done = 0;
+        int ans = 0;
         for (int i = 1; i < nums.length; ++i) {
-            if (nums[done] != nums[i]) {
-                nums[++done] = nums[i];
+            if (nums[ans] != nums[i]) {
+                nums[++ans] = nums[i];
             }
         }
 
-        return done + 1;
+        return ans + 1;
     }
 
     /*
